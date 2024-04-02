@@ -1,38 +1,179 @@
+:root {
+  --code-blue: rgb(2, 53, 129);
+  --code-orange: rgb(238, 163, 51);
+  --code-black: #1f1f1f;
+}
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+body{
+  background-color: var(--code-black);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+a{
+  color:white;
+  text-decoration: none;
+  margin: 10px 0;
+  z-index: 1;
+}
+.container{
+  overflow-x: auto;
+  width: 100%;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.content{
+  text-align: center;
+  flex: 1;
+  padding: 50px;
+  margin-top: -250px;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.header{
+  width: 100%;
+  display:none;
+  background-color: var(--code-orange);
+}
+
+.logo{
+  padding: 30px;
+  width: 100%;
+  background-color: rgb(255, 255, 255);
+}
+
+.side-nav{
+  height: 100vh;
+  width: 400px;
+  left: 0;
+  top: 0;
+  background-color: var(--code-blue);
+  display: flex;
+  flex-direction: column;
+  font-size: 2rem;
+}
+.side-nav-links{
+  padding: 30px;
+  display:flex;
+  flex-direction: column;
+}
+.side-nav 
+.inventory{
+  padding: 30px;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
+.search-bar{
+  margin: 40px;
+}
+.search-bar input, .search-bar button{
+  font-size: 2rem;
+  margin: 10px;
+  padding: 10px;
+  border: 3px solid black;
+  border-radius: 8px;
+}
+
+.search-bar input:focus{
+  outline: none;
+  border: 3px solid var(--code-blue);
+  box-shadow: 0 0 20px var(--code-blue);
+}
+
+.search-bar button{
+  background-color: var(--code-orange);
+  border-radius: 20px;
+  transition: .1s ease-in;
+}
+.search-bar button:hover{
+  cursor: pointer;
+  background-color: var(--code-blue);
+  color:white;
+}
+
+.inventory-table{
+  margin-top: 30px;
+  background-color: white;
+  font-size: 2rem;
+  width: 100%;
+  color:white;
+  border: 2px solid white;
+
+}
+.inventory-table th, .inventory-table td{
+  width: 200px;
+  padding: 15px;
+  background-color: var(--code-black);
+}
+.inventory-table button{
+  padding: 9px 12px;
+  background-color: var(--code-orange);
+  color:black;
+  font-size: 1rem;
+  font-weight: bolder;
+  margin: 5px;
+  border-radius: 30px;
+  border: 2px solid var(--code-black);
+  transition: .2s ease-in;
+}
+.inventory-table button:hover{
+  background-color: var(--code-orange);
+  cursor: pointer;
+  border: 2px solid var(--code-black);
+}
+
+.editForm input{
+  width: 100%;
+  background-color: var(--code-black);
+  border: 1px solid white;
+  border-radius: 8px;
+  color:white;
+  padding: 12px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.editForm select{
+  padding: 12px;
+  background-color: var(--code-black);
+  color:white;
+}
+
+.editForm select option{
+  font-size: 1.3rem;
+}
+
+@media screen and (max-width: 1800px){
+  .content{
+    margin-top: 0;
   }
-  to {
-    transform: rotate(360deg);
+  .header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .side-nav{
+    display:none;
+  }
+  .logo{
+      padding: 30px;
+      height: 125px;
+      width: 250px;
+      border-radius: 0px;
   }
 }
+
