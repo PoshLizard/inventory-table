@@ -36,7 +36,7 @@ a{
   text-align: center;
   flex: 1;
   padding: 50px;
-  margin-top: -250px;
+  margin-top: -150px;
   display:flex;
   flex-direction: column;
   align-items: center;
@@ -101,8 +101,66 @@ a{
 }
 .search-bar button:hover{
   cursor: pointer;
+  border-color: white;
+}
+
+.addNewButton{
+  padding: 15px;
   background-color: var(--code-blue);
   color:white;
+  border-radius: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.219);
+  font-size: 1.2rem;
+  margin-bottom: 25px;
+}
+
+.addNewButton:hover{
+  border: 2px solid white;
+  cursor: pointer;
+}
+
+.newRowForm{
+  display:flex;
+  font-size: 1.5rem;
+  flex-direction:column;
+  align-items: center;
+}
+
+.newRowForm > div{
+  display:flex;
+  flex-direction: row;
+}
+.newRowForm input{
+  padding: 15px;
+  color:white;
+  background-color: var(--code-black);
+  border: 2px solid white;
+  border-radius: 15px;
+  margin: 20px;
+}
+
+.newRowForm button{
+  padding: 12px;
+  color:white;
+  background-color: var(--code-black);
+  color:white;
+  border-radius: 15px;
+  border: 2px solid white;
+  transition: .1s ease-in;
+}
+
+.newRowForm button:hover{
+  cursor: pointer;
+  background-color: var(--code-blue);
+}
+
+.newRowForm select{
+  background-color: var(--code-black);
+  color:white;
+  border: 2px solid white;
+  border-radius: 15px;
+  width: 100px;
+  padding: 15px;
 }
 
 .inventory-table{
@@ -133,7 +191,7 @@ a{
 .inventory-table button:hover{
   background-color: var(--code-orange);
   cursor: pointer;
-  border: 2px solid var(--code-black);
+  border: 2px solid white;
 }
 
 .editForm input{
