@@ -64,7 +64,6 @@ const InventoryTable = () => {
     useEffect(() => {
         console.log(tableRows);
         
-        
         // axios.post(`${backendURL}/update-inventory`, {tableRows})
         //     .then(response => {
         //         console.log('Backend updated succesfully:', response.data);
