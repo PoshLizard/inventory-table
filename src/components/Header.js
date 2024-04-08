@@ -13,6 +13,7 @@ const Navbar = () => {
                         }}>
               <Link to={`/`}> Home </Link>
               <Link to={`/inventory`}> Inventory </Link>
+              <Link to={`/dashboard`}> Dashboard </Link>
             </div>
             
         </header>
