@@ -55,6 +55,16 @@ const InventoryTable = () => {
 
     useEffect(()=> {
         setTableRows(tableData);
+
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${backendURL}/inventory-table`);
+                console.log('Data retrieved successfully:', response.data);
+                setTableRows(response.data);
+            } catch(error) {
+                console.error('Error fetching data:', error);
+            }
+        }
     }, [])
 
     //need to be configured
@@ -64,13 +74,15 @@ const InventoryTable = () => {
     useEffect(() => {
         console.log(tableRows);
         
-        // axios.post(`${backendURL}/update-inventory`, {tableRows})
-        //     .then(response => {
-        //         console.log('Backend updated succesfully:', response.data);
-        //     })
-        //     .catch(error=> {
-        //         console.error('Error updating the backend', error);
-        //     });
+        const updateBackend = async () => {
+            try {
+                const response = await axios.post(`${backendURL}/inventory-table/update-inventory`, { tableRows });
+                console.log('Backend updated succesfully:', response.data);
+            } catch (error) {
+                console.error('Error updating the backend', error);
+            }
+        };
+        updateBackend();
     }, [tableRows]); 
 
      //editing 
