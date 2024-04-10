@@ -8,6 +8,7 @@ const SideNav = () => {
         <div className="side-nav-links">
           <Link to={`/`}> Home </Link>
           <Link to={`/inventory`}> Inventory </Link>
+          <Link to={`/dashboard`}> Dashboard </Link>
         </div>
         
     </div>
