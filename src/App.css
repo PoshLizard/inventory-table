@@ -215,6 +215,77 @@ a{
   font-size: 1.3rem;
 }
 
+.login-page{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.login-form{
+  width: 800px;
+  box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.5);
+  display:flex;
+  flex-direction: column;
+  padding: 150px 80px;
+  font-size: 2rem;
+  border: 2px solid var(--code-black);
+  background-color: var(--code-blue);
+  border-radius: 25px;
+}
+.login-form div{
+  margin: 35px 0;
+}
+
+.login-form input{
+  width: 100%;
+  background-color: white;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 8px;
+  color:black;
+  padding: 12px;
+  font-size: 1.5rem;
+}
+
+.login-form button{
+  padding: 20px;
+  background-color: var(--code-orange);
+  color:black;
+  font-size: 1rem;
+  font-weight: bolder;
+  margin: 20px 0;
+  border-radius: 30px;
+  border: 2px solid var(--code-black);
+  transition: .2s ease-in;
+}
+
+.login-form button:hover{
+  background-color: var(--code-orange);
+  cursor: pointer;
+  border: 2px solid white;
+}
+
+.login-form p{
+  font-size: 1.5rem;
+  text-decoration: underline;
+}
+
+.login-form p:hover{
+  cursor: pointer;
+  color: var(--code-orange);
+}
+
+
+#register-form div{
+  margin: 15px 0;
+}
+.login-logo{
+  width: 100%;
+  margin-bottom: 15px;
+  background-color: rgb(255, 255, 255);
+  padding: 30px;
+  border-radius: 30px;
+}
+
 @media screen and (max-width: 1800px){
   .content{
     margin-top: 0;
