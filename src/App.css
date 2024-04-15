@@ -55,6 +55,12 @@ a{
   background-color: rgb(255, 255, 255);
 }
 
+.profileLogo{
+  padding: 5px;
+  height: 40px;
+  width: 40px;
+}
+
 .side-nav{
   height: 100vh;
   width: 400px;
