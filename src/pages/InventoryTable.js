@@ -10,80 +10,32 @@ const InventoryTable = () => {
     const [editMode, setEditMode] = useState(false);
     const [selectedRow, setSelectedRow] = useState(0);
     const [addRowMode, setAddRowMode] = useState(false);
-    const tableData = [
-        {
-            id: 1,
-            name: 'Macbf',
-            purchaseDate: new Date().toISOString(),
-            lendingStartDate: new Date().toISOString(),
-            lendingEndDate: new Date().toISOString(),
-            grantIssuer: '3433',
-            assetNumber: '123',
-            serialNumber: '123',
-            description: 'hlelelele',
-            maintenanceDate: 'fd',
-            storageLocation: 'where',
-          },
-          {
-            id: 2,
-            name: 'Macbf',
-            purchaseDate: new Date().toISOString(),
-            lendingStartDate: new Date().toISOString(),
-            lendingEndDate: new Date().toISOString(),
-            grantIssuer: '3433',
-            assetNumber: '123',
-            serialNumber: '123',
-            description: 'hlelelele',
-            maintenanceDate: 'fd',
-            storageLocation: 'where',
-          },
-          {
-            id: 3,
-            name: 'Macbf',
-            purchaseDate: new Date().toISOString(),
-            lendingStartDate: new Date().toISOString(),
-            lendingEndDate: new Date().toISOString(),
-            grantIssuer: '3433',
-            assetNumber: '123',
-            serialNumber: '123',
-            description: 'hlelelele',
-            maintenanceDate: 'fd',
-            storageLocation: 'where',
-          }
-        
-    ]
+    
 
+    const apiUrl = process.env.REACT_APP_API_URL;
+    
     useEffect(()=> {
-        setTableRows(tableData);
-
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${backendURL}/inventory-table`);
+        
+                const response = await axios.get(`${apiUrl}/items`);
+                console.log(response.data);
+                const formattedData = response.data.map(item => ({
+                ...item,
+                purchaseDate : item.purchaseDate ? new Date(item.purchaseDate).toISOString().split("T")[0] : null,
+                lendingStartDate: item.lendingStartDate ? new Date(item.lendingStartDate).toISOString().split('T')[0]: null,
+                lendingEndDate: item.lendingEndDate ? new Date(item.lendingEndDate).toISOString().split('T')[0] : null,
+                maintenanceDate: item.maintenanceDate ? new Date(item.maintenanceDate).toISOString().split('T')[0] : null
+            }));
                 console.log('Data retrieved successfully:', response.data);
-                setTableRows(response.data);
+                setTableRows(formattedData);
+        
             } catch(error) {
                 console.error('Error fetching data:', error);
             }
         }
+        fetchData();
     }, [])
-
-    //need to be configured
-    const backendURL = '';
-
-    //update the backend
-    useEffect(() => {
-        console.log(tableRows);
-        
-        const updateBackend = async () => {
-            try {
-                const response = await axios.post(`${backendURL}/inventory-table/update-inventory`, { tableRows });
-                console.log('Backend updated succesfully:', response.data);
-            } catch (error) {
-                console.error('Error updating the backend', error);
-            }
-        };
-        updateBackend();
-    }, [tableRows]); 
 
      //editing 
     const editRow = (id) => {
@@ -93,7 +45,15 @@ const InventoryTable = () => {
     //deleting
     const deleteRow = (id) => {
         const newRows = tableRows.filter(tableRow => tableRow.id !== id);
-        setTableRows(newRows);
+        async function handleDelete() {
+            try{
+                await axios.delete(`${apiUrl}/items/${id}`);
+                setTableRows(newRows);
+            }catch(error){
+                console.error("something went wrong could not delete")
+            }
+        }
+        handleDelete();
     }
 
     const addNewRow = () => {
@@ -109,7 +69,7 @@ const InventoryTable = () => {
         <div className='content'>
             <h1 style={{fontSize:'4rem', marginTop:'30px'}}>INVENTORY</h1>
                 <InventorySearch 
-                    tableData={tableData} 
+                    tableRows={tableRows}
                     setTableRows={setTableRows}
                 /> 
                 <Table 
