@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-
+import React, { useEffect, useState} from "react";
+import axios from 'axios';
 const Table = ({
   tableRows,
   setTableRows,
@@ -12,120 +12,130 @@ const Table = ({
   addRowMode,
   setAddRowMode,
 }) => {
-  const descriptionInputRef = useRef();
-  const purchaseDateInputRef = useRef();
-  const lendStartInputRef = useRef();
-  const lendEndInputRef = useRef();
-  const grantIssuerInputRef = useRef();
-  const assetNumInputRef = useRef();
-  const serialNumInputRef = useRef();
-  const maintenanceDateInputRef = useRef();
-  const storageLocationInputRef = useRef();
+  
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const [editedRowValues, setEditedRowValues] = useState({});
 
   //date
-  const currentDate = new Date().toISOString().split('T')[0];
+  const currentDate = new Date().toISOString().split("T")[0];
+
+  useEffect(() => {
+    // Reset editedRowValues when edit mode changes
+    if (!editMode) {
+      setEditedRowValues({});
+    }
+  }, [editMode]);
+
+  const handleInputChange = (field, value) => {
+    setEditedRowValues((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
 
   //editing existing rows
   const confirmEdit = () => {
-    const description = descriptionInputRef.current.value;
-    const purchaseDate = purchaseDateInputRef.current.value;
-    const lendStart = lendStartInputRef.current.value;
-    const lendEnd = lendEndInputRef.current.value;
-    const grantIssuer = grantIssuerInputRef.current.value;
-    const assetNum = assetNumInputRef.current.value;
-    const serialNum = serialNumInputRef.current.value;
-    const maintenanceDate = maintenanceDateInputRef.current.value;
-    const storageLocation = storageLocationInputRef.current.value;
-
-    const updatedRows = tableRows.map(row => {
-      if (row.id === selectedRow) {
-        return {
-          ...row,
-          description,
-          purchaseDate,
-          lendStart,
-          lendEnd,
-          grantIssuer,
-          assetNum,
-          serialNum,
-          maintenanceDate,
-          storageLocation,
-        };
+    //searches for selectedRow and edits the values that have been changed.
+    const updatedRows = tableRows.map((row) =>
+    row.id === selectedRow ? { ...row, ...editedRowValues } : row );
+    async function update() {
+      try{
+        const newRow = updatedRows.find((row) => row.id === selectedRow);
+        console.log(selectedRow);
+        console.log(newRow);
+        await axios.put(`${apiUrl}/items/${selectedRow}`, newRow);
+        setTableRows(updatedRows);
+      }catch(error){
+        console.error('something went wrong could not update');
       }
-      return row;
-    });
-
-    setTableRows(updatedRows);
+    }
+    update();
     setEditMode(false);
   };
 
   //adding new rows
-  const handleSubmit = e => {
+  const handleCreate = (e) => {
     e.preventDefault();
-    const description = descriptionInputRef.current.value;
-    const purchaseDate = purchaseDateInputRef.current.value;
-    const lendStart = lendStartInputRef.current.value;
-    const lendEnd = lendEndInputRef.current.value;
-    const grantIssuer = grantIssuerInputRef.current.value;
-    const assetNum = assetNumInputRef.current.value;
-    const serialNum = serialNumInputRef.current.value;
-    const maintenanceDate = maintenanceDateInputRef.current.value;
-    const storageLocation = storageLocationInputRef.current.value;
-    const id = tableRows.length + 1;
-    const newRow = {
-      id,
-      description,
-      purchaseDate,
-      lendStart,
-      lendEnd,
-      grantIssuer,
-      assetNum,
-      serialNum,
-      maintenanceDate,
-      storageLocation,
-    };
-    setTableRows([...tableRows, newRow]);
+    const newRow = { ...editedRowValues };
+    async function create() {
+      try{
+        await axios.post(`${apiUrl}/items`, newRow);
+        console.log(newRow);
+        
+        const response = await axios.get(`${apiUrl}/items`);
+        const id= response.data[response.data.length -1].id + 1;
+        newRow.id = id;
+        setTableRows((prevRows) => [...prevRows, newRow]);
+      }catch(error){
+          console.error('something went wrong could not create');
+      }
+    }
+    create();
+
     setAddRowMode(false);
   };
 
   return (
     <div>
-      <button onClick={addNewRow} className='addNewButton'>
+      <button onClick={addNewRow} className="addNewButton">
         Add New
       </button>
       {
         //when in addRowmode will show this form
         addRowMode && (
-        <form className='newRowForm' onSubmit={handleSubmit}>
+          <form className="newRowForm" onSubmit={handleCreate}>
             <div>
-                <input ref={descriptionInputRef} placeholder='Description' />
-                <input ref={grantIssuerInputRef} placeholder='Grant Issuer' />
-                <input ref={assetNumInputRef} placeholder='Asset #' />
-                <input ref={serialNumInputRef} placeholder='Serial #' />
-                <input ref={storageLocationInputRef} placeholder='Storage Location' />
+              <input onChange={(e) => handleInputChange('description', e.target.value)} placeholder="Description" />
+              <input onChange={(e) => handleInputChange('grantIssuer', e.target.value)} placeholder="Grant Issuer" />
+              <input onChange={(e) => handleInputChange('assetNumber', e.target.value)} placeholder="Asset #" type="number"/>
+              <input onChange={(e) => handleInputChange('serialNumber', e.target.value)} placeholder="Serial #" type="number"/>
+              <input
+                onChange={(e) => handleInputChange('storageLocation', e.target.value)}
+                placeholder="Storage Location"
+              />
             </div>
             <div>
-                <div>
-                    <label>Purchase Date: </label>
-                    <input ref={purchaseDateInputRef} type='date' defaultValue={currentDate} placeholder='Purchase Date' />
-                </div>
-                <div>
-                    <label>Lend Start: </label>
-                    <input ref={lendStartInputRef} type='date' defaultValue={currentDate} placeholder='Lend Start' />
-                </div>
-                <div>
-                    <label>Lend End: </label>
-                    <input ref={lendEndInputRef} type='date' defaultValue={currentDate} placeholder='Lend End' />
-                </div>
-                <div>
-                    <label>Maintenance Date: </label>
-                    <input ref={maintenanceDateInputRef} defaultValue={currentDate} type='date'/>
-                </div>
-            </div>          
-          <button type='submit'>Submit</button>
-        </form>
-      )}
-      <table className='inventory-table'>
+              <div>
+                <label>Purchase Date: </label>
+                <input
+                  onChange={(e) => handleInputChange('purchaseDate', e.target.value)}
+                  type="date"
+                  defaultValue={currentDate}
+                  placeholder="Purchase Date"
+                />
+              </div>
+              <div>
+                <label>Lend Start: </label>
+                <input
+                  onChange={(e) => handleInputChange('lendingStartDate', e.target.value)}
+                  type="date"
+                  defaultValue={currentDate}
+                  placeholder="Lend Start"
+                />
+              </div>
+              <div>
+                <label>Lend End: </label>
+                <input
+                  onChange={(e) => handleInputChange('lendingEndDate', e.target.value)}
+                  type="date"
+                  defaultValue={currentDate}
+                  placeholder="Lend End"
+                />
+              </div>
+              <div>
+                <label>Maintenance Date: </label>
+                <input
+                  onChange={(e) => handleInputChange('maintenanceDate', e.target.value)}
+                  defaultValue={currentDate}
+                  type="date"
+                />
+              </div>
+            </div>
+            <button type="submit">Submit</button>
+          </form>
+        )
+      }
+      <table className="inventory-table">
         <thead>
           <tr>
             <th>ID</th>
@@ -142,36 +152,73 @@ const Table = ({
           </tr>
         </thead>
         <tbody>
-          {tableRows.map(row =>
+          {tableRows.map((row) =>
             editMode === true && selectedRow === row.id ? (
-              <tr className='editForm'>
+              <tr className="editForm">
                 <td>{row.id}</td>
                 <td>
-                  <input ref={descriptionInputRef} defaultValue={row.description} placeholder='Description' />
+                  <input
+                    onChange={(e) => handleInputChange('description', e.target.value)}
+                    defaultValue={row.description}
+                    placeholder="Description"
+                  />
                 </td>
                 <td>
-                  <input ref={purchaseDateInputRef} type='date' defaultValue={row.purchaseDate} />
+                  <input
+                    onChange={(e) => handleInputChange('purchaseDate', e.target.value)}
+                    type="date"
+                    defaultValue={row.purchaseDate}
+                  />
                 </td>
                 <td>
-                  <input ref={lendStartInputRef} type='date' defaultValue={row.lendStart} />
+                  <input
+                    onChange={(e) => handleInputChange('lendingStartDate', e.target.value)}
+                    type="date"
+                    defaultValue={row.lendingStartDate}
+                  />
                 </td>
                 <td>
-                  <input ref={lendEndInputRef} type='date' defaultValue={row.lendEnd} />
+                  <input
+                    onChange={(e) => handleInputChange('lendingEndDate', e.target.value)}
+                    type="date"
+                    defaultValue={row.lendingEndDate}
+                  />
                 </td>
                 <td>
-                  <input ref={grantIssuerInputRef} defaultValue={row.grantIssuer} placeholder='Grant Issuer' />
+                  <input
+                    onChange={(e) => handleInputChange('grantIssuer', e.target.value)}
+                    defaultValue={row.grantIssuer}
+                    placeholder="Grant Issuer"
+                  />
                 </td>
                 <td>
-                  <input ref={assetNumInputRef} defaultValue={row.assetNum} placeholder='Asset #' />
+                  <input
+                    onChange={(e) => handleInputChange('assetNumber', e.target.value)}
+                    defaultValue={row.assetNumber}
+                    placeholder="Asset #"
+                  />
                 </td>
                 <td>
-                  <input ref={serialNumInputRef} defaultValue={row.serialNum} placeholder='Serial #' />
+                  <input
+                    onChange={(e) => handleInputChange('serialNumber', e.target.value)}
+                    defaultValue={row.serialNumber}
+                    placeholder="Serial #"
+                  />
                 </td>
                 <td>
-                  <input ref={maintenanceDateInputRef} type='date' defaultValue={row.maintenanceDate} placeholder='Maintenance Date' />
+                  <input
+                    onChange={(e) => handleInputChange('maintenanceDate', e.target.value)}
+                    type="date"
+                    defaultValue={row.maintenanceDate}
+                    placeholder="Maintenance Date"
+                  />
                 </td>
                 <td>
-                  <input ref={storageLocationInputRef} defaultValue={row.storageLocation} placeholder='Storage Location' />
+                  <input
+                    onChange={(e) => handleInputChange('storageLocation', e.target.value)}
+                    defaultValue={row.storageLocation}
+                    placeholder="Storage Location"
+                  />
                 </td>
                 <td>
                   <button onClick={confirmEdit}>Confirm</button>
@@ -182,11 +229,11 @@ const Table = ({
                 <td>{row.id}</td>
                 <td>{row.description}</td>
                 <td>{row.purchaseDate}</td>
-                <td>{row.lendStart}</td>
-                <td>{row.lendEnd}</td>
+                <td>{row.lendingStartDate}</td>
+                <td>{row.lendingEndDate}</td>
                 <td>{row.grantIssuer}</td>
-                <td>{row.assetNum}</td>
-                <td>{row.serialNum}</td>
+                <td>{row.assetNumber}</td>
+                <td>{row.serialNumber}</td>
                 <td>{row.maintenanceDate}</td>
                 <td>{row.storageLocation}</td>
                 <td>

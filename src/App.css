@@ -133,7 +133,7 @@ a{
 .newRowForm input{
   padding: 15px;
   color:white;
-  background-color: var(--code-black);
+  background-color: rgb(41, 41, 41);
   border: 2px solid white;
   border-radius: 15px;
   margin: 20px;

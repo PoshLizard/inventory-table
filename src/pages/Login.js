@@ -17,7 +17,6 @@ const Login = () => {
   const Register = (e) => {
     
     e.preventDefault();
-
     async function create() {
       try{
         console.log(apiUrl);
@@ -33,6 +32,7 @@ const Login = () => {
       }
     }
     create();
+    switchMode();
   }
 
   const switchMode = () => {
