@@ -18,7 +18,6 @@ const Navbar = () => {
               <Link to={`/dashboard`}> Dashboard </Link>
               <Link to={`/profile`}><img className="profileLogo" src={profileLogo}/></Link>
             </div>
-            
         </header>
   )
 }
