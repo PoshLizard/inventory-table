@@ -10,7 +10,6 @@ const InventoryTable = () => {
     const [editMode, setEditMode] = useState(false);
     const [selectedRow, setSelectedRow] = useState(0);
     const [addRowMode, setAddRowMode] = useState(false);
-    
 
     const apiUrl = process.env.REACT_APP_API_URL;
     
@@ -19,7 +18,6 @@ const InventoryTable = () => {
             try {
         
                 const response = await axios.get(`${apiUrl}/items`);
-                console.log(response.data);
                 const formattedData = response.data.map(item => ({
                 ...item,
                 purchaseDate : item.purchaseDate ? new Date(item.purchaseDate).toISOString().split("T")[0] : null,
@@ -27,7 +25,6 @@ const InventoryTable = () => {
                 lendingEndDate: item.lendingEndDate ? new Date(item.lendingEndDate).toISOString().split('T')[0] : null,
                 maintenanceDate: item.maintenanceDate ? new Date(item.maintenanceDate).toISOString().split('T')[0] : null
             }));
-                console.log('Data retrieved successfully:', response.data);
                 setTableRows(formattedData);
         
             } catch(error) {
@@ -57,9 +54,8 @@ const InventoryTable = () => {
     }
 
     const addNewRow = () => {
-        setAddRowMode(true);
+        setAddRowMode(!addRowMode);
     }
-    
 
   return (
     <div className='inventory'>

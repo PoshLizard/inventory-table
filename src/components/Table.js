@@ -41,8 +41,6 @@ const Table = ({
     async function update() {
       try{
         const newRow = updatedRows.find((row) => row.id === selectedRow);
-        console.log(selectedRow);
-        console.log(newRow);
         await axios.put(`${apiUrl}/items/${selectedRow}`, newRow);
         setTableRows(updatedRows);
       }catch(error){
@@ -59,11 +57,9 @@ const Table = ({
     const newRow = { ...editedRowValues };
     async function create() {
       try{
-        await axios.post(`${apiUrl}/items`, newRow);
-        console.log(newRow);
-        
+        await axios.post(`${apiUrl}/items`, newRow);    
         const response = await axios.get(`${apiUrl}/items`);
-        const id= response.data[response.data.length -1].id + 1;
+        const id= response.data[response.data.length -1].id;
         newRow.id = id;
         setTableRows((prevRows) => [...prevRows, newRow]);
       }catch(error){
@@ -71,20 +67,21 @@ const Table = ({
       }
     }
     create();
-
     setAddRowMode(false);
   };
 
   return (
     <div>
-      <button onClick={addNewRow} className="addNewButton">
-        Add New
-      </button>
-      {
-        //when in addRowmode will show this form
-        addRowMode && (
+        <button onClick={addNewRow} className="addNewButton">
+         Add New
+         </button>
+        {addRowMode && (
+          <div className="modal-background">
           <form className="newRowForm" onSubmit={handleCreate}>
-            <div>
+            <h1>Add New Entry</h1>
+            <button onClick={addNewRow} className="addNewButton">Cancel</button>
+            <div className="newRowFormContainer">
+            <div className="newRowFormValues">
               <input onChange={(e) => handleInputChange('description', e.target.value)} placeholder="Description" />
               <input onChange={(e) => handleInputChange('grantIssuer', e.target.value)} placeholder="Grant Issuer" />
               <input onChange={(e) => handleInputChange('assetNumber', e.target.value)} placeholder="Asset #" type="number"/>
@@ -94,13 +91,12 @@ const Table = ({
                 placeholder="Storage Location"
               />
             </div>
-            <div>
+            <div className="newRowFormValues">
               <div>
                 <label>Purchase Date: </label>
                 <input
                   onChange={(e) => handleInputChange('purchaseDate', e.target.value)}
                   type="date"
-                  defaultValue={currentDate}
                   placeholder="Purchase Date"
                 />
               </div>
@@ -109,7 +105,6 @@ const Table = ({
                 <input
                   onChange={(e) => handleInputChange('lendingStartDate', e.target.value)}
                   type="date"
-                  defaultValue={currentDate}
                   placeholder="Lend Start"
                 />
               </div>
@@ -118,7 +113,6 @@ const Table = ({
                 <input
                   onChange={(e) => handleInputChange('lendingEndDate', e.target.value)}
                   type="date"
-                  defaultValue={currentDate}
                   placeholder="Lend End"
                 />
               </div>
@@ -126,15 +120,16 @@ const Table = ({
                 <label>Maintenance Date: </label>
                 <input
                   onChange={(e) => handleInputChange('maintenanceDate', e.target.value)}
-                  defaultValue={currentDate}
                   type="date"
                 />
               </div>
             </div>
-            <button type="submit">Submit</button>
+            </div>
+            <button type="submit">Add Item</button>
           </form>
+          </div>
         )
-      }
+}
       <table className="inventory-table">
         <thead>
           <tr>
