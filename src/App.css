@@ -1,3 +1,5 @@
+@import url("https://use.typekit.net/ccg4ogq.css");
+
 :root {
   --code-blue: rgb(2, 53, 129);
   --code-orange: rgb(238, 163, 51);
@@ -12,6 +14,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'poppins'
 }
 
 body{
@@ -25,6 +28,12 @@ a{
   margin: 10px 0;
   z-index: 1;
 }
+
+input::placeholder {
+  color: #dadada; 
+}
+
+
 .container{
   overflow-x: auto;
   width: 100%;
@@ -36,11 +45,11 @@ a{
   text-align: center;
   flex: 1;
   padding: 50px;
-  margin-top: -150px;
+  margin-top: 100px;
   display:flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  
 }
 
 .header{
@@ -61,10 +70,10 @@ a{
   width: 40px;
 }
 
-#profileHeader {
-  align-self: center;
-  width: 80%;
-  background-color: rgb(248, 15, 15);
+#profileHeader { 
+  align-self: center; 
+  width: 80%; 
+  background-color: rgb(248, 15, 15); 
 }
 
 .side-nav{
@@ -82,6 +91,9 @@ a{
   display:flex;
   flex-direction: column;
 }
+.side-nav-links a{
+  margin: 20px 0;
+}
 .side-nav 
 .inventory{
   padding: 30px;
@@ -98,6 +110,10 @@ a{
   padding: 10px;
   border: 3px solid black;
   border-radius: 8px;
+}
+.search-bar button{
+  font-size: 1.3rem;
+  padding: 15px;
 }
 
 .search-bar input:focus{
@@ -131,16 +147,34 @@ a{
   cursor: pointer;
 }
 
-.newRowForm{
-  display:flex;
-  font-size: 1.5rem;
-  flex-direction:column;
+.modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.61); /* Semi-transparent black */
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
   align-items: center;
+  z-index: 2;
 }
 
-.newRowForm > div{
+.newRowForm{
   display:flex;
-  flex-direction: row;
+  font-size: 1.4rem;
+  flex-direction:column;
+  align-items: center;
+  background-color: var(--code-black);
+  padding: 80px;
+  border-radius: 35px;
+  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.459);
+
+}
+
+.newRowForm h1{
+  margin-bottom: 30px;
 }
 .newRowForm input{
   padding: 15px;
@@ -148,17 +182,19 @@ a{
   background-color: rgb(41, 41, 41);
   border: 2px solid white;
   border-radius: 15px;
-  margin: 20px;
+  margin: 20px 30px;
+  font-size: 1.5rem;
 }
 
 .newRowForm button{
-  padding: 12px;
+  padding: 15px;
   color:white;
   background-color: var(--code-black);
   color:white;
   border-radius: 15px;
   border: 2px solid white;
   transition: .1s ease-in;
+  font-size: 1.3rem;
 }
 
 .newRowForm button:hover{
@@ -175,10 +211,28 @@ a{
   padding: 15px;
 }
 
+.newRowFormContainer{
+  text-align: left;
+  display:flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+}
+
+.newRowFormValues{
+  flex-direction: column;
+  display:flex;
+  margin: 0 40px;
+}
+.newRowFormValues div{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .inventory-table{
   margin-top: 30px;
   background-color: white;
-  font-size: 2rem;
+  font-size: 1.3rem;
   width: 100%;
   color:white;
   border: 2px solid white;
@@ -262,7 +316,7 @@ a{
   padding: 20px;
   background-color: var(--code-orange);
   color:black;
-  font-size: 1rem;
+  font-size: 1.4rem;
   font-weight: bolder;
   margin: 20px 0;
   border-radius: 30px;
@@ -286,7 +340,6 @@ a{
   color: var(--code-orange);
 }
 
-
 #register-form div{
   margin: 15px 0;
 }
@@ -297,6 +350,41 @@ a{
   padding: 30px;
   border-radius: 30px;
 }
+
+.profileInfo{
+  margin: 300px;
+  z-index: 1;
+}
+
+.error-msg{
+  color: red;
+  font-size: .8rem;
+  text-decoration: none !important;
+}
+
+.side-button{
+  padding: 15px;
+  background-color: var(--code-orange);
+  color:white;
+  border-radius: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.219);
+  font-size: 1.2rem;
+  margin-top: 80px;
+  transition: .1s ease-in;
+}
+.side-button:hover{
+  background-color: var(--code-blue);
+  cursor: pointer;
+  border: 2px solid white;
+}
+
+.toggle-password{
+  position: absolute;
+  margin-left: -50px;
+  margin-top: 12px;
+  color:black;
+}
+
 
 @media screen and (max-width: 1800px){
   .content{
@@ -317,4 +405,3 @@ a{
       border-radius: 0px;
   }
 }
-
