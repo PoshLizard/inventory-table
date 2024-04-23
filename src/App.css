@@ -27,7 +27,29 @@ a{
   text-decoration: none;
   margin: 10px 0;
   z-index: 1;
+  position: relative;
 }
+
+
+a::before {
+  content: '';
+  position: absolute;
+  width: 55%;
+  height: 4px;
+  border-radius: 4px;
+  background-color: var(--code-orange);
+  bottom: 0;
+  left: 0;
+  transform-origin: right;
+  transform: scaleX(0);
+  transition: transform .3s ease-in-out;
+}
+
+a:hover::before {
+  transform-origin: left;
+  transform: scaleX(1);
+}
+
 
 input::placeholder {
   color: #dadada; 
