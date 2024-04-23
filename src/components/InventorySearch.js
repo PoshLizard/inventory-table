@@ -11,8 +11,6 @@ const InventorySearch = ({  tableRows, setTableRows }) => {
             row.assetNumber.includes(userInput) ||
             row.grantIssuer.toLowerCase().includes(userInput) ||
             row.storageLocation.includes(userInput)
-
-          
         )
         setUserInput('');
         setTableRows(filteredOptions);
