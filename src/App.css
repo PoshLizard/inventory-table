@@ -352,8 +352,18 @@ input::placeholder {
 }
 
 .profileInfo{
+  width: calc(200px - 10vw);
+  display: inline-block;
+  border: 2px solid rgb(145, 136, 136);
+  background-color: gray;
+  width: 80%;
   margin: 300px;
   z-index: 1;
+}
+
+.profileFields *{
+  display :block;
+    margin: 10px;
 }
 
 .error-msg{

@@ -6,7 +6,7 @@ function ProfileInformation(){
     return (
 <div>
     <Header/>
-    <div>
+    <div className='container'>
         <SideNav></SideNav>
         
         <div className='profileInfo'>
@@ -15,6 +15,33 @@ function ProfileInformation(){
                 <h1>Tunmise Kehinde</h1>
                 <p>Role: Manager</p>
             </div>
+            
+            <br></br>
+            <hr></hr>
+            <br></br>
+            <div className='profileFields'>
+                <label>First Name:</label>
+                <input></input>
+
+                <label>Last Name:</label>
+                <input></input>
+
+                <label>Id:</label>
+                <input></input>
+
+                <label>Email:</label>
+                <input></input>
+
+                <label>Password:</label>
+                <input></input>
+
+                <label>Role:</label>
+                <input></input>
+
+                <button>Save</button>
+            </div>
+            
+             
         </div>
     </div>
 </div>
