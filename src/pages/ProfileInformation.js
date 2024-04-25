@@ -2,13 +2,12 @@ import profileLogo from '../images/user-profile.png'
 import Header from '../components/Header';
 import SideNav from '../components/SideNav';
 
-function ProfileInformation(){
+const ProfileInformation = () => {
     return (
 <div>
     <Header/>
     <div className='container'>
         <SideNav></SideNav>
-        
         <div className='profileInfo'>
             <img className='profileLogo' src={profileLogo} />
             <div>
@@ -44,12 +43,7 @@ function ProfileInformation(){
              
         </div>
     </div>
-</div>
-    
-
-    
-    
-        
+</div> 
     )
 }
 
