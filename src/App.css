@@ -186,7 +186,6 @@ input::placeholder {
   padding: 80px;
   border-radius: 35px;
   box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.459);
-
 }
 
 .newRowForm h1{
@@ -201,7 +200,6 @@ input::placeholder {
   margin: 20px 30px;
   font-size: 1.5rem;
 }
-
 .newRowForm button{
   padding: 15px;
   color:white;
