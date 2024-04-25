@@ -1,8 +1,14 @@
 import profileLogo from '../images/user-profile.png'
 import Header from '../components/Header';
 import SideNav from '../components/SideNav';
+import { getAuth } from 'firebase/auth';
 
 function ProfileInformation(){
+
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    console.log(user);
     return (
 <div>
     <Header/>
