@@ -9,31 +9,29 @@ const InventoryTable = () => {
     const [tableRows, setTableRows] = useState([]);
     const [editMode, setEditMode] = useState(false);
     const [selectedRow, setSelectedRow] = useState(0);
-    const [addRowMode, setAddRowMode] = useState(false);
 
     const apiUrl = process.env.REACT_APP_API_URL;
     
     useEffect(()=> {
-        const fetchData = async () => {
-            try {
-        
-                const response = await axios.get(`${apiUrl}/items`);
-                const formattedData = response.data.map(item => ({
-                ...item,
-                purchaseDate : item.purchaseDate ? new Date(item.purchaseDate).toISOString().split("T")[0] : null,
-                lendingStartDate: item.lendingStartDate ? new Date(item.lendingStartDate).toISOString().split('T')[0]: null,
-                lendingEndDate: item.lendingEndDate ? new Date(item.lendingEndDate).toISOString().split('T')[0] : null,
-                maintenanceDate: item.maintenanceDate ? new Date(item.maintenanceDate).toISOString().split('T')[0] : null
-            }));
-                setTableRows(formattedData);
-        
-            } catch(error) {
-                console.error('Error fetching data:', error);
-            }
-        }
         fetchData();
     }, [])
 
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`${apiUrl}/items`);
+            const formattedData = response.data.map(item => ({
+            ...item,
+            purchaseDate : item.purchaseDate ? new Date(item.purchaseDate).toISOString().split("T")[0] : null,
+            lendingStartDate: item.lendingStartDate ? new Date(item.lendingStartDate).toISOString().split('T')[0]: null,
+            lendingEndDate: item.lendingEndDate ? new Date(item.lendingEndDate).toISOString().split('T')[0] : null,
+            maintenanceDate: item.maintenanceDate ? new Date(item.maintenanceDate).toISOString().split('T')[0] : null
+        }));
+            setTableRows(formattedData);
+    
+        } catch(error) {
+            console.error('Error fetching data:', error);
+        }
+    }
      //editing 
     const editRow = (id) => {
         setSelectedRow(id);
@@ -53,9 +51,6 @@ const InventoryTable = () => {
         handleDelete();
     }
 
-    const addNewRow = () => {
-        setAddRowMode(!addRowMode);
-    }
 
   return (
     <div className='inventory'>
@@ -76,9 +71,6 @@ const InventoryTable = () => {
                     selectedRow={selectedRow}
                     editMode={editMode}
                     setEditMode={setEditMode}
-                    addRowMode={addRowMode}
-                    setAddRowMode={setAddRowMode}
-                    addNewRow={addNewRow}
                 />
             </div>
         </div>

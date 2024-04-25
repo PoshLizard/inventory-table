@@ -14,7 +14,6 @@ function ProfileInformation(){
     <Header/>
     <div className='container'>
         <SideNav></SideNav>
-        
         <div className='profileInfo'>
             <img className='profileLogo' src={profileLogo} />
             <div>
@@ -50,12 +49,7 @@ function ProfileInformation(){
              
         </div>
     </div>
-</div>
-    
-
-    
-    
-        
+</div> 
     )
 }
 
