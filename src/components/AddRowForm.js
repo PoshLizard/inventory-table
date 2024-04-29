@@ -38,19 +38,20 @@ const AddRowForm = ( { setTableRows, setAddRowMode, addNewRow}) => {
             <button onClick={addNewRow} className="addNewButton">Cancel</button>
             <div className="newRowFormContainer">
             <div className="newRowFormValues">
-              <input onChange={(e) => handleInputChange('description', e.target.value)} placeholder="Description" />
-              <input onChange={(e) => handleInputChange('grantIssuer', e.target.value)} placeholder="Grant Issuer" />
-              <input onChange={(e) => handleInputChange('assetNumber', e.target.value)} placeholder="Asset #" type="number"/>
+              <input onChange={(e) => handleInputChange('description', e.target.value)} placeholder="Description" required/>
+              <input onChange={(e) => handleInputChange('grantIssuer', e.target.value)} placeholder="Grant Issuer" required/>
+              <input onChange={(e) => handleInputChange('assetNumber', e.target.value)} placeholder="Asset #" type="number" required/>
               
             </div>
             <div className="newRowFormValues">
               <div>
-                <input onChange={(e) => handleInputChange('serialNumber', e.target.value)} placeholder="Serial #" type="number"/>
+                <input onChange={(e) => handleInputChange('serialNumber', e.target.value)} placeholder="Serial #" type="number" required/>
               </div>
               <div>
                 <input
                   onChange={(e) => handleInputChange('storageLocation', e.target.value)}
                   placeholder="Storage Location"
+                  required
                 />
               </div>
               <div>
@@ -59,11 +60,12 @@ const AddRowForm = ( { setTableRows, setAddRowMode, addNewRow}) => {
                   onChange={(e) => handleInputChange('purchaseDate', e.target.value)}
                   type="date"
                   placeholder="Purchase Date"
+                  required
                 />
               </div>
             </div>
             </div>
-            <button type="submit">Add Item</button>
+            <button className="addNewButton" type="submit">Add Item</button>
           </form>
           </div>
   )
