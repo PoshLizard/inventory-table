@@ -20,7 +20,7 @@ const Loan = ({id ,viewLoan, tableRows}) => {
     }, []);
 
     const addNewMain = async() => {
-
+        
     }
     const editMain = async() => {
 
@@ -38,7 +38,10 @@ const Loan = ({id ,viewLoan, tableRows}) => {
       setAddNewMode(!addNewMode);
     }
 
+    //
     const handleSubmit = () => {
+      const id = 1;
+      setLoanRows((prevLoanRows) => [...prevLoanRows, {id: id, lendStart: startInput, lendEnd: endInput}]);
 
     }
 

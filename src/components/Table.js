@@ -1,27 +1,19 @@
-import React, { useEffect, useState} from "react";
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Maintenance from "./Maintenance";
 import AddRowForm from "./AddRowForm";
 import Loan from "./Loan";
-const Table = ({
-  tableRows,
-  setTableRows,
-  editRow,
-  deleteRow,
-  editMode,
-  setEditMode,
-  selectedRow,
-}) => {
-  
+import LaptopTable from "./LaptopTable";
+import InventorySearch from "./InventorySearch";
+const Table = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [editedRowValues, setEditedRowValues] = useState({});
   const [addRowMode, setAddRowMode] = useState(false);
-  const [viewMainMode, setViewMainMode] = useState(false);
-  const [viewLoanMode, setViewLoanMode] = useState(false);
-
-  //current maintenance or loan id
+  const [tableRows, setTableRows] = useState([]);
+  const [editMode, setEditMode] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(0);
   const [currentId, setCurrentId] = useState(0);
-  //date
+
   const currentDate = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
@@ -31,144 +23,117 @@ const Table = ({
     }
   }, [editMode]);
 
+  useEffect(() => {
+    fetchData();
+  }, []);
   const addNewRow = () => {
     setAddRowMode(!addRowMode);
-  }
+  };
   const handleInputChange = (field, value) => {
     setEditedRowValues((prev) => ({
       ...prev,
       [field]: value,
     }));
   };
-
   //editing existing rows
   const confirmEdit = () => {
     //searches for selectedRow and edits the values that have been changed.
     const updatedRows = tableRows.map((row) =>
-    row.id === selectedRow ? { ...row, ...editedRowValues } : row );
+      row.id === selectedRow ? { ...row, ...editedRowValues } : row
+    );
     async function update() {
-      try{
+      try {
         const newRow = updatedRows.find((row) => row.id === selectedRow);
         await axios.put(`${apiUrl}/items/${selectedRow}`, newRow);
         setTableRows(updatedRows);
-      }catch(error){
-        console.error('something went wrong could not update');
+      } catch (error) {
+        console.error("something went wrong could not update");
       }
     }
     update();
     setEditMode(false);
   };
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/items`);
+      const formattedData = response.data.map((item) => ({
+        ...item,
+        purchaseDate: item.purchaseDate
+          ? new Date(item.purchaseDate).toISOString().split("T")[0]
+          : null,
+        lendingStartDate: item.lendingStartDate
+          ? new Date(item.lendingStartDate).toISOString().split("T")[0]
+          : null,
+        lendingEndDate: item.lendingEndDate
+          ? new Date(item.lendingEndDate).toISOString().split("T")[0]
+          : null,
+        maintenanceDate: item.maintenanceDate
+          ? new Date(item.maintenanceDate).toISOString().split("T")[0]
+          : null,
+      }));
+      setTableRows(formattedData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  //editing
+  const editRow = (id) => {
+    setSelectedRow(id);
+    setEditMode(true);
+  };
+  //deleting
+  const deleteRow = (id) => {
+    const newRows = tableRows.filter((tableRow) => tableRow.id !== id);
+    async function handleDelete() {
+      try {
+        await axios.delete(`${apiUrl}/items/${id}`);
+        setTableRows(newRows);
+      } catch (error) {
+        console.error("something went wrong could not delete");
+      }
+    }
+    handleDelete();
+  };
 
-  const viewMaintenance = (id) => {
-    setCurrentId(id);
-    setViewMainMode(!viewMainMode);
-  }
+  const changeDisplayedTable = () => {
 
-  const viewLoan = (id) => {
-    setCurrentId(id);
-    setViewLoanMode(!viewLoanMode);
   }
 
   return (
-    <div>
-        <button onClick={addNewRow} className="addNewButton">
-          Add New
-        </button>
-        {viewMainMode && <Maintenance tableRows={tableRows} viewMainMode={viewMainMode} id={currentId} viewMaintenance={viewMaintenance}/> }
-        {viewLoanMode && <Loan tableRows={tableRows} viewLoanMode={viewLoanMode} id={currentId} viewLoan={viewLoan}/> }
-        {addRowMode && <AddRowForm setTableRows={setTableRows} setAddRowMode={setAddRowMode} addNewRow={addNewRow} />}
-      <table className="inventory-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Description</th>
-            <th>Purchase Date</th>
-            <th>Grant Issuer</th>
-            <th>Asset #</th>
-            <th>Serial #</th>
-            <th>Storage Location</th>
-            <th>Maintenance</th>
-            <th>Loan</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tableRows.map((row) =>
-            editMode === true && selectedRow === row.id ? (
-              <tr className="editForm">
-                <td>{row.id}</td>
-                <td>
-                  <input
-                    onChange={(e) => handleInputChange('description', e.target.value)}
-                    defaultValue={row.description}
-                    placeholder="Description"
-                  />
-                </td>
-                <td>
-                  <input
-                    onChange={(e) => handleInputChange('purchaseDate', e.target.value)}
-                    type="date"
-                    defaultValue={row.purchaseDate}
-                  />
-                </td>
-                <td>
-                  <input
-                    onChange={(e) => handleInputChange('grantIssuer', e.target.value)}
-                    defaultValue={row.grantIssuer}
-                    placeholder="Grant Issuer"
-                  />
-                </td>
-                <td>
-                  <input
-                    onChange={(e) => handleInputChange('assetNumber', e.target.value)}
-                    defaultValue={row.assetNumber}
-                    placeholder="Asset #"
-                  />
-                </td>
-                <td>
-                  <input
-                    onChange={(e) => handleInputChange('serialNumber', e.target.value)}
-                    defaultValue={row.serialNumber}
-                    placeholder="Serial #"
-                  />
-                </td>
-                <td>
-                  <input
-                    onChange={(e) => handleInputChange('storageLocation', e.target.value)}
-                    defaultValue={row.storageLocation}
-                    placeholder="Storage Location"
-                  />
-                </td> 
-                <td>
-                  <button onClick={(e) => viewMaintenance(e.target.value)}>Maintenance</button>
-                </td>
-                <td>
-                  <button onClick={(e) => viewLoan(e.target.value)}>Loan</button>
-                </td>
-                <td>
-                  <button onClick={confirmEdit}>Confirm</button>
-                </td>
-              </tr>
-            ) : (
-              <tr>
-                <td>{row.id}</td>
-                <td>{row.description}</td>
-                <td>{row.purchaseDate}</td>
-                <td>{row.grantIssuer}</td>
-                <td>{row.assetNumber}</td>
-                <td>{row.serialNumber}</td>
-                <td>{row.storageLocation}</td>
-                <td><button onClick={() => viewMaintenance(row.id)}>Maintenance</button></td>
-                <td><button onClick={() => viewLoan(row.id)}>Loan</button></td>
-                <td>
-                  <button onClick={() => editRow(row.id)}>Edit</button>
-                  <button onClick={() => deleteRow(row.id)}>Delete</button>
-                </td>
-              </tr>
-            )
-          )}
-        </tbody>
-      </table>
+    <div style={{display:'flex', flexDirection: 'column', alignItems: 'center'}}>
+      <div>
+        <label style={{fontSize:"1.2rem"}}>View: </label>
+        <select onChange={changeDisplayedTable}>
+        <option>Laptops</option>
+        <option>Students</option>
+        <option>Supplies</option>
+      </select>
+      <button onClick={addNewRow} className="addNewButton">
+        Add New
+      </button>
+      </div>
+      <div style={{width: '100%', display:'flex', justifyContent:"space-between"}}>
+        <InventorySearch tableRows={tableRows} setTableRows={setTableRows} />
+        <div></div>
+      </div>
+      {addRowMode && (
+        <AddRowForm
+          setTableRows={setTableRows}
+          setAddRowMode={setAddRowMode}
+          addNewRow={addNewRow}
+        />
+      )}
+      <LaptopTable
+        tableRows={tableRows}
+        editMode={editMode}
+        selectedRow={selectedRow}
+        handleInputChange={handleInputChange}
+        confirmEdit={confirmEdit}
+        editRow={editRow}
+        deleteRow={deleteRow}
+        currentId={currentId}
+        setCurrentId={setCurrentId}
+      />
     </div>
   );
 };
