@@ -29,20 +29,19 @@ function ProfileInformation(){
         const user = auth.currentUser.email;
     
         var updatedInfo = {
-            // id: document.getElementById("profileInfoFirstName").innerHTML,
-            firstName: document.getElementById("profileInfoFirstName").innerHTML,
-            lastName: document.getElementById("profileInfoLastName").innerHTML,
-            email: document.getElementById("profileInfoEmail").innerHTML,
-            password: document.getElementById("profileInfoPassword").innerHTML,
-            // role: document.getElementById("profileInfoRole").innerHTML,
+            firstName: document.getElementById("profileInfoFirstName").value,
+            lastName: document.getElementById("profileInfoLastName").value,
+            email: document.getElementById("profileInfoEmail").value,
+            password: document.getElementById("profileInfoPassword").value,
         }
     
         axios.put(`http://localhost:8080/api/v1/users/lookup?email=${user}`,updatedInfo).catch(function(error) {
             alert("Unable to Update Profile")
             console.log(error);
         }).then(function () {
-            getProfile();
-            alert("Profile Updated-reorder this then to not show");
+            auth.signOut();
+            // getProfile();
+            // alert("Profile Updated-reorder this then to not show");
         })
     }
    
@@ -71,8 +70,6 @@ function ProfileInformation(){
                 <label>Last Name:</label>
                 <input id="profileInfoLastName"></input>
 
-                <label>Id:</label>
-                <input id="profileInfoId"></input>
 
                 <label>Email:</label>
                 <input id="profileInfoEmail"></input>
@@ -80,8 +77,6 @@ function ProfileInformation(){
                 <label>Password:</label>
                 <input id="profileInfoPassword"></input>
 
-                <label>Role:</label>
-                <input id="profileInfoRole"></input>
 
                 <button onClick={() => updateProfile()}>Save</button>
             </div>
