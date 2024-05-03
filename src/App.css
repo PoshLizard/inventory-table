@@ -154,6 +154,13 @@ input::placeholder {
   border-color: white;
 }
 
+.saveButton {
+  border-radius: 15px;
+  padding: 10px;
+  color: orange;
+  font-size: 15px;
+}
+
 .addNewButton{
   padding: 15px;
   background-color: var(--code-blue);
@@ -414,6 +421,7 @@ input::placeholder {
   margin-top: 12px;
   color:black;
 }
+
 
 
 @media screen and (max-width: 1800px){

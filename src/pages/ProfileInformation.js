@@ -78,7 +78,7 @@ function ProfileInformation(){
                 <input id="profileInfoPassword"></input>
 
 
-                <button onClick={() => updateProfile()}>Save</button>
+                <button class="saveButton" onClick={() => updateProfile()}>Save - You will need to log back in</button>
             </div>
             
              
