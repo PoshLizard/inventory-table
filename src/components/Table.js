@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AddRowForm from "./AddRowForm";
 import LaptopTable from "./LaptopTable";
+import StudentTable from "./StudentTable";
 import InventorySearch from "./InventorySearch";
+
 const Table = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [editedRowValues, setEditedRowValues] = useState({});
@@ -11,7 +13,7 @@ const Table = () => {
   const [editMode, setEditMode] = useState(false);
   const [selectedRow, setSelectedRow] = useState(0);
   const [currentId, setCurrentId] = useState(0);
-
+  const [selectedTable, setSelectedTable] = useState("Laptops");
   const currentDate = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
@@ -22,6 +24,7 @@ const Table = () => {
   }, [editMode]);
 
   useEffect(() => {
+    setTableRows([{id: '1', assetTag: '1', serialNumber: '1232', status: '1232', brand: '12323', model: "dfdf", type: 'dfd'}])
     fetchData();
   }, []);
   const addNewRow = () => {
@@ -39,37 +42,25 @@ const Table = () => {
     const updatedRows = tableRows.map((row) =>
       row.id === selectedRow ? { ...row, ...editedRowValues } : row
     );
+    console.log(updatedRows);
     async function update() {
       try {
         const newRow = updatedRows.find((row) => row.id === selectedRow);
         await axios.put(`${apiUrl}/items/${selectedRow}`, newRow);
-        setTableRows(updatedRows);
+        
       } catch (error) {
         console.error("something went wrong could not update");
       }
     }
+    //temp
+    setTableRows(updatedRows);
     update();
     setEditMode(false);
   };
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${apiUrl}/items`);
-      const formattedData = response.data.map((item) => ({
-        ...item,
-        purchaseDate: item.purchaseDate
-          ? new Date(item.purchaseDate).toISOString().split("T")[0]
-          : null,
-        lendingStartDate: item.lendingStartDate
-          ? new Date(item.lendingStartDate).toISOString().split("T")[0]
-          : null,
-        lendingEndDate: item.lendingEndDate
-          ? new Date(item.lendingEndDate).toISOString().split("T")[0]
-          : null,
-        maintenanceDate: item.maintenanceDate
-          ? new Date(item.maintenanceDate).toISOString().split("T")[0]
-          : null,
-      }));
-      setTableRows(formattedData);
+      const response = await axios.get(`${apiUrl}/items/${selectedTable}`);
+      setTableRows(response);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -92,17 +83,17 @@ const Table = () => {
     }
     handleDelete();
   };
-  const changeDisplayedTable = () => {
-
+  const changeDisplayedTable = (e) => {
+    setSelectedTable(e.target.value);
   }
   return (
     <div style={{display:'flex', flexDirection: 'column', alignItems: 'center'}}>
       <div>
         <label style={{fontSize:"1.5rem"}}>View: </label>
-        <select onChange={changeDisplayedTable}>
-        <option>Laptops</option>
-        <option>Students</option>
-        <option>Supplies</option>
+        <select  onChange={changeDisplayedTable}>
+        <option value="Laptops">Laptops</option>
+        <option value="Students">Students</option>
+        <option value="Supplies">Supplies</option>
       </select>
       <button onClick={addNewRow} className="addNewButton">
         Add New
@@ -119,17 +110,33 @@ const Table = () => {
           addNewRow={addNewRow}
         />
       )}
-      <LaptopTable
-        tableRows={tableRows}
-        editMode={editMode}
-        selectedRow={selectedRow}
-        handleInputChange={handleInputChange}
-        confirmEdit={confirmEdit}
-        editRow={editRow}
-        deleteRow={deleteRow}
-        currentId={currentId}
-        setCurrentId={setCurrentId}
-      />
+      {selectedTable === "Laptops" ? 
+        <LaptopTable
+          tableRows={tableRows}
+          editMode={editMode}
+          selectedRow={selectedRow}
+          handleInputChange={handleInputChange}
+          confirmEdit={confirmEdit}
+          editRow={editRow}
+          deleteRow={deleteRow}
+          currentId={currentId}
+          setCurrentId={setCurrentId}
+        /> :
+        selectedTable === "Students" ? 
+        <StudentTable
+          tableRows={tableRows}
+          editMode={editMode}
+          selectedRow={selectedRow}
+          handleInputChange={handleInputChange}
+          confirmEdit={confirmEdit}
+          editRow={editRow}
+          deleteRow={deleteRow}
+          currentId={currentId}
+          setCurrentId={setCurrentId}
+        /> :
+        <div />
+      } 
+      
     </div>
   );
 };
