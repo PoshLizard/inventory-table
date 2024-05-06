@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Maintenance from "./Maintenance";
 import AddRowForm from "./AddRowForm";
-import Loan from "./Loan";
 import LaptopTable from "./LaptopTable";
 import InventorySearch from "./InventorySearch";
 const Table = () => {
@@ -94,15 +92,13 @@ const Table = () => {
     }
     handleDelete();
   };
-
   const changeDisplayedTable = () => {
 
   }
-
   return (
     <div style={{display:'flex', flexDirection: 'column', alignItems: 'center'}}>
       <div>
-        <label style={{fontSize:"1.2rem"}}>View: </label>
+        <label style={{fontSize:"1.5rem"}}>View: </label>
         <select onChange={changeDisplayedTable}>
         <option>Laptops</option>
         <option>Students</option>

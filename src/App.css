@@ -1,5 +1,5 @@
 @import url("https://use.typekit.net/ccg4ogq.css");
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap');
 :root {
   --code-blue: rgb(2, 53, 129);
   --code-orange: rgb(238, 163, 51);
@@ -14,10 +14,12 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'poppins'
+  font-family: 'Inter'
+  
 }
 
 body{
+  font-weight: light;
   background-color: var(--code-black);
   color: white;
 }
@@ -31,11 +33,11 @@ a{
 }
 
 select{
-  background-color: var(--code-black);
   font-size: 1.3rem;
-  color:white;
-  padding: 15px;
-  margin: 0 35px;
+  padding: 10px;
+  margin-right: 45px;
+  margin-left: 7px;
+  width: 200px;
 }
 option{
   padding: 20px;

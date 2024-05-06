@@ -4,8 +4,6 @@ import SideNav from '../components/SideNav';
 import { getAuth } from 'firebase/auth';
 import axios from 'axios';
 
-
-
 function ProfileInformation(){
 
     function getProfile(){

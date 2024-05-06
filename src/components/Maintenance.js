@@ -21,20 +21,6 @@ const Maintenance = ({id, viewMaintenance, tableRows}) => {
       ]);
     }, []);
 
-    const addNewMain = async(desc, date) => {}
-
-    const editMain = async() => {
-
-    }
-    const deleteMain = async() => {
-
-    }
-    const getMain = async() => {
-
-    }
-    const getAllMain = async() =>{
-
-    }
 
     const createNew = () => {
       setAddNewMode(!addNewMode);
