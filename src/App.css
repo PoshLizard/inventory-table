@@ -1,5 +1,5 @@
 @import url("https://use.typekit.net/ccg4ogq.css");
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap');
 :root {
   --code-blue: rgb(2, 53, 129);
   --code-orange: rgb(238, 163, 51);
@@ -14,10 +14,12 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'poppins'
+  font-family: 'Inter'
+  
 }
 
 body{
+  font-weight: light;
   background-color: var(--code-black);
   color: white;
 }
@@ -30,11 +32,21 @@ a{
   position: relative;
 }
 
+select{
+  font-size: 1.3rem;
+  padding: 10px;
+  margin-right: 45px;
+  margin-left: 7px;
+  width: 200px;
+}
+option{
+  padding: 20px;
+}
 
 a::before {
   content: '';
   position: absolute;
-  width: 55%;
+  width: 100%;
   height: 4px;
   border-radius: 4px;
   background-color: var(--code-orange);
@@ -67,11 +79,10 @@ input::placeholder {
   text-align: center;
   flex: 1;
   padding: 50px;
-  margin-top: 100px;
+  margin-top: 0px;
   display:flex;
   flex-direction: column;
   align-items: center;
-  
 }
 
 .header{
@@ -107,6 +118,7 @@ input::placeholder {
   display: flex;
   flex-direction: column;
   font-size: 2rem;
+  transition: width .5s ease;
 }
 .side-nav-links{
   padding: 30px;
@@ -123,25 +135,49 @@ input::placeholder {
   flex-direction: column;
   align-items: center;
 }
-.search-bar{
-  margin: 40px;
-}
-.search-bar input, .search-bar button{
-  font-size: 2rem;
-  margin: 10px;
-  padding: 10px;
-  border: 3px solid black;
-  border-radius: 8px;
-}
-.search-bar button{
-  font-size: 1.3rem;
+
+.side-nav-collapsed{
   padding: 15px;
+  background-color: var(--code-blue);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 70px;
+  font-size: 2rem;
+  left: -400px;
+  transition: width .5s ease;
+}
+
+.hamburger{
+  margin: 20px 0px;
+  z-index: 2;
+  width: 40px;
+  filter: invert(100%);
+}
+.hamburger:hover{
+  cursor: pointer;
+}
+.search-bar{
+  text-align: left;
+  margin:  0;
+}
+.search-bar input{
+  font-size: 1.2rem;
+  color:white;
+  padding:5px;
+  border: none;
+  border-bottom: 2px solid var(--code-orange);
+  background-color: var(--code-black);
+}
+.search-bar img{
+  filter: invert(100%);
+  width: 18px;
+  margin-left: -20px;
 }
 
 .search-bar input:focus{
   outline: none;
-  border: 3px solid var(--code-blue);
-  box-shadow: 0 0 20px var(--code-blue);
+  border-bottom: 3px solid white;
 }
 
 .search-bar button{
@@ -168,7 +204,8 @@ input::placeholder {
   border-radius: 15px;
   border: 2px solid rgba(255, 255, 255, 0.219);
   font-size: 1.2rem;
-  margin-bottom: 25px;
+  margin: 25px 0;
+
 }
 
 .addNewButton:hover{
@@ -216,7 +253,6 @@ input::placeholder {
 .newRowForm button{
   padding: 15px;
   color:white;
-  background-color: var(--code-black);
   color:white;
   border-radius: 15px;
   border: 2px solid white;
@@ -262,13 +298,19 @@ input::placeholder {
   font-size: 1.3rem;
   width: 100%;
   color:white;
-  border: 2px solid white;
-
+  border-collapse: collapse;
+  border: 3px solid white;
 }
 .inventory-table th, .inventory-table td{
-  width: 200px;
-  padding: 15px;
+  
+  padding: 25px 20px;
   background-color: var(--code-black);
+}
+.inventory-table td{
+  padding: 8px 20px;
+}
+.inventory-table thead{
+  border-bottom: 3px solid white;
 }
 .inventory-table button{
   padding: 9px 12px;
@@ -422,6 +464,39 @@ input::placeholder {
   color:black;
 }
 
+.secondary-button{
+  padding: 8px;
+  color: black !important;
+  background-color: var(--code-orange);
+  border-radius: 30px;
+  font-size: .8rem;
+  border: 1px solid black !important;
+  margin: 5px 3px;
+}
+
+.second-table tr{
+  width: 100%;
+  align-items: center;
+  margin: 20px;
+}
+.second-table tr td, .second-table th{
+  margin: 0 15px;
+  width: 190px;
+}
+
+.second-table tr input{
+  width: 150px;
+  font-size: 1rem;
+  padding: 10px;
+}
+
+.maintenanceDiv input{
+  width: 180px;
+  font-size: .9rem;
+  margin: 15px 15px;
+}
+
+
 
 
 @media screen and (max-width: 1800px){
@@ -433,7 +508,7 @@ input::placeholder {
     justify-content: space-between;
     align-items: center;
   }
-  .side-nav{
+  .side-nav, .side-nav-collapsed{
     display:none;
   }
   .logo{
