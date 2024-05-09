@@ -5,11 +5,12 @@ import hamburger from '../images/hamburger.png'
 import inventoryIcon from '../images/inventory.png'
 import dashboardIcon from '../images/dashboard.jpg'
 import userIcon from '../images/user-profile.png'
+import logoutIcon from '../images/logout.png'
 import { useAuth } from '../contexts/AuthContext'
 import { doSignOut } from '../auth'
 
 const SideNav = () => {
-  const [display, setDisplay] = useState(false);
+  const [display, setDisplay] = useState();
   const navigate = useNavigate();
   const { currentUser} = useAuth();
   const signout = async () => {
@@ -43,6 +44,7 @@ const SideNav = () => {
           <Link to={`/inventory`}><img className="hamburger" src={inventoryIcon} /></Link>
           <Link to={`/dashboard`}><img className="hamburger" src={dashboardIcon} /></Link>
           <Link to={`/profile`}><img className="hamburger" src={userIcon} /></Link>
+          <img className="hamburger" src={logoutIcon} onClick={signout}></img>
       </div>)
     }
     </div>

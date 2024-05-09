@@ -1,6 +1,7 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import Loan from './Loan';
 import Maintenance from './Maintenance';
+import EditForm from './EditForm';
 
 const LaptopTable = ({
     tableRows,
@@ -27,9 +28,24 @@ const LaptopTable = ({
     setCurrentId(id);
     setViewLoanMode(!viewLoanMode);
   };
+
+  const first = "assetTag";
+  const second = "serialNumber";
+  const third = "status";
+  const fourth = "brand";
+  const fifth = "model";
+  const sixth = "type";
+  const seventh = "color";
+  const eighth = "issuedTo";
+  const ninth = "grant";
+  const tenth = "charged"
+
+  useEffect(() => {
+  }, [])
+
   return (
     <div>
-        {viewMainMode && (
+      {viewMainMode && (
         <Maintenance
           tableRows={tableRows}
           viewMainMode={viewMainMode}
@@ -49,12 +65,16 @@ const LaptopTable = ({
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Description</th>
-                <th>Purchase Date</th>
-                <th>Grant Issuer</th>
-                <th>Asset #</th>
+                <th>Asset Tag</th>
                 <th>Serial #</th>
-                <th>Storage Location</th>
+                <th>Status</th>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Type</th>
+                <th>Color</th>
+                <th>Issued to</th>
+                <th>Grant</th>
+                <th>Charged/Updated</th>
                 <th>Maintenance</th>
                 <th>Loan</th>
                 <th>Actions</th>
@@ -63,70 +83,25 @@ const LaptopTable = ({
             <tbody>
             {tableRows.map((row) =>
                 editMode === true && selectedRow === row.id ? (
-                <tr className="editForm">
-                    <td>{row.id}</td>
-                    <td>
-                    <input
-                        onChange={(e) => handleInputChange('description', e.target.value)}
-                        defaultValue={row.description}
-                        placeholder="Description"
-                    />
-                    </td>
-                    <td>
-                    <input
-                        onChange={(e) => handleInputChange('purchaseDate', e.target.value)}
-                        type="date"
-                        defaultValue={row.purchaseDate}
-                    />
-                    </td>
-                    <td>
-                    <input
-                        onChange={(e) => handleInputChange('grantIssuer', e.target.value)}
-                        defaultValue={row.grantIssuer}
-                        placeholder="Grant Issuer"
-                    />
-                    </td>
-                    <td>
-                    <input
-                        onChange={(e) => handleInputChange('assetNumber', e.target.value)}
-                        defaultValue={row.assetNumber}
-                        placeholder="Asset #"
-                    />
-                    </td>
-                    <td>
-                    <input
-                        onChange={(e) => handleInputChange('serialNumber', e.target.value)}
-                        defaultValue={row.serialNumber}
-                        placeholder="Serial #"
-                    />
-                    </td>
-                    <td>
-                    <input
-                        onChange={(e) => handleInputChange('storageLocation', e.target.value)}
-                        defaultValue={row.storageLocation}
-                        placeholder="Storage Location"
-                    />
-                    </td> 
-                    <td>
-                    <button onClick={(e) => viewMaintenance(e.target.value)}>Maintenance</button>
-                    </td>
-                    <td>
-                    <button onClick={(e) => viewLoan(e.target.value)}>Loan</button>
-                    </td>
-                    <td>
-                    <button onClick={confirmEdit}>Confirm</button>
-                    </td>
-                </tr>
-                ) : (
-                
+                <EditForm 
+                  row={row}
+                  handleInputChange={handleInputChange}
+                  confirmEdit={confirmEdit}
+                  selectedTable="Laptops"
+                />
+                ) : ( 
                 <tr>
                     <td>{row.id}</td>
-                    <td>{row.description}</td>
-                    <td>{row.purchaseDate}</td>
-                    <td>{row.grantIssuer}</td>
-                    <td>{row.assetNumber}</td>
-                    <td>{row.serialNumber}</td>
-                    <td>{row.storageLocation}</td>
+                    <td>{row[first]}</td>
+                    <td>{row[second]}</td>
+                    <td>{row[third]}</td>
+                    <td>{row[fourth]}</td>
+                    <td>{row[fifth]}</td>
+                    <td>{row[sixth]}</td>
+                    <td>{row[seventh]}</td>
+                    <td>{row[eighth]}</td>
+                    <td>{row[ninth]}</td>
+                    <td>{row[tenth]}</td>
                     <td><button onClick={() => viewMaintenance(row.id)}>Maintenance</button></td>
                     <td><button onClick={() => viewLoan(row.id)}>Loan</button></td>
                     <td>

@@ -330,13 +330,14 @@ input::placeholder {
 }
 
 .editForm input{
-  width: 100%;
+  min-width: 80px;
+  max-width: 120px;
   background-color: var(--code-black);
   border: 1px solid white;
   border-radius: 8px;
   color:white;
-  padding: 12px;
-  font-size: 1.5rem;
+  padding: 5px;
+  font-size: 1.3rem;
   text-align: center;
 }
 
