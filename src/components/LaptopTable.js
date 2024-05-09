@@ -15,6 +15,20 @@ const LaptopTable = ({
     setCurrentId
 }
 ) => {
+
+  const [viewMainMode, setViewMainMode] = useState(false);
+  const [viewLoanMode, setViewLoanMode] = useState(false);
+
+  const viewMaintenance = (id) => {
+    setCurrentId(id);
+    setViewMainMode(!viewMainMode);
+  };
+
+  const viewLoan = (id) => {
+    setCurrentId(id);
+    setViewLoanMode(!viewLoanMode);
+  };
+
   const first = "assetTag";
   const second = "serialNumber";
   const third = "status";
@@ -24,12 +38,29 @@ const LaptopTable = ({
   const seventh = "color";
   const eighth = "issuedTo";
   const ninth = "grant";
+  const tenth = "charged"
 
   useEffect(() => {
   }, [])
 
   return (
     <div>
+      {viewMainMode && (
+        <Maintenance
+          tableRows={tableRows}
+          viewMainMode={viewMainMode}
+          id={currentId}
+          viewMaintenance={viewMaintenance}
+        />
+      )}
+      {viewLoanMode && (
+        <Loan
+          tableRows={tableRows}
+          viewLoanMode={viewLoanMode}
+          id={currentId}
+          viewLoan={viewLoan}
+        />
+      )}
         <table className="inventory-table">
             <thead>
             <tr>
@@ -44,6 +75,9 @@ const LaptopTable = ({
                 <th>Issued to</th>
                 <th>Grant</th>
                 <th>Charged/Updated</th>
+                <th>Maintenance</th>
+                <th>Loan</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -67,6 +101,9 @@ const LaptopTable = ({
                     <td>{row[seventh]}</td>
                     <td>{row[eighth]}</td>
                     <td>{row[ninth]}</td>
+                    <td>{row[tenth]}</td>
+                    <td><button onClick={() => viewMaintenance(row.id)}>Maintenance</button></td>
+                    <td><button onClick={() => viewLoan(row.id)}>Loan</button></td>
                     <td>
                     <button onClick={() => editRow(row.id)}>Edit</button>
                     <button onClick={() => deleteRow(row.id)}>Delete</button>

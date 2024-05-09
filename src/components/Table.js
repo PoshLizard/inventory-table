@@ -4,12 +4,14 @@ import AddRowForm from "./AddRowForm";
 import LaptopTable from "./LaptopTable";
 import StudentTable from "./StudentTable";
 import InventorySearch from "./InventorySearch";
+import SupplyTable from "./SupplyTable";
 
 const Table = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [editedRowValues, setEditedRowValues] = useState({});
   const [addRowMode, setAddRowMode] = useState(false);
   const [tableRows, setTableRows] = useState([]);
+  const [savedTableRows, setSavedTableRows] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [selectedRow, setSelectedRow] = useState(0);
   const [currentId, setCurrentId] = useState(0);
@@ -24,9 +26,16 @@ const Table = () => {
   }, [editMode]);
 
   useEffect(() => {
-    setTableRows([{id: '1', assetTag: '1', serialNumber: '1232', status: '1232', brand: '12323', model: "dfdf", type: 'dfd'}])
+    setTableRows([{id: '1', assetTag: '1', serialNumber: '1232', status: '1232', brand: '12323', model: "dfdf", type: 'dfd'},
+    {id: '2', assetTag: '1', serialNumber: '1232', status: '1232', brand: '12323', model: "dfdf", type: 'dfd'}
+    ])
+    setSavedTableRows([{id: '1', assetTag: '1', serialNumber: '1232', status: '1232', brand: '12323', model: "dfdf", type: 'dfd'},
+    {id: '2', assetTag: '1', serialNumber: '1232', status: '1232', brand: '12323', model: "dfdf", type: 'dfd'}
+    ])
     fetchData();
   }, []);
+
+
   const addNewRow = () => {
     setAddRowMode(!addRowMode);
   };
@@ -100,7 +109,7 @@ const Table = () => {
       </button>
       </div>
       <div style={{width: '100%', display:'flex', justifyContent:"space-between"}}>
-        <InventorySearch tableRows={tableRows} setTableRows={setTableRows} />
+        <InventorySearch tableRows={tableRows} setTableRows={setTableRows} selectedTable={selectedTable} savedTableRows={savedTableRows}/>
         <div></div>
       </div>
       {addRowMode && (
@@ -133,10 +142,19 @@ const Table = () => {
           deleteRow={deleteRow}
           currentId={currentId}
           setCurrentId={setCurrentId}
-        /> :
-        <div />
+        /> : 
+          <SupplyTable 
+            tableRows={tableRows}
+            editMode={editMode}
+            selectedRow={selectedRow}
+            handleInputChange={handleInputChange}
+            confirmEdit={confirmEdit}
+            editRow={editRow}
+            deleteRow={deleteRow}
+            currentId={currentId}
+            setCurrentId={setCurrentId}
+          />
       } 
-      
     </div>
   );
 };

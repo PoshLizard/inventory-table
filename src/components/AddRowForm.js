@@ -2,10 +2,18 @@ import React, {useState} from 'react'
 import axios from 'axios'
 
 
-const AddRowForm = ( { setTableRows, setAddRowMode, addNewRow}) => {
+const AddRowForm = ( { setTableRows, setAddRowMode, addNewRow, selectedTable}) => {
+
+  const tableFields = {
+    Laptops: ["assetTag", "serialNumber", "status", "brand", "model", "type", "color", "issuedTo", "grant", "charged"],
+    Students: ["badge", "studentName", "location", "notes"],
+    Supplies: ["sku" , "quantityInStock", "unit", "buildingLocation", "floor", "lockerArea", "reorderLevel", "reoderQuantity", "leadTimeForReorder", "vendor", "estimatedCost" ]
+  };
+
+    const fields = tableFields[selectedTable] || [];
 
     const apiUrl = process.env.REACT_APP_API_URL;
-        const [newRowValues, setNewRowValues] = useState({})
+      const [newRowValues, setNewRowValues] = useState({})
 
       const handleInputChange = (field, value) => {
         setNewRowValues((prev) => ({
@@ -37,33 +45,13 @@ const AddRowForm = ( { setTableRows, setAddRowMode, addNewRow}) => {
             <h1>Add New Entry</h1>
             <button onClick={addNewRow} className="addNewButton">Cancel</button>
             <div className="newRowFormContainer">
-            <div className="newRowFormValues">
-              <input onChange={(e) => handleInputChange('description', e.target.value)} placeholder="Description" required/>
-              <input onChange={(e) => handleInputChange('grantIssuer', e.target.value)} placeholder="Grant Issuer" required/>
-              <input onChange={(e) => handleInputChange('assetNumber', e.target.value)} placeholder="Asset #" type="number" required/>
-              
-            </div>
-            <div className="newRowFormValues">
-              <div>
-                <input onChange={(e) => handleInputChange('serialNumber', e.target.value)} placeholder="Serial #" type="number" required/>
-              </div>
-              <div>
-                <input
-                  onChange={(e) => handleInputChange('storageLocation', e.target.value)}
-                  placeholder="Storage Location"
-                  required
-                />
-              </div>
-              <div>
-                <label>Purchase Date: </label>
-                <input
-                  onChange={(e) => handleInputChange('purchaseDate', e.target.value)}
-                  type="date"
-                  placeholder="Purchase Date"
-                  required
-                />
-              </div>
-            </div>
+                {fields.map((field, index) => (
+                  <div>
+                  <label>{field}</label>
+                  <input onChange={(e) => handleInputChange(field, e.target.value)}>
+                  </input>
+                  </div>
+                )) }
             </div>
             <button className="addNewButton" type="submit">Add Item</button>
           </form>
