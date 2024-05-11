@@ -14,11 +14,13 @@ const EditForm = ({ row, handleInputChange, confirmEdit, selectedTable }) => {
       <td>{row.id}</td>
       {fields.map((field, index) => (
         <td key={index}>
+          {field === "maintenance" || field ==="loan" ? <div /> : 
           <input
             onChange={(e) => handleInputChange(field, e.target.value)}
             defaultValue={row[field]}
             placeholder={row[field]}
           />
+          }
         </td>
       ))}
       <td>

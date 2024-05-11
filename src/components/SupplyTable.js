@@ -31,6 +31,7 @@ const SupplyTable = ({
 
   return (
     <div>
+        
         <table className="inventory-table">
             <thead>
             <tr>
