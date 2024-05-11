@@ -22,6 +22,7 @@ const LaptopTable = ({
   const viewMaintenance = (id) => {
     setCurrentId(id);
     setViewMainMode(!viewMainMode);
+    console.log(viewMainMode);
   };
 
   const viewLoan = (id) => {
@@ -58,6 +59,7 @@ const LaptopTable = ({
           tableRows={tableRows}
           viewLoanMode={viewLoanMode}
           id={currentId}
+         
           viewLoan={viewLoan}
         />
       )}

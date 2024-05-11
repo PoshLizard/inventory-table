@@ -5,30 +5,37 @@ import axios from 'axios'
 const AddRowForm = ( { setTableRows, setAddRowMode, addNewRow, selectedTable}) => {
 
   const tableFields = {
-    Laptops: ["assetTag", "serialNumber", "status", "brand", "model", "type", "color", "issuedTo", "grant", "charged"],
+    Computers: ["assetTag", "serialNumber", "status", "brand", "model", "type", "color", "issuedTo", "grant", "charged"],
     Students: ["badge", "studentName", "location", "notes"],
     Supplies: ["sku" , "quantityInStock", "unit", "buildingLocation", "floor", "lockerArea", "reorderLevel", "reoderQuantity", "leadTimeForReorder", "vendor", "estimatedCost" ]
   };
 
-    const fields = tableFields[selectedTable] || [];
-
     const apiUrl = process.env.REACT_APP_API_URL;
-      const [newRowValues, setNewRowValues] = useState({})
+    const fields = tableFields[selectedTable] || [];
+    const [newRowValues, setNewRowValues] = useState([]);
 
-      const handleInputChange = (field, value) => {
-        setNewRowValues((prev) => ({
-          ...prev,
-          [field]: value,
+    const handleInputChange = (field, value) => {
+      setNewRowValues((prev) => ({
+        ...prev,
+        [field]: value,
         }));
       };
-
+        //remeber to move settablerows back into try block
       const handleCreate = (e) => {
         e.preventDefault();
         const newRow = { ...newRowValues };
         async function create() {
           try{
-            await axios.post(`${apiUrl}/items`, newRow);    
-            const response = await axios.get(`${apiUrl}/items`);
+            if(selectedTable === "Computers") {
+              console.log('1');
+              await axios.post(`${apiUrl}/computers`, newRow);  
+              console.log('2');
+            } else if(selectedTable === "Students"){
+              // await axios.post(`${apiUrl}/`, newRow);
+            } else {
+              await axios.post(`${apiUrl}/supplies`, newRow);
+            }
+            const response = await axios.get(`${apiUrl}/${selectedTable.toLowerCase()}`);
             const id= response.data[response.data.length -1].id;
             newRow.id = id;
             setTableRows((prevRows) => [...prevRows, newRow]);
@@ -39,6 +46,7 @@ const AddRowForm = ( { setTableRows, setAddRowMode, addNewRow, selectedTable}) =
         create();
         setAddRowMode(false);
       };
+
   return (
     <div className="modal-background">
           <form className="newRowForm" onSubmit={handleCreate}>
@@ -46,10 +54,10 @@ const AddRowForm = ( { setTableRows, setAddRowMode, addNewRow, selectedTable}) =
             <button onClick={addNewRow} className="addNewButton">Cancel</button>
             <div className="newRowFormContainer">
                 {fields.map((field, index) => (
-                  <div>
-                  <label>{field}</label>
-                  <input onChange={(e) => handleInputChange(field, e.target.value)}>
-                  </input>
+                  <div key={index}>
+                    <label style={{textTransform: 'capitalize'}}>{field}: </label>
+                    <input onChange={(e) => handleInputChange(field, e.target.value)}>
+                    </input>
                   </div>
                 )) }
             </div>
