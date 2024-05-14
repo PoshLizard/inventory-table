@@ -22,32 +22,32 @@ ChartJS.register(
 )
 
 const Dashboard = () => {
-    const data = {
-        labels: ['Mon', 'Tue', 'Wed'],
-        datasets: [
-            {
-                label: 'Stonks',
-                data: [6, 3, 9],
-                backgroundColor: 'aqua',
-                borderColor: 'black',
-                pointBorderColor: 'aqua',
-                fill: true,
-                tension: 0.4
-            }
-        ]
-    }
+    // const data = {
+    //     labels: ['Mon', 'Tue', 'Wed'],
+    //     datasets: [
+    //         {
+    //             label: 'Stonks',
+    //             data: [6, 3, 9],
+    //             backgroundColor: 'aqua',
+    //             borderColor: 'black',
+    //             pointBorderColor: 'aqua',
+    //             fill: true,
+    //             tension: 0.4
+    //         }
+    //     ]
+    // }
 
-    const options = {
-        plugins: {
-            legend: true
-        },
-        scales: {
-            y: {
-                min: 3,
-                max: 6
-            }
-        }
-    }
+    // const options = {
+    //     plugins: {
+    //         legend: true
+    //     },
+    //     scales: {
+    //         y: {
+    //             min: 3,
+    //             max: 6
+    //         }
+    //     }
+    // }
 
     return (
         <div className='dashboard'>
@@ -55,23 +55,17 @@ const Dashboard = () => {
             <div className='container'>
                 <SideNav />
                 <div className='content'>
-                    <h1 style={{ fontSize: '4rem', marginTop: '30px' }}>DASHBOARD</h1>
-                    {/* TODO: Pull data from the Inventory */}
-                    <div style={
-                        {
-                            width: '600px',
-                            height: '300px',
-                            padding: '20px'
-                        }
-                    }>
-                        <Line
-                            data={data}
-                            options={options}
-                        ></Line>
+                            <div>
+                        <p>Laptops</p>
+                        <p>Badges</p>
+                        <p>Keys</p>
+                        <p>Supplies</p>
+                         </div>
                 </div>
             </div>
         </div>
-        </div >
+        
+        
     )
 }
 
