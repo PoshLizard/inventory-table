@@ -27,7 +27,8 @@ const Table = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [selectedTable]);
+
 
   const addNewRow = () => {
     setAddRowMode(!addRowMode);
@@ -49,23 +50,21 @@ const Table = () => {
       try {
         const newRow = updatedRows.find((row) => row.id === selectedRow);
         await axios.put(`${apiUrl}/${selectedTable.toLowerCase()}/${selectedRow}`, newRow);
+        fetchData();
       } catch (error) {
         console.error("something went wrong could not update");
       }
     }
     //temp
-    setTableRows(updatedRows);
+    
     update();
     setEditMode(false);
   };
   const fetchData = async () => {
     try {
-      
-      console.log(selectedTable);
       const response = await axios.get(`${apiUrl}/${selectedTable.toLowerCase()}`);
-      console.log(response);
-      setTableRows(response.data);
-      console.log(tableRows);
+      setTableRows(response.data ? response.data : []);
+      setSavedTableRows(response.data ? response.data : []);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -77,11 +76,10 @@ const Table = () => {
   };
   //deleting
   const deleteRow = (id) => {
-    const newRows = tableRows.filter((tableRow) => tableRow.id !== id);
     async function handleDelete() {
       try {
         await axios.delete(`${apiUrl}/${selectedTable.toLowerCase()}/${id}`);
-        setTableRows(newRows);
+        fetchData();
       } catch (error) {
         console.error("something went wrong could not delete");
       }
@@ -90,6 +88,7 @@ const Table = () => {
   };
   const changeDisplayedTable = (e) => {
     setSelectedTable(e.target.value);
+    
   }
   return (
     <div style={{display:'flex', flexDirection: 'column', alignItems: 'center'}}>
@@ -110,6 +109,7 @@ const Table = () => {
       </div>
       {addRowMode && (
         <AddRowForm
+          fetchData={fetchData}
           setTableRows={setTableRows}
           setAddRowMode={setAddRowMode}
           addNewRow={addNewRow}
