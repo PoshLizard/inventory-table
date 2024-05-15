@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import axios from 'axios'
 
 
-const AddRowForm = ( { setTableRows, setAddRowMode, addNewRow, selectedTable}) => {
+const AddRowForm = ( { fetchData, setAddRowMode, addNewRow, selectedTable}) => {
 
   const tableFields = {
     Computers: ["assetTag", "serialNumber", "status", "brand", "model", "type", "color", "issuedTo", "grant", "charged"],
@@ -38,7 +38,7 @@ const AddRowForm = ( { setTableRows, setAddRowMode, addNewRow, selectedTable}) =
             const response = await axios.get(`${apiUrl}/${selectedTable.toLowerCase()}`);
             const id= response.data[response.data.length -1].id;
             newRow.id = id;
-            setTableRows((prevRows) => [...prevRows, newRow]);
+            fetchData();
           }catch(error){
               console.error('something went wrong could not create');
           }

@@ -20,33 +20,47 @@ const Maintenance = ({id, viewMaintenance, tableRows}) => {
     //placehodler
 
     useEffect(() => {
-      setMaintenanceRows([
-        { id: '1', description: 'Laptop', date: new Date().toISOString().split('T')[0] },
-        { id: '2', description: 'Printer', date: new Date().toISOString().split('T')[0] },
-        { id: '3', description: 'Monitor', date: new Date().toISOString().split('T')[0] }
-      ]);
+      fetchData();
     }, []);
 
+    async function fetchData() {
+      try {
+        const response = await axios.get(`${apiUrl}/maintenances`);
+        if (response && response.data) {
+          const maintenanceRowsWithIsoDates = response.data.map(maintenance => ({
+            ...maintenance,
+            date: new Date(maintenance.date).toISOString().split('T')[0]
+          }));
+          setMaintenanceRows(maintenanceRowsWithIsoDates);
+        } else {
+          setMaintenanceRows([]);
+        }
+      } catch (error) {
+        console.error('Could not retrieve maintenances', error);
+      }
+    }
 
     const createNew = () => {
       setAddNewMode(!addNewMode);
     }
 
+    async function create(newRow) {
+      try{
+        await axios.post(`${apiUrl}/maintenances`, newRow); 
+        const response = await axios.get(`${apiUrl}/maintenances`); 
+        const id= response.data[response.data.length -1].id;
+        console.log(id);
+        newRow.id = id;
+        setMaintenanceRows((prevMaintenanceRows) => [...prevMaintenanceRows, newRow]);
+      } catch(error) {
+        console.error('could not generate new maintenance')
+      }  
+    }
+
     const handleSubmit = () => {
       const formattedDate = new Date(dateInput).toISOString().split('T')[0];
-      const newRow = {description: descriptionInput, date: formattedDate}
-      async function create() {
-        try{
-          await axios.post(`${apiUrl}/${id}/maintenances`, newRow); 
-          const response = await axios.get(`${apiUrl}/${id}/maintenances`);
-          const id= response.data[response.data.length -1].id;
-          newRow.id = id;
-        } catch(error) {
-          console.error('could not generate new maintenance')
-        }  
-      }
-      create();
-      setMaintenanceRows((prevMaintenanceRows) => [...prevMaintenanceRows, newRow]);
+      const newRow = { item_id: id, description: descriptionInput, date: formattedDate}
+      create(newRow);
     }
 
     const handleEdit = (id) => {
@@ -56,7 +70,6 @@ const Maintenance = ({id, viewMaintenance, tableRows}) => {
 
     //date decrease by 1?
     const handleEditSubmit = (mainId) => {
-      console.log(dateInput);
       const formattedDate = new Date(editDateInput).toISOString().split('T')[0];
       const updatedRows = maintenanceRows.map((row) => {
         const desc = editDescriptionInput === "" ? row.description : editDescriptionInput;
@@ -65,19 +78,27 @@ const Maintenance = ({id, viewMaintenance, tableRows}) => {
       const newRow = updatedRows.find((row) => row.id === selectedRow);
       async function edit() {
         try{
-          await axios.put(`${apiUrl}/v1/${id}/maintenances/${mainId}`, newRow); 
+          await axios.put(`${apiUrl}/maintenances/${mainId}`, newRow); 
+          setMaintenanceRows(updatedRows);
+          setEditDescriptionInput('');
+          handleEdit(mainId);
         } catch(error) {
           console.error('could not edit maintenance')
         } 
         }
         edit();
-        setMaintenanceRows(updatedRows);
-        setEditDescriptionInput('');
-        handleEdit(mainId);
       }
 
     const handleDelete = (id) => {
-
+        async function deleteMain() {
+          try{
+            await axios.delete(`${apiUrl}/maintenances/${id}`)
+            fetchData();
+          } catch(error) {
+            console.error("could not delete maintenance");
+          }
+        }
+      deleteMain();
     }
 
   return (
@@ -107,7 +128,6 @@ const Maintenance = ({id, viewMaintenance, tableRows}) => {
                       <td><input type="text" defaultValue={row.description} onChange={(e) => setEditDescriptionInput(e.target.value)}></input></td>
                       <td><input type="date" defaultValue={row.date} onChange={(e) => setEditDateInput(e.target.value)}></input></td>
                       <td><button className="secondary-button" onClick={() => handleEditSubmit(row.id)}>Confirm</button></td>
-                      
                     </tr>
                   ) : (
                     <tr>
