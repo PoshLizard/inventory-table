@@ -1,6 +1,6 @@
 @import url("https://use.typekit.net/ccg4ogq.css");
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap');
-
+@import url("tabulator-tables");
 :root {
   --code-blue: rgb(2, 53, 129);
   --code-orange: rgb(238, 163, 51);
@@ -512,7 +512,11 @@ input::placeholder {
   margin: 15px 15px;
 }
 
-
+.dashboardHeader *{
+  display: inline-block;
+  float: left;
+  margin-left: 10px;
+}
 
 
 @media screen and (max-width: 1800px){
