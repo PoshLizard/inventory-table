@@ -1,5 +1,6 @@
 @import url("https://use.typekit.net/ccg4ogq.css");
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap');
+
 :root {
   --code-blue: rgb(2, 53, 129);
   --code-orange: rgb(238, 163, 51);
@@ -147,6 +148,8 @@ input::placeholder {
   left: -400px;
   transition: width .5s ease;
 }
+
+
 
 .hamburger{
   margin: 20px 0px;
