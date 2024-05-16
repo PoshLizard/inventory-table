@@ -101,6 +101,7 @@ input::placeholder {
   padding: 5px;
   height: 40px;
   width: 40px;
+  cursor: pointer;
 }
 
 #profileHeader { 
@@ -195,6 +196,13 @@ input::placeholder {
   padding: 10px;
   color: orange;
   font-size: 15px;
+  color: black;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.saveButton {
+  
 }
 
 .addNewButton{
@@ -422,18 +430,34 @@ input::placeholder {
 }
 
 .profileInfo{
-  width: calc(200px - 10vw);
+  
   display: inline-block;
   border: 2px solid rgb(145, 136, 136);
-  background-color: gray;
-  width: 80%;
-  margin: 300px;
+  background-color: #2E4C9A;
+  border-radius: 5px;
+  width: 50%;
+  margin: auto;
+  
   z-index: 1;
 }
 
-.profileFields *{
-  display :block;
-    margin: 10px;
+.profileFields {
+ 
+}
+
+.profileFieldBox {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+  padding: 8px;
+}
+
+.profileHeaderBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px;
 }
 
 .error-msg{
