@@ -120,6 +120,11 @@ const Maintenance = ({id, viewMaintenance, tableRows}) => {
               </div>
             )}
              <table className="second-table">
+              <thead>
+                <th>ID </th>
+                <th>Description</th>
+                <th>Date</th>
+              </thead>
               <tbody>
                 {maintenanceRows.map((row) => (
                   editMode && row.id == selectedRow ? (

@@ -234,11 +234,11 @@ input::placeholder {
 
 .newRowForm{
   display:flex;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   flex-direction:column;
   align-items: center;
   background-color: var(--code-black);
-  padding: 80px;
+  padding: 50px;
   border-radius: 35px;
   min-height: 20%;
   max-height: 80%;
@@ -254,14 +254,15 @@ input::placeholder {
   margin-bottom: 30px;
 }
 .newRowForm input{
-  padding: 15px;
+  padding: 12px;
   color:white;
   background-color: rgb(41, 41, 41);
   border: 2px solid white;
   border-radius: 15px;
   margin: 20px 30px;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
+
 .newRowForm button{
   padding: 15px;
   color:white;
@@ -269,7 +270,7 @@ input::placeholder {
   border-radius: 15px;
   border: 2px solid white;
   transition: .1s ease-in;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 }
 
 .newRowForm button:hover{
@@ -341,13 +342,13 @@ input::placeholder {
 
 .editForm input{
   min-width: 80px;
-  max-width: 120px;
+  max-width: 100px;
   background-color: var(--code-black);
   border: 1px solid white;
   border-radius: 8px;
   color:white;
   padding: 5px;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   text-align: center;
 }
 
@@ -357,8 +358,14 @@ input::placeholder {
   color:white;
 }
 
-.editForm select option{
-  font-size: 1.3rem;
+.editForm select{
+  font-size: 1.1rem;
+  padding: 5px;
+  width: 80px;
+}
+
+.editForm td{
+  padding: 0;
 }
 
 .login-page{
@@ -489,7 +496,9 @@ input::placeholder {
   cursor: pointer;
   background-color: #d5a000a7;
 }
-
+.second-table{
+  margin-top: 50px;
+}
 .second-table tr{
   width: 100%;
   align-items: center;
@@ -512,11 +521,36 @@ input::placeholder {
   margin: 15px 15px;
 }
 
+
+.modal-content{
+  width: 800px;
+  background-color: var(--code-black);
+  border-radius: 30px;
+  padding: 100px;
+  
+}
+.modal-actions{
+  display:flex;
+  width: 100%;
+  justify-content: space-evenly;
+  flex-direction: column;
+}
+
+.loanAddForm{
+  font-size: 1.1rem;
+}
+.loanAddForm input{
+  font-size: 1.1rem;
+  padding: 12px;
+}
+
+=======
 .dashboardHeader *{
   display: inline-block;
   float: left;
   margin-left: 10px;
 }
+
 
 
 @media screen and (max-width: 1800px){

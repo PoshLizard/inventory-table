@@ -12,7 +12,8 @@ const LaptopTable = ({
     editRow,
     deleteRow,
     currentId,
-    setCurrentId
+    setCurrentId,
+    fetchData
 }
 ) => {
 
@@ -38,8 +39,8 @@ const LaptopTable = ({
   const sixth = "type";
   const seventh = "color";
   const eighth = "issuedTo";
-  const ninth = "grant";
-  const tenth = "charged"
+  const ninth = "grantType";
+  const tenth = "chargedUpdated"
 
   useEffect(() => {
   }, [])
@@ -59,8 +60,8 @@ const LaptopTable = ({
           tableRows={tableRows}
           viewLoanMode={viewLoanMode}
           id={currentId}
-         
           viewLoan={viewLoan}
+          fetchDataTable={fetchData}
         />
       )}
         <table className="inventory-table">
