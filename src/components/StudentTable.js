@@ -14,7 +14,7 @@ const StudentTable = ({
 }
 ) => {
 
-  const first = "badge"
+  const first = "badgeName"
   const second = "studentName"
   const third = "location"
   const fourth = "notes"

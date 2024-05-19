@@ -5,7 +5,7 @@ import LaptopTable from "./LaptopTable";
 import StudentTable from "./StudentTable";
 import InventorySearch from "./InventorySearch";
 import SupplyTable from "./SupplyTable";
-
+import ConfirmDelete from "./ConfirmDelete";
 const Table = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [editedRowValues, setEditedRowValues] = useState({});
@@ -16,6 +16,9 @@ const Table = () => {
   const [selectedRow, setSelectedRow] = useState(0);
   const [currentId, setCurrentId] = useState(0);
   const [selectedTable, setSelectedTable] = useState("Computers");
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleteYes, setDeleteYes] = useState(false);
+  const [rowToDelete, setRowToDelete] = useState(null);
   const currentDate = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
@@ -29,6 +32,14 @@ const Table = () => {
     fetchData();
   }, [selectedTable]);
 
+  useEffect(() => {
+    if (deleteYes === true && rowToDelete !== null) {
+      handleDelete(rowToDelete);
+      setConfirmDelete(false);
+      setDeleteYes(false);
+      console.log(deleteYes);
+    }
+  }, [deleteYes, rowToDelete]);
 
   const addNewRow = () => {
     setAddRowMode(!addRowMode);
@@ -55,8 +66,6 @@ const Table = () => {
         console.error("something went wrong could not update");
       }
     }
-    //temp
-    
     update();
     setEditMode(false);
   };
@@ -76,22 +85,26 @@ const Table = () => {
   };
   //deleting
   const deleteRow = (id) => {
-    async function handleDelete() {
-      try {
-        await axios.delete(`${apiUrl}/${selectedTable.toLowerCase()}/${id}`);
-        fetchData();
-      } catch (error) {
-        console.error("something went wrong could not delete");
-      }
-    }
-    handleDelete();
+    setRowToDelete(id); 
+    setConfirmDelete(true); 
   };
+
+  async function handleDelete(id) {
+    try {
+      await axios.delete(`${apiUrl}/${selectedTable.toLowerCase()}/${id}`);
+      fetchData();
+    } catch (error) {
+      console.error("something went wrong could not delete");
+    }
+  }
+
   const changeDisplayedTable = (e) => {
     setSelectedTable(e.target.value);
-    
   }
   return (
+
     <div style={{display:'flex', flexDirection: 'column', alignItems: 'center'}}>
+      {confirmDelete && <ConfirmDelete setDeleteYes={setDeleteYes} setConfirmDelete={setConfirmDelete} />}
       <div>
         <label style={{fontSize:"1.5rem"}}>View: </label>
         <select onChange={changeDisplayedTable}>
@@ -127,6 +140,7 @@ const Table = () => {
           deleteRow={deleteRow}
           currentId={currentId}
           setCurrentId={setCurrentId}
+          fetchData={fetchData}
         /> :
         selectedTable === "Students" ? 
         <StudentTable
