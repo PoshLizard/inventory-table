@@ -1,6 +1,6 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap');
 @import url("https://use.typekit.net/ccg4ogq.css");
+@import url("tabulator-tables");
 :root {
   --code-blue: #243e90;
   --code-orange: #f47d26;
@@ -541,6 +541,13 @@ input::placeholder {
 .loanAddForm input{
   font-size: 1.1rem;
   padding: 12px;
+}
+
+
+.dashboardHeader *{
+  display: inline-block;
+  float: left;
+  margin-left: 10px;
 }
 
 @media screen and (max-width: 1800px){
