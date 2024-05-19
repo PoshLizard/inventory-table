@@ -150,6 +150,8 @@ input::placeholder {
   transition: width .5s ease;
 }
 
+
+
 .hamburger{
   margin: 20px 0px;
   z-index: 2;
@@ -517,6 +519,7 @@ input::placeholder {
   font-size: .9rem;
   margin: 15px 15px;
 }
+
 
 .modal-content{
   width: 800px;
