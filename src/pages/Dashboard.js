@@ -24,7 +24,7 @@ ChartJS.register(
 
 const Dashboard = () => {
 
-    // const selected  = [selected,setSelected] = useState("");
+    const [view,setView] = useState("laptops");
 
     // const data = {
     //     labels: ['Mon', 'Tue', 'Wed'],
@@ -53,20 +53,46 @@ const Dashboard = () => {
     //     }
     // }
 
-    const columns = [
-        { title: "Name", field: "name", width: 150 },
-        { title: "Age", field: "age", hozAlign: "left", formatter: "progress" },
-        { title: "Favourite Color", field: "col" },
-        { title: "Date Of Birth", field: "dob", hozAlign: "center" },
-        { title: "Rating", field: "rating", hozAlign: "center", formatter: "star" },
-        { title: "Passed?", field: "passed", hozAlign: "center", formatter: "tickCross" }
+
+    function changeView(view){
+        setView(view);
+    }
+
+
+    const laptopLoanColumns = [
+        { title: "Type", field: "type", width: 150 },
+        { title: "To", field: "name", hozAlign: "left"},
+        { title: "Date Passed", field: "dob", hozAlign: "center" },
       ];
-      var data = [
-        {id:1, name:"Oli Bob", age:"12", col:"red", dob:""},
-        {id:2, name:"Mary May", age:"1", col:"blue", dob:"14/05/1982"},
-        {id:3, name:"Christine Lobowski", age:"42", col:"green", dob:"22/05/1982"},
-        {id:4, name:"Brendon Philips", age:"125", col:"orange", dob:"01/08/1980"},
-        {id:5, name:"Margret Marmajuke", age:"16", col:"yellow", dob:"31/01/1999"},
+
+      const laptopPastDueColumns = [
+        { title: "Type", field: "type", width: 150 },
+        { title: "To", field: "name", hozAlign: "left"},
+        { title: "Days Late", field: "number", hozAlign: "center" },
+      ];
+      
+      const badgeColumns = [
+        { title: "Badge Name", field: "type", width: 150 },
+        { title: "Name", field: "name", hozAlign: "left"},
+        { title: "Location", field: "location", hozAlign: "center" },
+      ];
+
+      const keyColumns = [
+        { title: "Name", field: "name", width: 150 },
+        { title: "725", field: "room", hozAlign: "center", formatter: "tickCross"},
+        { title: "728", field: "roomtwo", hozAlign: "center", formatter: "tickCross"},
+        { title: "REST", field: "rest", hozAlign: "center", formatter: "tickCross"},
+      ];
+
+      const supplyColumns = [
+        { title: "Quantity", field: "quantity", width: 150 },
+        { title: "Unit", field: "unit", hozAlign: "center",},
+        { title: "Building Location", field: "location", hozAlign: "center"}, 
+        { title: "Area", field: "area", hozAlign: "center"},
+        { title: "Reorder Level", field: "reorderLevel", hozAlign: "center"},
+        { title: "Reorder Quantity", field: "reorderQuantity", hozAlign: "center"},
+        { title: "Vendor", field: "vendor", hozAlign: "center"},
+        { title: "Cost", field: "cost", hozAlign: "center"},
       ];
     
 
@@ -77,18 +103,73 @@ const Dashboard = () => {
                 <SideNav />      
                 <div className='content'>
                         <div className='dashboardHeader'>
-                            <p id='laptopDashboard'>Laptops</p>
-                            <p id='badgesDashboard'>Badges</p>
-                            <p id='keysDashboard'>Keys</p>
-                            <p id='suppliesDashboard'>Supplies</p>
+                            <p id='laptopDashboard'onClick={() => setView("laptops")}>Laptops</p>
+                            <p id='badgesDashboard' onClick={() => setView("badges")}>Badges</p>
+                            <p id='keysDashboard' onClick={() => setView("keys")}>Keys</p>
+                            <p id='suppliesDashboard' onClick={() => setView("supplies")}>Supplies</p>
                         </div>
 
-                        <ReactTabulator
-                        data={data}
-                        columns={columns}
-                        layout={"fitData"}
-                        />
+                    {view == "laptops" && (
+                        <>
+                            <h1><u>Laptops</u></h1>
+                            <h1>3</h1>
+                            <p>Current Loans</p>
+                            <h1>All Loans</h1>
+                                <ReactTabulator
+                            
+                                columns={laptopLoanColumns}
+                                layout={"fitData"}
+                                />
+                            <h1>Past Due</h1>
+                            <ReactTabulator
+                            
+                            columns={laptopPastDueColumns}
+                            layout={"fitData"}
+                            />
+
+                        </>
+                    )}
+
+                    {view == "badges" && (
+                        <>
+                            <h1><u>Badges</u></h1>
+                                <ReactTabulator
+                            
+                                columns={badgeColumns}
+                                layout={"fitData"}
+                                />
+                            
+
+                        </>
+                    )}
+
+                    {view == "keys" && (
+                        <>
+                            <h1><u>Keys</u></h1>
+                                <ReactTabulator
+                            
+                                columns={keyColumns}
+                                layout={"fitData"}
+                                />
+                            
+
+                        </>
+                    )}
+
+                    {view == "supplies" && (
+                        <>
+                            <h1><u>Supplies</u></h1>
+                                <ReactTabulator
+                            
+                                columns={supplyColumns}
+                                layout={"fitData"}
+                                />
+                            
+
+                        </>
+                    )}
                         
+                    
                 </div>
             </div>
         </div>
