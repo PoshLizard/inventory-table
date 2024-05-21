@@ -68,8 +68,18 @@ const AddRowForm = ( { fetchData, setAddRowMode, addNewRow, selectedTable}) => {
                           <option value="Yes">Yes</option>
                           <option value="No">No</option>
                         </select>
-                      ) : (
-                        <input onChange={(e) => handleInputChange(field, e.target.value)} />
+                      ) : 
+                      field ==="notes" ? 
+                      <textarea onChange={(e) => handleInputChange(field, e.target.value)} className="notesText"  rows="4" cols="30" placeholder="Enter your notes..."></textarea> :
+                      (
+                        <input type={field === "quantityInStock" || 
+                          field === "reorderLevel" || 
+                          field === "reorderQuantity" || 
+                          field ==="leadTimeForReorder" || 
+                          field ==="estimatedCost" ? 'number' : 'text'}
+                          maxLength={100}
+                          onChange={(e) => handleInputChange(field, e.target.value)} 
+                        />
                       )}
                   </div>
                 )) }

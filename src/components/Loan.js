@@ -46,7 +46,6 @@ const Loan = ({id ,viewLoan, tableRows, fetchDataTable}) => {
     async function fetchData() {
       try {
         const response = await axios.get(`${apiUrl}/loans`);
-        console.log(response.data);
         if(Array.isArray(response.data) && response.data.length === 0){
           setLoanRows([]);
           updateTable(false);
@@ -82,7 +81,9 @@ const Loan = ({id ,viewLoan, tableRows, fetchDataTable}) => {
     
     const handleSubmit = (e) => {  
       e.preventDefault();
-      const newRow = { name: nameInput, startDate: new Date(startInput).toISOString().split('T')[0], endDate: endInput !== "" ? new Date(endInput).toISOString().split('T')[0] : ""}
+      console.log(id);
+      const newRow = { item_id: id, name: nameInput, startDate: new Date(startInput).toISOString().split('T')[0], endDate: endInput !== "" ? new Date(endInput).toISOString().split('T')[0] : ""}
+      console.log(newRow);
       create(newRow);
     }
 

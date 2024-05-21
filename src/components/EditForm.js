@@ -20,10 +20,13 @@ const EditForm = ({ row, handleInputChange, confirmEdit, selectedTable }) => {
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
               </select> ) : 
+              field ==="notes" ? 
+              <textarea defaultValue={row[field]} onChange={(e) => handleInputChange(field, e.target.value)} className="notesText"  rows="4" cols="30" placeholder="Enter your notes..."></textarea> :
               <input
                 onChange={(e) => handleInputChange(field, e.target.value)}
                 defaultValue={row[field]}
                 placeholder={row[field]}
+                maxLength={100}
               />
           }
         </td>

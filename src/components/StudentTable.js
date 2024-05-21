@@ -46,8 +46,12 @@ const StudentTable = ({
                     <td>{row.id}</td>
                     <td>{row[first]}</td>
                     <td>{row[second]}</td>
-                    <td>{row[third]}</td>
-                    <td>{row[fourth]}</td>
+                    <td >{row[third]}</td>
+                    <td className="notes-cell">
+                      <div className="notes-content">
+                        {row.notes}
+                      </div>
+                    </td>
                     <td>
                     <button onClick={() => editRow(row.id)}>Edit</button>
                     <button onClick={() => deleteRow(row.id)}>Delete</button>

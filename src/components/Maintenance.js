@@ -49,7 +49,7 @@ const Maintenance = ({id, viewMaintenance, tableRows}) => {
         await axios.post(`${apiUrl}/maintenances`, newRow); 
         const response = await axios.get(`${apiUrl}/maintenances`); 
         const id= response.data[response.data.length -1].id;
-        console.log(id);
+      
         newRow.id = id;
         setMaintenanceRows((prevMaintenanceRows) => [...prevMaintenanceRows, newRow]);
       } catch(error) {

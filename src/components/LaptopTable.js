@@ -40,7 +40,7 @@ const LaptopTable = ({
   const seventh = "color";
   const eighth = "issuedTo";
   const ninth = "grantType";
-  const tenth = "chargedUpdated"
+  const tenth = "chargedUpdated";
 
   useEffect(() => {
   }, [])
