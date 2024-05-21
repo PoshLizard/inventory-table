@@ -5,7 +5,7 @@ import LaptopTable from "./LaptopTable";
 import StudentTable from "./StudentTable";
 import InventorySearch from "./InventorySearch";
 import SupplyTable from "./SupplyTable";
-
+import ConfirmDelete from "./ConfirmDelete";
 const Table = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [editedRowValues, setEditedRowValues] = useState({});
@@ -15,7 +15,10 @@ const Table = () => {
   const [editMode, setEditMode] = useState(false);
   const [selectedRow, setSelectedRow] = useState(0);
   const [currentId, setCurrentId] = useState(0);
-  const [selectedTable, setSelectedTable] = useState("Laptops");
+  const [selectedTable, setSelectedTable] = useState("Computers");
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleteYes, setDeleteYes] = useState(false);
+  const [rowToDelete, setRowToDelete] = useState(null);
   const currentDate = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
@@ -26,15 +29,17 @@ const Table = () => {
   }, [editMode]);
 
   useEffect(() => {
-    setTableRows([{id: '1', assetTag: '1', serialNumber: '1232', status: '1232', brand: '12323', model: "dfdf", type: 'dfd'},
-    {id: '2', assetTag: '1', serialNumber: '1232', status: '1232', brand: '12323', model: "dfdf", type: 'dfd'}
-    ])
-    setSavedTableRows([{id: '1', assetTag: '1', serialNumber: '1232', status: '1232', brand: '12323', model: "dfdf", type: 'dfd'},
-    {id: '2', assetTag: '1', serialNumber: '1232', status: '1232', brand: '12323', model: "dfdf", type: 'dfd'}
-    ])
     fetchData();
-  }, []);
+  }, [selectedTable]);
 
+  useEffect(() => {
+    if (deleteYes === true && rowToDelete !== null) {
+      handleDelete(rowToDelete);
+      setConfirmDelete(false);
+      setDeleteYes(false);
+      console.log(deleteYes);
+    }
+  }, [deleteYes, rowToDelete]);
 
   const addNewRow = () => {
     setAddRowMode(!addRowMode);
@@ -55,21 +60,20 @@ const Table = () => {
     async function update() {
       try {
         const newRow = updatedRows.find((row) => row.id === selectedRow);
-        await axios.put(`${apiUrl}/items/${selectedRow}`, newRow);
-        
+        await axios.put(`${apiUrl}/${selectedTable.toLowerCase()}/${selectedRow}`, newRow);
+        fetchData();
       } catch (error) {
         console.error("something went wrong could not update");
       }
     }
-    //temp
-    setTableRows(updatedRows);
     update();
     setEditMode(false);
   };
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${apiUrl}/items/${selectedTable}`);
-      setTableRows(response);
+      const response = await axios.get(`${apiUrl}/${selectedTable.toLowerCase()}`);
+      setTableRows(response.data ? response.data : []);
+      setSavedTableRows(response.data ? response.data : []);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -81,26 +85,30 @@ const Table = () => {
   };
   //deleting
   const deleteRow = (id) => {
-    const newRows = tableRows.filter((tableRow) => tableRow.id !== id);
-    async function handleDelete() {
-      try {
-        await axios.delete(`${apiUrl}/items/${id}`);
-        setTableRows(newRows);
-      } catch (error) {
-        console.error("something went wrong could not delete");
-      }
-    }
-    handleDelete();
+    setRowToDelete(id); 
+    setConfirmDelete(true); 
   };
+
+  async function handleDelete(id) {
+    try {
+      await axios.delete(`${apiUrl}/${selectedTable.toLowerCase()}/${id}`);
+      fetchData();
+    } catch (error) {
+      console.error("something went wrong could not delete");
+    }
+  }
+
   const changeDisplayedTable = (e) => {
     setSelectedTable(e.target.value);
   }
   return (
+
     <div style={{display:'flex', flexDirection: 'column', alignItems: 'center'}}>
+      {confirmDelete && <ConfirmDelete setDeleteYes={setDeleteYes} setConfirmDelete={setConfirmDelete} />}
       <div>
         <label style={{fontSize:"1.5rem"}}>View: </label>
-        <select  onChange={changeDisplayedTable}>
-        <option value="Laptops">Laptops</option>
+        <select onChange={changeDisplayedTable}>
+        <option value="Computers">Computers</option>
         <option value="Students">Students</option>
         <option value="Supplies">Supplies</option>
       </select>
@@ -114,12 +122,14 @@ const Table = () => {
       </div>
       {addRowMode && (
         <AddRowForm
+          fetchData={fetchData}
           setTableRows={setTableRows}
           setAddRowMode={setAddRowMode}
           addNewRow={addNewRow}
+          selectedTable={selectedTable}
         />
       )}
-      {selectedTable === "Laptops" ? 
+      {selectedTable === "Computers" ? 
         <LaptopTable
           tableRows={tableRows}
           editMode={editMode}
@@ -130,6 +140,7 @@ const Table = () => {
           deleteRow={deleteRow}
           currentId={currentId}
           setCurrentId={setCurrentId}
+          fetchData={fetchData}
         /> :
         selectedTable === "Students" ? 
         <StudentTable

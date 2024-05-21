@@ -2,36 +2,51 @@ import React, {useState} from 'react'
 import axios from 'axios'
 
 
-const AddRowForm = ( { setTableRows, setAddRowMode, addNewRow, selectedTable}) => {
+const AddRowForm = ( { fetchData, setAddRowMode, addNewRow, selectedTable}) => {
 
   const tableFields = {
-    Laptops: ["assetTag", "serialNumber", "status", "brand", "model", "type", "color", "issuedTo", "grant", "charged"],
-    Students: ["badge", "studentName", "location", "notes"],
+    Computers: ["assetTag", "serialNumber", "brand", "model", "type", "color", "grantType", "chargedUpdated"],
+    Students: ["badgeName", "studentName", "location", "notes"],
     Supplies: ["sku" , "quantityInStock", "unit", "buildingLocation", "floor", "lockerArea", "reorderLevel", "reoderQuantity", "leadTimeForReorder", "vendor", "estimatedCost" ]
   };
 
-    const fields = tableFields[selectedTable] || [];
+  const tableDisplayFields = {
+    Computers: ["Asset Tag", "Serial Number", "Brand", "Model", "Type", "Color", "Grant", "Charged"],
+    Students: ["Badge Name", "Student Name", "Location", "Notes"],
+    Supplies: ["SKU" , "Quantity In Stock", "Unit", "Building Location", "Floor", "Locker Area", "Reorder Level", "Reoder Quantity", "Lead Time For Reorder", "Vendor", "Estimated Cost" ]
+  };
 
     const apiUrl = process.env.REACT_APP_API_URL;
-      const [newRowValues, setNewRowValues] = useState({})
+    const fields = tableFields[selectedTable] || [];
+    const displayFields = tableDisplayFields[selectedTable] || [];
+    const [newRowValues, setNewRowValues] = useState([]);
 
-      const handleInputChange = (field, value) => {
-        setNewRowValues((prev) => ({
-          ...prev,
-          [field]: value,
+    const handleInputChange = (field, value) => {
+      setNewRowValues((prev) => ({
+        ...prev,
+        [field]: value,
         }));
       };
-
+        //remeber to move settablerows back into try block
       const handleCreate = (e) => {
         e.preventDefault();
         const newRow = { ...newRowValues };
         async function create() {
           try{
-            await axios.post(`${apiUrl}/items`, newRow);    
-            const response = await axios.get(`${apiUrl}/items`);
+            if(selectedTable === "Computers") {
+              console.log('1');
+              await axios.post(`${apiUrl}/computers`, newRow);  
+              console.log('2');
+            } else if(selectedTable === "Students"){
+              await axios.post(`${apiUrl}/students`, newRow);
+            } else {
+              await axios.post(`${apiUrl}/supplies`, newRow);
+            }
+            const response = await axios.get(`${apiUrl}/${selectedTable.toLowerCase()}`);
             const id= response.data[response.data.length -1].id;
             newRow.id = id;
-            setTableRows((prevRows) => [...prevRows, newRow]);
+        
+            fetchData();
           }catch(error){
               console.error('something went wrong could not create');
           }
@@ -39,21 +54,31 @@ const AddRowForm = ( { setTableRows, setAddRowMode, addNewRow, selectedTable}) =
         create();
         setAddRowMode(false);
       };
+
   return (
     <div className="modal-background">
           <form className="newRowForm" onSubmit={handleCreate}>
             <h1>Add New Entry</h1>
-            <button onClick={addNewRow} className="addNewButton">Cancel</button>
             <div className="newRowFormContainer">
                 {fields.map((field, index) => (
-                  <div>
-                  <label>{field}</label>
-                  <input onChange={(e) => handleInputChange(field, e.target.value)}>
-                  </input>
+                  <div key={index}>
+                    <label style={{textTransform: 'capitalize'}}>{displayFields[index]}: </label>
+                    {field === "chargedUpdated" ? (
+                        <select onChange={(e) => handleInputChange(field, e.target.value)}>
+                          <option value="Yes">Yes</option>
+                          <option value="No">No</option>
+                        </select>
+                      ) : (
+                        <input onChange={(e) => handleInputChange(field, e.target.value)} />
+                      )}
                   </div>
                 )) }
             </div>
-            <button className="addNewButton" type="submit">Add Item</button>
+            <div>
+              <button style={{margin: "0 30px"}} onClick={addNewRow} className="addNewButton">Cancel</button>
+              <button className="addNewButton" type="submit">Add Item</button>
+            </div>
+            
           </form>
           </div>
   )

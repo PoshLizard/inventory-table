@@ -1,8 +1,9 @@
-@import url("https://use.typekit.net/ccg4ogq.css");
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap');
+@import url("https://use.typekit.net/ccg4ogq.css");
+@import url("tabulator-tables");
 :root {
-  --code-blue: rgb(2, 53, 129);
-  --code-orange: rgb(238, 163, 51);
+  --code-blue: #243e90;
+  --code-orange: #f47d26;
   --code-black: #1f1f1f;
 }
 
@@ -14,12 +15,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Inter'
+  font-family: 'open-sans'
   
 }
 
 body{
-  font-weight: light;
+  font-weight: 300; 
+  font-style: normal;
   background-color: var(--code-black);
   color: white;
 }
@@ -149,6 +151,8 @@ input::placeholder {
   transition: width .5s ease;
 }
 
+
+
 .hamburger{
   margin: 20px 0px;
   z-index: 2;
@@ -216,10 +220,12 @@ input::placeholder {
 .addNewButton:hover{
   border: 2px solid white;
   cursor: pointer;
+  background-color: #0082d98b;
 }
 
 .modal-background {
   position: fixed;
+  overflow: auto;
   top: 0;
   left: 0;
   width: 100%;
@@ -234,27 +240,33 @@ input::placeholder {
 
 .newRowForm{
   display:flex;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   flex-direction:column;
   align-items: center;
   background-color: var(--code-black);
-  padding: 80px;
+  padding: 50px;
   border-radius: 35px;
+  min-height: 20%;
+  max-height: 80%;
+  overflow: auto;
   box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.459);
 }
-
+.newRowForm::-webkit-scrollbar {
+  display:none;
+}
 .newRowForm h1{
   margin-bottom: 30px;
 }
 .newRowForm input{
-  padding: 15px;
+  padding: 12px;
   color:white;
   background-color: rgb(41, 41, 41);
   border: 2px solid white;
   border-radius: 15px;
   margin: 20px 30px;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
+
 .newRowForm button{
   padding: 15px;
   color:white;
@@ -262,12 +274,11 @@ input::placeholder {
   border-radius: 15px;
   border: 2px solid white;
   transition: .1s ease-in;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 }
 
 .newRowForm button:hover{
   cursor: pointer;
-  background-color: var(--code-blue);
 }
 
 .newRowForm select{
@@ -275,15 +286,14 @@ input::placeholder {
   color:white;
   border: 2px solid white;
   border-radius: 15px;
-  width: 100px;
-  padding: 15px;
+  width: 200px;
+  padding: 11px;
 }
 
 .newRowFormContainer{
-  text-align: left;
-  display:flex;
-  justify-content: space-evenly;
-  flex-direction: row;
+  text-align: right;
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .newRowFormValues{
@@ -300,14 +310,13 @@ input::placeholder {
 .inventory-table{
   margin-top: 30px;
   background-color: white;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   width: 100%;
   color:white;
   border-collapse: collapse;
   border: 3px solid white;
 }
 .inventory-table th, .inventory-table td{
-  
   padding: 25px 20px;
   background-color: var(--code-black);
 }
@@ -320,29 +329,28 @@ input::placeholder {
 .inventory-table button{
   padding: 9px 12px;
   background-color: var(--code-orange);
-  color:black;
+  color:rgb(0, 0, 0);
   font-size: 1rem;
-  font-weight: bolder;
+  font-weight: 400;
   margin: 5px;
   border-radius: 30px;
   border: 2px solid var(--code-black);
   transition: .2s ease-in;
 }
 .inventory-table button:hover{
-  background-color: var(--code-orange);
   cursor: pointer;
   border: 2px solid white;
 }
 
 .editForm input{
   min-width: 80px;
-  max-width: 120px;
+  max-width: 100px;
   background-color: var(--code-black);
   border: 1px solid white;
   border-radius: 8px;
   color:white;
   padding: 5px;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   text-align: center;
 }
 
@@ -352,8 +360,14 @@ input::placeholder {
   color:white;
 }
 
-.editForm select option{
-  font-size: 1.3rem;
+.editForm select{
+  font-size: 1.1rem;
+  padding: 5px;
+  width: 80px;
+}
+
+.editForm td{
+  padding: 5px;
 }
 
 .login-page{
@@ -363,18 +377,18 @@ input::placeholder {
   min-height: 100vh;
 }
 .login-form{
-  width: 800px;
+  width: 500px;
   box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.5);
   display:flex;
   flex-direction: column;
-  padding: 150px 80px;
-  font-size: 2rem;
+  padding: 50px 40px;
+  font-size: 1.2rem;
   border: 2px solid var(--code-black);
   background-color: var(--code-blue);
   border-radius: 25px;
 }
 .login-form div{
-  margin: 35px 0;
+  margin: 15px 0;
 }
 
 .login-form input{
@@ -384,14 +398,14 @@ input::placeholder {
   border-radius: 8px;
   color:black;
   padding: 12px;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 }
 
 .login-form button{
-  padding: 20px;
+  padding: 10px;
   background-color: var(--code-orange);
   color:black;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: bolder;
   margin: 20px 0;
   border-radius: 30px;
@@ -400,13 +414,12 @@ input::placeholder {
 }
 
 .login-form button:hover{
-  background-color: var(--code-orange);
   cursor: pointer;
   border: 2px solid white;
 }
 
 .login-form p{
-  font-size: 1.5rem;
+  font-size: 1rem;
   text-decoration: underline;
 }
 
@@ -486,9 +499,12 @@ input::placeholder {
 
 .toggle-password{
   position: absolute;
-  margin-left: -50px;
+  margin-left: -40px;
   margin-top: 12px;
   color:black;
+}
+.toggle-password:hover{
+  cursor:pointer;
 }
 
 .secondary-button{
@@ -499,8 +515,15 @@ input::placeholder {
   font-size: .8rem;
   border: 1px solid black !important;
   margin: 5px 3px;
+  transition: .1s ease-in;
 }
-
+.secondary-button:hover{
+  cursor: pointer;
+  background-color: #d5a000a7;
+}
+.second-table{
+  margin-top: 50px;
+}
 .second-table tr{
   width: 100%;
   align-items: center;
@@ -524,7 +547,34 @@ input::placeholder {
 }
 
 
+.modal-content{
+  width: 800px;
+  background-color: var(--code-black);
+  border-radius: 30px;
+  padding: 100px;
+  
+}
+.modal-actions{
+  display:flex;
+  width: 100%;
+  justify-content: space-evenly;
+  flex-direction: column;
+}
 
+.loanAddForm{
+  font-size: 1.1rem;
+}
+.loanAddForm input{
+  font-size: 1.1rem;
+  padding: 12px;
+}
+
+
+.dashboardHeader *{
+  display: inline-block;
+  float: left;
+  margin-left: 10px;
+}
 
 @media screen and (max-width: 1800px){
   .content{
