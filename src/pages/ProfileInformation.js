@@ -7,10 +7,11 @@ import SideNav from '../components/SideNav';
 import { getAuth } from 'firebase/auth';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 function ProfileInformation(){
-
+    const navigate = useNavigate();
     const [editName, setEditName] = useState(false);
     const [editEmail, setEditEmail] = useState(false);
     const [editPass, setEditPass] = useState(false);
@@ -64,7 +65,7 @@ function ProfileInformation(){
         const auth = getAuth();
         const user = auth.currentUser.email;
         console.log(user)
-        axios.get(`http://localhost:8080/api/v1/users/lookup?email=${user}`).then(function(response) {
+        axios.get(`http://localhost:8080/api/v1/users/email/${user}`).then(function(response) {
             console.log(response);
             document.getElementById("profileInfoName").innerHTML = response.data.firstName + " " + response.data.lastName + "'s Profile";
             setId(response.data.id);
@@ -134,14 +135,14 @@ function ProfileInformation(){
                 (
                     <input type='text' placeholder={name} value={name} onChange={nameEdit}/>
                 ) :
-                    (<h2>{first} {last}</h2>)
+                    (<h1>{first} {last}</h1>)
                 }
               
                 <img className='profileLogo' src={editIcon} onClick={toggleEditName}/>
                 </div>
                 
                 <div className='profileFieldBox'>
-                <h2>Email: </h2>
+                <h3>Email: </h3>
                 {editEmail ? (
                     <input 
                     type='text'
@@ -157,7 +158,7 @@ function ProfileInformation(){
                
                 </div>
                 <div className='profileFieldBox'>
-      <h2>Password: </h2>
+      <h3>Password: </h3>
       {editPass ? (
         <input
           type="text"
@@ -177,8 +178,10 @@ function ProfileInformation(){
         src={showPassword ? hide : view}
         onClick={togglePasswordVisibility}
       />
-    </div>
+                    
 
+    </div>
+    <p onClick={() => navigate('/forgot-password')} id='changePassLink'>Change password</p> 
               
 
                

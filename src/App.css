@@ -192,18 +192,15 @@ input::placeholder {
 }
 
 .saveButton {
-  border-radius: 15px;
+  border-radius: 8px;
   padding: 10px;
-  color: orange;
-  font-size: 15px;
   color: black;
   cursor: pointer;
   margin: 5px;
+  float: right;
 }
 
-.saveButton {
-  
-}
+
 
 .addNewButton{
   padding: 15px;
@@ -435,12 +432,17 @@ input::placeholder {
   border: 2px solid rgb(145, 136, 136);
   background-color: #2E4C9A;
   border-radius: 5px;
-  width: 50%;
+  width: 40%;
   margin: auto;
   
   z-index: 1;
 }
 
+#changePassLink {
+  padding: 5px;
+  text-decoration: underline;
+  cursor: pointer;
+}
 .profileFields {
  
 }
