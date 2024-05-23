@@ -1,57 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createRef } from 'react';
 import Header from '../components/Header';
 import SideNav from '../components/SideNav';
 import { Line } from "react-chartjs-2";
 import { ReactTabulator } from 'react-tabulator'
-import {
-    Chart as ChartJS,
-    LineElement,
-    CategoryScale, // x axis
-    LinearScale, // y axis
-    PointElement,
-    Legend,
-    Tooltip
-} from 'chart.js';
-
-ChartJS.register(
-    LineElement,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    Legend,
-    Tooltip
-)
 
 const Dashboard = () => {
 
     const [view,setView] = useState("laptops");
-
-    // const data = {
-    //     labels: ['Mon', 'Tue', 'Wed'],
-    //     datasets: [
-    //         {
-    //             label: 'Stonks',
-    //             data: [6, 3, 9],
-    //             backgroundColor: 'aqua',
-    //             borderColor: 'black',
-    //             pointBorderColor: 'aqua',
-    //             fill: true,
-    //             tension: 0.4
-    //         }
-    //     ]
-    // }
-
-    // const options = {
-    //     plugins: {
-    //         legend: true
-    //     },
-    //     scales: {
-    //         y: {
-    //             min: 3,
-    //             max: 6
-    //         }
-    //     }
-    // }
 
 
     function changeView(view){
@@ -59,17 +14,14 @@ const Dashboard = () => {
     }
 
 
-    const laptopLoanColumns = [
-        { title: "Type", field: "type", width: 150 },
-        { title: "To", field: "name", hozAlign: "left"},
-        { title: "Date Passed", field: "dob", hozAlign: "center" },
+    const laptopColumns = [
+        { title: "Model", field: "type", width: 150},
+        { title: "Issued To", field: "name", hozAlign: "left"},
+        { title: "Start Date", field: "startDate", hozAlign: "center" },
+        { title: "End Date", field: "endDate", hozAlign: "center" },
+        { title: "Days Late", field: "daysLate", hozAlign: "center" }
       ];
 
-      const laptopPastDueColumns = [
-        { title: "Type", field: "type", width: 150 },
-        { title: "To", field: "name", hozAlign: "left"},
-        { title: "Days Late", field: "number", hozAlign: "center" },
-      ];
       
       const badgeColumns = [
         { title: "Badge Name", field: "type", width: 150 },
@@ -96,6 +48,26 @@ const Dashboard = () => {
       ];
     
 
+      const laptopData = [
+        {
+
+        type: "Dell Laptop",
+        name: "Tunmise Kehinde",
+        startDate: "05-21-2023",
+        endDate: "05-21-2024",       
+      },{
+
+        type: "Dell Laptop",
+        name: "Tunmise Kehinde",
+        startDate: "05-21-2021",
+        endDate: "05-21-2022",
+        daysLate: "370",
+      }
+    
+    ];
+
+    const innerRef = createRef();
+    console.log(innerRef.data);
     return (
         <div className='dashboard'>
             <Header />
@@ -112,20 +84,25 @@ const Dashboard = () => {
                     {view == "laptops" && (
                         <>
                             <h1><u>Laptops</u></h1>
-                            <h1>3</h1>
-                            <p>Current Loans</p>
-                            <h1>All Loans</h1>
-                                <ReactTabulator
+                            <div style={{display:'flex', marginTop:'30px'}}>
+                                <div style={{margin:'45px'}}>
+                                    <h1>3</h1>
+                                    <p>Current Loans</p>
+                                </div>
+                                <div>
+                                    <h1>All Loans</h1>
+                                        <ReactTabulator
+                                        ref={innerRef}
+                                        data={laptopData}
+                                        columns={laptopColumns}
+                                        layout={"fitData"}
+                                        />
+                                </div>
+                            </div>
+                           
                             
-                                columns={laptopLoanColumns}
-                                layout={"fitData"}
-                                />
-                            <h1>Past Due</h1>
-                            <ReactTabulator
                             
-                            columns={laptopPastDueColumns}
-                            layout={"fitData"}
-                            />
+                            
 
                         </>
                     )}
