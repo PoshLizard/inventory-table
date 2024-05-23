@@ -21,7 +21,7 @@ const StudentTable = ({
 
   return (
     <div>
-        <table className="inventory-table" id="supplies-table">
+        <table className="inventory-table" id="student-table">
             <thead>
             <tr>
                 <th>ID</th>

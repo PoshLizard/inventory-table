@@ -280,11 +280,11 @@ input::placeholder {
   border: 3px solid white;
 }
 
-#supplies-table th{
+#student-table th{
   padding: 25px 90px;
 }
 
-#supplies-table td{
+#student-table td{
   padding: 8px 90px;
 }
 .inventory-table th, .inventory-table td{
@@ -296,6 +296,10 @@ input::placeholder {
 }
 .inventory-table thead{
   border-bottom: 3px solid white;
+}
+
+#studentEditTable th, #studentEditTable td{
+  padding: 20px 10px;
 }
 .editForm input{
   min-width: 80px;
@@ -322,7 +326,7 @@ input::placeholder {
 }
 
 .editForm td{
-  padding: 5px;
+  padding: 3px;
 }
 
 .login-page{
@@ -618,5 +622,8 @@ input::placeholder {
       height: 125px;
       width: 250px;
       border-radius: 0px;
+  }
+  .profileInfo{
+    margin-top: 100px;
   }
 }
