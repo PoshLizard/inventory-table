@@ -34,7 +34,7 @@ const SupplyTable = ({
         <table className="inventory-table">
             <thead>
             <tr>
-                <th>Id</th>
+                <th>ID</th>
                 <th>SKU</th>
                 <th>In Stock</th>
                 <th>Unit</th>
@@ -73,8 +73,8 @@ const SupplyTable = ({
                     <td>{row[tenth]}</td>
                     <td>{row[eleventh]}</td>
                     <td>
-                    <button onClick={() => editRow(row.id)}>Edit</button>
-                    <button onClick={() => deleteRow(row.id)}>Delete</button>
+                    <button className="secondary-button" onClick={() => editRow(row.id)}>Edit</button>
+                    <button className="secondary-button" onClick={() => deleteRow(row.id)}>Delete</button>
                     </td>
                 </tr>
                 )

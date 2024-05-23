@@ -40,11 +40,21 @@ const SideNav = () => {
       </div>) : (
       <div className="side-nav-collapsed">
           <div style={{height: '173px'}}></div>
-          <img className="hamburger" src={hamburger} onClick={() => setDisplay(true)}/>
-          <Link to={`/inventory`}><img className="hamburger" src={inventoryIcon} /></Link>
-          <Link to={`/dashboard`}><img className="hamburger" src={dashboardIcon} /></Link>
-          <Link to={`/profile`}><img className="hamburger" src={userIcon} /></Link>
-          <img className="hamburger" src={logoutIcon} onClick={signout}></img>
+          <div>
+        <img className="hamburger" src={hamburger} onClick={() => setDisplay(true)} alt="Menu" />
+        </div>
+        <div className="tooltip-container" data-tooltip="Inventory">
+          <Link to="/inventory"><img className="hamburger" src={inventoryIcon} alt="Inventory" /></Link>
+        </div>
+        <div className="tooltip-container" data-tooltip="Dashboard">
+          <Link to="/dashboard"><img className="hamburger" src={dashboardIcon} alt="Dashboard" /></Link>
+        </div>
+        <div className="tooltip-container" data-tooltip="Profile">
+          <Link to="/profile"><img className="hamburger" src={userIcon} alt="Profile" /></Link>
+        </div>
+        <div className="tooltip-container" data-tooltip="Logout">
+          <img className="hamburger" src={logoutIcon} onClick={signout} alt="Logout" />
+        </div>
       </div>)
     }
     </div>

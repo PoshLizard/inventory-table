@@ -21,10 +21,10 @@ const StudentTable = ({
 
   return (
     <div>
-        <table className="inventory-table">
+        <table className="inventory-table" id="supplies-table">
             <thead>
             <tr>
-                <th>Id</th>
+                <th>ID</th>
                 <th>Badge</th>
                 <th>Student Name</th>
                 <th>Location</th>
@@ -53,8 +53,8 @@ const StudentTable = ({
                       </div>
                     </td>
                     <td>
-                    <button onClick={() => editRow(row.id)}>Edit</button>
-                    <button onClick={() => deleteRow(row.id)}>Delete</button>
+                    <button className="secondary-button" onClick={() => editRow(row.id)}>Edit</button>
+                    <button className="secondary-button" onClick={() => deleteRow(row.id)}>Delete</button>
                     </td>
                 </tr>
                 )

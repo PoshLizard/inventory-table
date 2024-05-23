@@ -3,7 +3,7 @@ import axios from 'axios'
 import { update } from 'firebase/database';
 const Loan = ({id ,viewLoan, tableRows, fetchDataTable}) => {
     const apiUrl = process.env.REACT_APP_API_URL;
-
+    const [currentTableRow, setCurrentTableRow] = useState({});
     const [loanRows, setLoanRows] = useState([]);
 
     const [nameInput, setNameInput] = useState('');
@@ -28,6 +28,7 @@ const Loan = ({id ,viewLoan, tableRows, fetchDataTable}) => {
 
     useEffect(() => {
       fetchData();
+      fetchRow();
     }, []);
 
     async function updateTable(isLoaned, issuedTo) {
@@ -82,9 +83,16 @@ const Loan = ({id ,viewLoan, tableRows, fetchDataTable}) => {
     const handleSubmit = (e) => {  
       e.preventDefault();
       console.log(id);
-      const newRow = { item_id: id, name: nameInput, startDate: new Date(startInput).toISOString().split('T')[0], endDate: endInput !== "" ? new Date(endInput).toISOString().split('T')[0] : ""}
+      console.log(currentTableRow);
+
+      const newRow = { name: nameInput, startDate: new Date(startInput).toISOString().split('T')[0], endDate: endInput !== "" ? new Date(endInput).toISOString().split('T')[0] : ""}
       console.log(newRow);
       create(newRow);
+    }
+
+    async function fetchRow(row){
+      const response = await axios.get(`${apiUrl}/computers/${id}`);
+      setCurrentTableRow(response.data);
     }
 
     async function create(newRow) {
@@ -92,9 +100,10 @@ const Loan = ({id ,viewLoan, tableRows, fetchDataTable}) => {
         setErrorText("End previous loan to add new one");
       } else{
       try{
-        setIssuedTo('her');
-        await axios.post(`${apiUrl}/loans`, newRow);   
+        console.log(newRow);
+        await axios.post(`${apiUrl}/loans`, newRow);  
         fetchData();
+      
       } catch(error) {
         console.error('could not generate new loan')
       }} 

@@ -31,7 +31,6 @@ function ProfileInformation(){
     const nameEdit = (input) => {
         const updatedName = input.target.value;
         setName(updatedName);
-
         const nameParts = updatedName.split(" ");
         setFirst(nameParts[0]);
         setLast(nameParts[1]);
@@ -59,9 +58,6 @@ function ProfileInformation(){
 
 
     function getProfile(){
-        
-
-
         const auth = getAuth();
         const user = auth.currentUser.email;
         console.log(user)
@@ -74,6 +70,7 @@ function ProfileInformation(){
             setEmail(response.data.email);
             setPass(response.data.password)
             setRole(response.data.role)
+            setName(response.data.firstName + " " + response.data.lastName);
 
         }).catch(function(error){
             alert("Error Getting Profile, Please Refresh")
@@ -82,7 +79,6 @@ function ProfileInformation(){
     }
     
     function updateProfile() {
-        
         const auth = getAuth();
         const user = auth.currentUser.email;
         const name = document.getElementById("profileInfoName").value;
@@ -95,14 +91,13 @@ function ProfileInformation(){
             password: pass,
             role: role
         }
-        console.log(updatedInfo)
+        console.log('updateinfo' + updatedInfo)
         console.log(id)
         axios.put(`http://localhost:8080/api/v1/users/${id}`,updatedInfo).catch(function(error) {
             alert("Unable to Update Profile")
             console.log(error);
         }).then(function () {
-            auth.signOut();
-            // getProfile();
+            getProfile();
             // alert("Profile Updated-reorder this then to not show");
         })
     }
@@ -125,7 +120,6 @@ function ProfileInformation(){
             </div>
             <h3>uid: {id}</h3>
             </div>
-    
             <br></br>
             <hr></hr>
             <br></br>
@@ -133,14 +127,12 @@ function ProfileInformation(){
                 <div className='profileFieldBox'>
                 {editName ? 
                 (
-                    <input type='text' placeholder={name} value={name} onChange={nameEdit}/>
+                    <input type='text' value={name} onChange={nameEdit}/>
                 ) :
                     (<h1>{first} {last}</h1>)
                 }
-              
                 <img className='profileLogo' src={editIcon} onClick={toggleEditName}/>
-                </div>
-                
+                </div>    
                 <div className='profileFieldBox'>
                 <h3>Email: </h3>
                 {editEmail ? (
@@ -155,7 +147,6 @@ function ProfileInformation(){
                     (<h3>{email}</h3>)
             }
                 
-               
                 </div>
                 <div className='profileFieldBox'>
       <h3>Password: </h3>
@@ -178,19 +169,10 @@ function ProfileInformation(){
         src={showPassword ? hide : view}
         onClick={togglePasswordVisibility}
       />
-                    
-
     </div>
     <p onClick={() => navigate('/forgot-password')} id='changePassLink'>Change password</p> 
-              
-
-               
-
-
-                <button class="saveButton" onClick={() => updateProfile()}>Save Changes</button>
+                <button class="secondary-button" onClick={() => updateProfile()}>Save Changes</button>
             </div>
-            
-             
         </div>
     </div>
 </div> 

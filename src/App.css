@@ -104,6 +104,7 @@ input::placeholder {
   height: 40px;
   width: 40px;
   cursor: pointer;
+  filter: invert(100%);
 }
 
 #profileHeader { 
@@ -150,9 +151,6 @@ input::placeholder {
   left: -400px;
   transition: width .5s ease;
 }
-
-
-
 .hamburger{
   margin: 20px 0px;
   z-index: 2;
@@ -185,27 +183,6 @@ input::placeholder {
   border-bottom: 3px solid white;
 }
 
-.search-bar button{
-  background-color: var(--code-orange);
-  border-radius: 20px;
-  transition: .1s ease-in;
-}
-.search-bar button:hover{
-  cursor: pointer;
-  border-color: white;
-}
-
-.saveButton {
-  border-radius: 8px;
-  padding: 10px;
-  color: black;
-  cursor: pointer;
-  margin: 5px;
-  float: right;
-}
-
-
-
 .addNewButton{
   padding: 15px;
   background-color: var(--code-blue);
@@ -214,7 +191,7 @@ input::placeholder {
   border: 2px solid rgba(255, 255, 255, 0.219);
   font-size: 1.2rem;
   margin: 25px 0;
-
+  transition: .15s ease-in;
 }
 
 .addNewButton:hover{
@@ -267,20 +244,6 @@ input::placeholder {
   font-size: 1.2rem;
 }
 
-.newRowForm button{
-  padding: 15px;
-  color:white;
-  color:white;
-  border-radius: 15px;
-  border: 2px solid white;
-  transition: .1s ease-in;
-  font-size: 1.2rem;
-}
-
-.newRowForm button:hover{
-  cursor: pointer;
-}
-
 .newRowForm select{
   background-color: var(--code-black);
   color:white;
@@ -316,6 +279,14 @@ input::placeholder {
   border-collapse: collapse;
   border: 3px solid white;
 }
+
+#supplies-table th{
+  padding: 25px 90px;
+}
+
+#supplies-table td{
+  padding: 8px 90px;
+}
 .inventory-table th, .inventory-table td{
   padding: 25px 20px;
   background-color: var(--code-black);
@@ -326,22 +297,6 @@ input::placeholder {
 .inventory-table thead{
   border-bottom: 3px solid white;
 }
-.inventory-table button{
-  padding: 9px 12px;
-  background-color: var(--code-orange);
-  color:rgb(0, 0, 0);
-  font-size: 1rem;
-  font-weight: 400;
-  margin: 5px;
-  border-radius: 30px;
-  border: 2px solid var(--code-black);
-  transition: .2s ease-in;
-}
-.inventory-table button:hover{
-  cursor: pointer;
-  border: 2px solid white;
-}
-
 .editForm input{
   min-width: 80px;
   max-width: 100px;
@@ -440,13 +395,14 @@ input::placeholder {
 }
 
 .profileInfo{
-  
+  box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.5);
   display: inline-block;
   border: 2px solid rgb(145, 136, 136);
-  background-color: #2E4C9A;
+  background-color: var(--code-blue);
   border-radius: 5px;
   width: 40%;
   margin: auto;
+  padding: 60px;
   
   z-index: 1;
 }
@@ -455,6 +411,8 @@ input::placeholder {
   padding: 5px;
   text-decoration: underline;
   cursor: pointer;
+  margin-top: -10px;
+  margin-bottom: 20px;
 }
 .profileFields {
  
@@ -466,7 +424,10 @@ input::placeholder {
   gap: 5px;
   align-items: center;
   padding: 8px;
+  margin: 10px 0;
 }
+
+
 
 .profileHeaderBox {
   display: flex;
@@ -508,19 +469,21 @@ input::placeholder {
 }
 
 .secondary-button{
-  padding: 8px;
-  color: black !important;
+  padding: 9px 12px;
   background-color: var(--code-orange);
-  border-radius: 30px;
-  font-size: .8rem;
-  border: 1px solid black !important;
-  margin: 5px 3px;
-  transition: .1s ease-in;
+  color:var(--code-black); 
+  font-size: 1rem;
+  margin: 5px;
+  border-radius: 15px;
+  border: 1px solid rgba(0, 0, 0, 0.219) !important;
+  transition: .2s ease-in;
 }
 .secondary-button:hover{
   cursor: pointer;
-  background-color: #d5a000a7;
+  border: 1px solid white !important;
 }
+
+
 .second-table{
   margin-top: 50px;
 }
@@ -601,6 +564,41 @@ input::placeholder {
   padding: 10px;
   font-size: 1rem;
   color: white;
+}
+
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+  margin: 10px 0px;
+  z-index: 2;
+  width: 40px;
+}
+.tooltip-container img {
+  width: 40px; /* Adjust the image size as needed */
+}
+
+.tooltip-container::after {
+  content: attr(data-tooltip);
+  visibility: hidden;
+  opacity: 0;
+  width: 60px; /* Adjust tooltip width as needed */
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  font-size: .8rem;
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: opacity 0.3s;
+  z-index: 1;
+  white-space: nowrap;
+}
+
+.tooltip-container:hover::after {
+  visibility: visible;
+  opacity: 1;
 }
 
 @media screen and (max-width: 1800px){

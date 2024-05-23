@@ -105,11 +105,11 @@ const LaptopTable = ({
                     <td>{row[eighth]}</td>
                     <td>{row[ninth]}</td>
                     <td>{row[tenth]}</td>
-                    <td><button onClick={() => viewMaintenance(row.id)}>Maintenance</button></td>
-                    <td><button onClick={() => viewLoan(row.id)}>Loan</button></td>
+                    <td><button className="secondary-button" onClick={() => viewMaintenance(row.id)}>Maintenance</button></td>
+                    <td><button className="secondary-button" onClick={() => viewLoan(row.id)}>Loan</button></td>
                     <td>
-                    <button onClick={() => editRow(row.id)}>Edit</button>
-                    <button onClick={() => deleteRow(row.id)}>Delete</button>
+                    <button className="secondary-button" onClick={() => editRow(row.id)}>Edit</button>
+                    <button className="secondary-button" onClick={() => deleteRow(row.id)}>Delete</button>
                     </td>
                 </tr>
                 )
