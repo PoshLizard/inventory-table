@@ -6,8 +6,8 @@ import { ReactTabulator } from 'react-tabulator'
 
 const Dashboard = () => {
 
-    const date = new Date().toISOString().slice(0, 10);
-
+    const date = new Date()
+    
 
     const [view,setView] = useState("laptops");
 
@@ -53,18 +53,15 @@ const Dashboard = () => {
 
       const laptopData = [
         {
-        id: 0,
         type: "Dell Laptop",
         name: "Tunmise Kehinde",
         startDate: "05-21-2023",
         endDate: "06-29-2024",       
       },{
-        id:1,
         type: "Dell Laptop",
         name: "Tunmise Kehinde",
         startDate: "05-21-2021",
         endDate: "05-24-2022",
-        daysLate: "370",
       }
     
     ];
@@ -72,11 +69,22 @@ const Dashboard = () => {
 
     const rowFormatter = (row) => {
         const rowData = row.getData();
-        const endDate = new Date(rowData.endDate).toISOString().slice(0, 10);
+        const endDate = new Date(rowData.endDate)
         if (endDate < date) {
             console.log(endDate)
           row.getElement().style.backgroundColor = 'red';
         }
+      };
+
+      const calculateDaysLate = (value, data, type, params, component) => {
+        const endDate = new Date(data.endDate)
+        const diffTime = Math.abs(endDate.getTime() - date.getTime());
+        
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        if((endDate.getTime() - date.getTime() ) >= 0){
+            return " ";
+        }
+        return diffDays;
       };
         
     let laptopTableRef = useRef(null);
@@ -108,7 +116,7 @@ const Dashboard = () => {
                                         <ReactTabulator
                                         onRef={ (r) => (laptopTableRef = r)}
                                         data={laptopData}
-                                        columns={laptopColumns}
+                                        columns={laptopColumns.map(col => col.field === 'daysLate' ? { ...col, mutator: calculateDaysLate } : col)}
                                         layout={"fitData"}
                                         rowFormatter={rowFormatter}
                                         />

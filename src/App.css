@@ -626,3 +626,13 @@ input::placeholder {
     margin-top: 100px;
   }
 }
+
+.tabulator-col-content {
+  background-color:var(--code-black);
+  color: white;
+}
+
+.tabulator-row{
+  background-color: var(--code-black);
+  color: white
+}
