@@ -1,10 +1,13 @@
-import React, { useState, useEffect, createRef } from 'react';
+import React, { useState, useEffect, createRef, useRef } from 'react';
 import Header from '../components/Header';
 import SideNav from '../components/SideNav';
 import { Line } from "react-chartjs-2";
 import { ReactTabulator } from 'react-tabulator'
 
 const Dashboard = () => {
+
+    const date = new Date().toISOString().slice(0, 10);
+
 
     const [view,setView] = useState("laptops");
 
@@ -50,24 +53,35 @@ const Dashboard = () => {
 
       const laptopData = [
         {
-
+        id: 0,
         type: "Dell Laptop",
         name: "Tunmise Kehinde",
         startDate: "05-21-2023",
-        endDate: "05-21-2024",       
+        endDate: "06-29-2024",       
       },{
-
+        id:1,
         type: "Dell Laptop",
         name: "Tunmise Kehinde",
         startDate: "05-21-2021",
-        endDate: "05-21-2022",
+        endDate: "05-24-2022",
         daysLate: "370",
       }
     
     ];
 
-    const innerRef = createRef();
-    console.log(innerRef.data);
+
+    const rowFormatter = (row) => {
+        const rowData = row.getData();
+        const endDate = new Date(rowData.endDate).toISOString().slice(0, 10);
+        if (endDate < date) {
+            console.log(endDate)
+          row.getElement().style.backgroundColor = 'red';
+        }
+      };
+        
+    let laptopTableRef = useRef(null);
+    
+
     return (
         <div className='dashboard'>
             <Header />
@@ -92,10 +106,11 @@ const Dashboard = () => {
                                 <div>
                                     <h1>All Loans</h1>
                                         <ReactTabulator
-                                        ref={innerRef}
+                                        onRef={ (r) => (laptopTableRef = r)}
                                         data={laptopData}
                                         columns={laptopColumns}
                                         layout={"fitData"}
+                                        rowFormatter={rowFormatter}
                                         />
                                 </div>
                             </div>

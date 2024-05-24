@@ -513,10 +513,6 @@ input::placeholder {
   margin: 15px 15px;
 }
 
-.tabulator-row *{
-  background-color: lightcoral;
-}
-
 .modal-content{
   width: 800px;
   background-color: var(--code-black);
