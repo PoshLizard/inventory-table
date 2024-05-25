@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import { update } from 'firebase/database';
-const Loan = ({id ,viewLoan, tableRows, fetchDataTable}) => {
+const Loan = ({id ,viewLoan, tableRows}) => {
     const apiUrl = process.env.REACT_APP_API_URL;
-    const [currentTableRow, setCurrentTableRow] = useState({});
     const [loanRows, setLoanRows] = useState([]);
 
     const [nameInput, setNameInput] = useState('');
@@ -26,34 +25,50 @@ const Loan = ({id ,viewLoan, tableRows, fetchDataTable}) => {
     //gives us access to info about the item
     const index = tableRows.findIndex(row => row.id === id);
 
+    const [isFetchDataComplete, setIsFetchDataComplete] = useState(false);
+
     useEffect(() => {
       fetchData();
-      fetchRow();
-    }, []);
+    }, [])
 
-    async function updateTable(isLoaned, issuedTo) {
-      let newRow = {...tableRows[id], issuedTo: issuedTo, status: "Loaned"}
-      if(!isLoaned){
-        newRow={...tableRows[id], issuedTo: "N/A", status: "Available"}
+    useEffect(() => {
+      if(isFetchDataComplete){
+        updateLaptopTable();
       }
-      try {
-        await axios.put(`${apiUrl}/computers/${id}`, newRow);
-        fetchDataTable();
-      } catch (error) {
-        console.error("something went wrong could not update the table from loan");
-      }
+      
+    }, [isFetchDataComplete]);
+
+   
+
+    async function updateLaptopTable(){
+        console.log('hess')
+        const currentRow = tableRows.find(row => row.id === id);
+        const newRow={...currentRow, issuedTo: currentlyLoaned ? issuedTo : "N/A",
+        status: currentlyLoaned ? "Loaned" : "Available"};
+        console.log(newRow);
+        console.log(issuedTo);
+        try{
+          await axios.put(`${apiUrl}/computers/${id}`, newRow);
+          setIsFetchDataComplete(false);
+        }catch(error){
+          console.error('could not update laptop table from loans');
+        }
     }
+
 
     async function fetchData() {
       try {
-        const response = await axios.get(`${apiUrl}/loans`);
-        if(Array.isArray(response.data) && response.data.length === 0){
+        console.log('computer id' + id);
+        const response = await axios.get(`${apiUrl}/computers/${id}`);
+        console.log(response.data);
+        const loanData = response.data.loans;
+        console.log(loanData);
+        if(Array.isArray(loanData) && loanData.length === 0){
           setLoanRows([]);
-          updateTable(false);
           setCurrentlyLoaned(false);
         }
-        else if (response && response.data) {
-          const loanRowsWithIsoDates = response.data.map(loan => ({
+        else if (loanData) {
+          const loanRowsWithIsoDates = loanData.map(loan => ({
             ...loan,
             startDate: new Date(loan.startDate).toISOString().split('T')[0],
             endDate: loan.endDate ? new Date(loan.endDate).toISOString().split('T')[0] : ''
@@ -61,15 +76,14 @@ const Loan = ({id ,viewLoan, tableRows, fetchDataTable}) => {
           setLoanRows(loanRowsWithIsoDates);
           if(loanRowsWithIsoDates[loanRowsWithIsoDates.length -1].endDate === ""){
             setCurrentlyLoaned(true);
-            updateTable(true, '.name');
           }else{ 
-            updateTable(false);
             setCurrentlyLoaned(false);
             setErrorText("");
           }
         } else {
           setLoanRows([]);
         }
+        setIsFetchDataComplete(true);
       } catch (error) {
         console.error('Could not retrieve loans', error);
       }
@@ -78,22 +92,16 @@ const Loan = ({id ,viewLoan, tableRows, fetchDataTable}) => {
     const createNew = () => {
       setAddNewMode(!addNewMode);
     }
-
-    
+ 
     const handleSubmit = (e) => {  
       e.preventDefault();
-      console.log(id);
-      console.log(currentTableRow);
-
       const newRow = { name: nameInput, startDate: new Date(startInput).toISOString().split('T')[0], endDate: endInput !== "" ? new Date(endInput).toISOString().split('T')[0] : ""}
-      console.log(newRow);
+      setIssuedTo(nameInput);
+      console.log(nameInput);
+      console.log(issuedTo);
       create(newRow);
     }
 
-    async function fetchRow(row){
-      const response = await axios.get(`${apiUrl}/computers/${id}`);
-      setCurrentTableRow(response.data);
-    }
 
     async function create(newRow) {
       if(currentlyLoaned){
@@ -101,9 +109,8 @@ const Loan = ({id ,viewLoan, tableRows, fetchDataTable}) => {
       } else{
       try{
         console.log(newRow);
-        await axios.post(`${apiUrl}/loans`, newRow);  
+        await axios.put(`${apiUrl}/loans/appendLoan/${id}`, newRow);  
         fetchData();
-      
       } catch(error) {
         console.error('could not generate new loan')
       }} 
@@ -122,12 +129,14 @@ const Loan = ({id ,viewLoan, tableRows, fetchDataTable}) => {
         return row.id === selectedRow ? { ...row, name: name, startDate: formattedStartDate, endDate: formattedEndDate } : row;
       });
 
-      const newRow = updatedRows.find((row) => row.id === selectedRow);
+      console.log(updatedRows);
 
-      //temp
+      const newRow = updatedRows.find((row) => row.id === selectedRow);
+      console.log(newRow);
       async function edit() {
         try{
-          await axios.put(`${apiUrl}/loans/${mainId}`, newRow); 
+          console.log(mainId);
+          await axios.put(`${apiUrl}/loans/${id}`, newRow); 
           setEditNameInput('');
           handleEdit(mainId);
           fetchData();
@@ -154,6 +163,7 @@ const Loan = ({id ,viewLoan, tableRows, fetchDataTable}) => {
     <div className='modal-background'>
         <div className="newRowForm" id="loan">
             <h1>Loan Management</h1>
+            <button onClick={fetchData}> </button>
             <h3>{tableRows[index].description}</h3>
             <button className="addNewButton" onClick={createNew} style={{display: addNewMode ? "none" : "flex"}}>Create New</button>
 

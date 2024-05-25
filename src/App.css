@@ -34,6 +34,14 @@ a{
   position: relative;
 }
 
+a:hover{
+  color: var(--code-orange)
+}
+
+u{
+  text-decoration: none;
+}
+
 select{
   font-size: 1.3rem;
   padding: 10px;
@@ -180,7 +188,7 @@ input::placeholder {
 
 .search-bar input:focus{
   outline: none;
-  border-bottom: 3px solid white;
+  border-bottom: 2px solid white;
 }
 
 .addNewButton{
@@ -513,9 +521,36 @@ input::placeholder {
   margin: 15px 15px;
 }
 
-.tabulator-row *{
-  background-color: lightcoral;
+.tabulator{
+  width: 1500px;
+  font-size: 1.5rem;
+  border: 3px solid white;
+  background-color: var(--code-black);
 }
+
+.tabulator-row *{
+  background-color: var(--code-black);
+  color: white;
+  
+}
+
+.tabulator-headers{
+  width: 100%;
+  background-color: var(--code-black);
+  color: white;
+  
+}
+
+
+.tabulator-col-content{
+  background-color: var(--code-black);
+  border-bottom: 3px solid white;
+  
+}
+.tabulator-cell {
+  height: 60px;
+}
+
 
 .modal-content{
   width: 800px;
@@ -544,6 +579,15 @@ input::placeholder {
   display: inline-block;
   float: left;
   margin-left: 10px;
+}
+
+.dashboard-links{
+  transition: .1s ease-in
+}
+
+.dashboard-links:hover{
+  color: var(--code-orange);
+  cursor: pointer;
 }
 
 .notes{

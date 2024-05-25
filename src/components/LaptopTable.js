@@ -61,7 +61,7 @@ const LaptopTable = ({
           viewLoanMode={viewLoanMode}
           id={currentId}
           viewLoan={viewLoan}
-          fetchDataTable={fetchData}
+
         />
       )}
         <table className="inventory-table">
