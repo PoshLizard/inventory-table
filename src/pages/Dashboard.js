@@ -103,13 +103,13 @@ const Dashboard = () => {
       type: "Dell Laptop",
       name: "Tunmise Kehinde",
       startDate: "05-21-2023",
-      endDate: "05-21-2024",
+      endDate: "05-21-2025",
     },
     {
       type: "Dell Laptop",
       name: "Tunmise Kehinde",
       startDate: "05-21-2021",
-      endDate: "05-21-2022",
+      endDate: "05-21-2024",
     },
   ];
 
@@ -119,7 +119,7 @@ const Dashboard = () => {
     const endDate = new Date(rowData.endDate);
     if (endDate < date) {
       console.log(endDate);
-      row.getElement().style.backgroundColor = "red";
+      row.getElement().style.backgroundColor = "lightcoral";
     }
   };
 
@@ -133,7 +133,7 @@ const Dashboard = () => {
     if (endDate.getTime() - date.getTime() >= 0) {
       return " ";
     }
-    return diffDays;
+    return diffDays - 1;
   };
 
   let laptopTableRef = useRef(null);
