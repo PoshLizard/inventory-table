@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import { update } from 'firebase/database';
-const Loan = ({id ,viewLoan, tableRows}) => {
+const Loan = ({id ,viewLoan, tableRows, setTableRows}) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     const [loanRows, setLoanRows] = useState([]);
 
@@ -19,51 +19,41 @@ const Loan = ({id ,viewLoan, tableRows}) => {
 
     //exception for when loan is out  
     const [currentlyLoaned, setCurrentlyLoaned] = useState(false);
-    const [issuedTo, setIssuedTo] = useState('');
     const [errorText, setErrorText] = useState('')
  
     //gives us access to info about the item
     const index = tableRows.findIndex(row => row.id === id);
 
-    const [isFetchDataComplete, setIsFetchDataComplete] = useState(false);
+    // const [isFetchDataComplete, setIsFetchDataComplete] = useState(false);
 
     useEffect(() => {
       fetchData();
     }, [])
 
-    useEffect(() => {
-      if(isFetchDataComplete){
-        updateLaptopTable();
-      }
-      
-    }, [isFetchDataComplete]);
+    // useEffect(() => {
+    //   if(isFetchDataComplete){
+    //     updateLaptopTable();
+    //   }
+    // }, [isFetchDataComplete]);
 
    
 
-    async function updateLaptopTable(){
+   
        
-        const currentRow = tableRows.find(row => row.id === id);
-        const newRow={...currentRow, issuedTo: currentlyLoaned ? issuedTo : "N/A",
-        status: currentlyLoaned ? "Loaned" : "Available"};
-
-        try{
-          await axios.put(`${apiUrl}/computers/${id}`, newRow);
-          setIsFetchDataComplete(false);
-        }catch(error){
-          console.error('could not update laptop table from loans');
-        }
-    }
+       
+    
 
 
     async function fetchData() {
       try {
-     
-        const response = await axios.get(`${apiUrl}/computers/${id}`);
-     
+        let currentlyLoan = false;
+        const response = await axios.get(`${apiUrl}/computers/${id}`);      
         const loanData = response.data.loans;
-        
+        console.log('fetcheddata')
+        console.log(response.data);
         if(Array.isArray(loanData) && loanData.length === 0){
           setLoanRows([]);
+          currentlyLoan= false;
           setCurrentlyLoaned(false);
         }
         else if (loanData) {
@@ -74,15 +64,25 @@ const Loan = ({id ,viewLoan, tableRows}) => {
           }));
           setLoanRows(loanRowsWithIsoDates);
           if(loanRowsWithIsoDates[loanRowsWithIsoDates.length -1].endDate === ""){
+            currentlyLoan = true;
             setCurrentlyLoaned(true);
           }else{ 
+            currentlyLoan= false;
             setCurrentlyLoaned(false);
             setErrorText("");
           }
         } else {
           setLoanRows([]);
+
         }
-        setIsFetchDataComplete(true);
+
+        
+        const newRow={...response.data, issuedTo: currentlyLoan ? loanData[loanData.length - 1].name : "N/A",
+        status: currentlyLoan ? "Loaned" : "Available"};
+        console.log(newRow);
+        await axios.put(`${apiUrl}/computers/${id}`, newRow);
+        const responseComp = await axios.get(`${apiUrl}/computers`);
+        setTableRows(responseComp.data);
       } catch (error) {
         console.error('Could not retrieve loans', error);
       }
@@ -95,8 +95,7 @@ const Loan = ({id ,viewLoan, tableRows}) => {
     const handleSubmit = (e) => {  
       e.preventDefault();
       const newRow = { name: nameInput, startDate: new Date(startInput).toISOString().split('T')[0], endDate: endInput !== "" ? new Date(endInput).toISOString().split('T')[0] : ""}
-      setIssuedTo(nameInput);
-     
+      
       create(newRow);
     }
 
@@ -106,7 +105,7 @@ const Loan = ({id ,viewLoan, tableRows}) => {
         setErrorText("End previous loan to add new one");
       } else{
       try{
-      
+        setErrorText("");
         await axios.put(`${apiUrl}/loans/appendLoan/${id}`, newRow);  
         fetchData();
       } catch(error) {

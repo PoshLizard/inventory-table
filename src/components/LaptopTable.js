@@ -13,7 +13,8 @@ const LaptopTable = ({
     deleteRow,
     currentId,
     setCurrentId,
-    fetchData
+    fetchData,
+    setTableRows
 }
 ) => {
 
@@ -52,6 +53,7 @@ const LaptopTable = ({
           viewMainMode={viewMainMode}
           id={currentId}
           viewMaintenance={viewMaintenance}
+          
         />
       )}
       {viewLoanMode && (
@@ -60,7 +62,7 @@ const LaptopTable = ({
           viewLoanMode={viewLoanMode}
           id={currentId}
           viewLoan={viewLoan}
-
+          setTableRows={setTableRows}
         />
       )}
         <table className="inventory-table">

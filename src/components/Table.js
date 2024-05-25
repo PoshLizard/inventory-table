@@ -141,6 +141,7 @@ const Table = () => {
           currentId={currentId}
           setCurrentId={setCurrentId}
           fetchData={fetchData}
+          setTableRows={setTableRows}
         /> :
         selectedTable === "Students" ? 
         <StudentTable
