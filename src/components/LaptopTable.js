@@ -23,7 +23,6 @@ const LaptopTable = ({
   const viewMaintenance = (id) => {
     setCurrentId(id);
     setViewMainMode(!viewMainMode);
-    console.log(viewMainMode);
   };
 
   const viewLoan = (id) => {

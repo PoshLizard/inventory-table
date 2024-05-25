@@ -37,7 +37,7 @@ const Table = () => {
       handleDelete(rowToDelete);
       setConfirmDelete(false);
       setDeleteYes(false);
-      console.log(deleteYes);
+      
     }
   }, [deleteYes, rowToDelete]);
 
@@ -56,7 +56,7 @@ const Table = () => {
     const updatedRows = tableRows.map((row) =>
       row.id === selectedRow ? { ...row, ...editedRowValues } : row
     );
-    console.log(updatedRows);
+    
     async function update() {
       try {
         const newRow = updatedRows.find((row) => row.id === selectedRow);

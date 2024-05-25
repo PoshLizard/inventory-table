@@ -34,9 +34,9 @@ const AddRowForm = ( { fetchData, setAddRowMode, addNewRow, selectedTable}) => {
         async function create() {
           try{
             if(selectedTable === "Computers") {
-              console.log('1');
+              
               await axios.post(`${apiUrl}/computers`, newRow);  
-              console.log('2');
+           
             } else if(selectedTable === "Students"){
               await axios.post(`${apiUrl}/students`, newRow);
             } else {

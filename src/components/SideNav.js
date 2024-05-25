@@ -17,7 +17,7 @@ const SideNav = () => {
     try{
       await doSignOut();
       navigate('/');
-      console.log(currentUser);
+   
     }catch(error){
       console.error('Could not sign out')
     }

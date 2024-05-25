@@ -521,6 +521,7 @@ input::placeholder {
   margin: 15px 15px;
 }
 
+
 .tabulator{
   width: 1500px;
   font-size: 1.5rem;
@@ -550,7 +551,6 @@ input::placeholder {
 .tabulator-cell {
   height: 60px;
 }
-
 
 .modal-content{
   width: 800px;
@@ -673,4 +673,14 @@ input::placeholder {
   .profileInfo{
     margin-top: 100px;
   }
+}
+
+.tabulator-col-content {
+  background-color:var(--code-black);
+  color: white;
+}
+
+.tabulator-row{
+  background-color: var(--code-black);
+  color: white
 }

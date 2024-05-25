@@ -41,12 +41,11 @@ const Loan = ({id ,viewLoan, tableRows}) => {
    
 
     async function updateLaptopTable(){
-        console.log('hess')
+       
         const currentRow = tableRows.find(row => row.id === id);
         const newRow={...currentRow, issuedTo: currentlyLoaned ? issuedTo : "N/A",
         status: currentlyLoaned ? "Loaned" : "Available"};
-        console.log(newRow);
-        console.log(issuedTo);
+
         try{
           await axios.put(`${apiUrl}/computers/${id}`, newRow);
           setIsFetchDataComplete(false);
@@ -58,11 +57,11 @@ const Loan = ({id ,viewLoan, tableRows}) => {
 
     async function fetchData() {
       try {
-        console.log('computer id' + id);
+     
         const response = await axios.get(`${apiUrl}/computers/${id}`);
-        console.log(response.data);
+     
         const loanData = response.data.loans;
-        console.log(loanData);
+        
         if(Array.isArray(loanData) && loanData.length === 0){
           setLoanRows([]);
           setCurrentlyLoaned(false);
@@ -97,8 +96,7 @@ const Loan = ({id ,viewLoan, tableRows}) => {
       e.preventDefault();
       const newRow = { name: nameInput, startDate: new Date(startInput).toISOString().split('T')[0], endDate: endInput !== "" ? new Date(endInput).toISOString().split('T')[0] : ""}
       setIssuedTo(nameInput);
-      console.log(nameInput);
-      console.log(issuedTo);
+     
       create(newRow);
     }
 
@@ -108,7 +106,7 @@ const Loan = ({id ,viewLoan, tableRows}) => {
         setErrorText("End previous loan to add new one");
       } else{
       try{
-        console.log(newRow);
+      
         await axios.put(`${apiUrl}/loans/appendLoan/${id}`, newRow);  
         fetchData();
       } catch(error) {
@@ -129,13 +127,13 @@ const Loan = ({id ,viewLoan, tableRows}) => {
         return row.id === selectedRow ? { ...row, name: name, startDate: formattedStartDate, endDate: formattedEndDate } : row;
       });
 
-      console.log(updatedRows);
+
 
       const newRow = updatedRows.find((row) => row.id === selectedRow);
-      console.log(newRow);
+     
       async function edit() {
         try{
-          console.log(mainId);
+         
           await axios.put(`${apiUrl}/loans/${id}`, newRow); 
           setEditNameInput('');
           handleEdit(mainId);

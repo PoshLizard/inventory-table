@@ -18,7 +18,6 @@ const InventorySearch = ({ tableRows, setTableRows, selectedTable, savedTableRow
     if (!userInput.trim()) {
       setTableRows(savedTableRows);
     } else {
-      console.log(savedTableRows)
       const filteredOptions = savedTableRows.filter(row => {
         const fieldsToSearch = tableFields[selectedTable] || [];
         return fieldsToSearch.some(field => {
