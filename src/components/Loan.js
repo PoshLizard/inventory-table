@@ -24,24 +24,12 @@ const Loan = ({id ,viewLoan, tableRows, setTableRows}) => {
     //gives us access to info about the item
     const index = tableRows.findIndex(row => row.id === id);
 
-    // const [isFetchDataComplete, setIsFetchDataComplete] = useState(false);
+   
 
     useEffect(() => {
       fetchData();
     }, [])
 
-    // useEffect(() => {
-    //   if(isFetchDataComplete){
-    //     updateLaptopTable();
-    //   }
-    // }, [isFetchDataComplete]);
-
-   
-
-   
-       
-       
-    
 
 
     async function fetchData() {
@@ -73,10 +61,7 @@ const Loan = ({id ,viewLoan, tableRows, setTableRows}) => {
           }
         } else {
           setLoanRows([]);
-
         }
-
-        
         const newRow={...response.data, issuedTo: currentlyLoan ? loanData[loanData.length - 1].name : "N/A",
         status: currentlyLoan ? "Loaned" : "Available"};
         console.log(newRow);
@@ -95,7 +80,6 @@ const Loan = ({id ,viewLoan, tableRows, setTableRows}) => {
     const handleSubmit = (e) => {  
       e.preventDefault();
       const newRow = { name: nameInput, startDate: new Date(startInput).toISOString().split('T')[0], endDate: endInput !== "" ? new Date(endInput).toISOString().split('T')[0] : ""}
-      
       create(newRow);
     }
 
