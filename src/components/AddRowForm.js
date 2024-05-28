@@ -27,10 +27,11 @@ const AddRowForm = ( { fetchData, setAddRowMode, addNewRow, selectedTable}) => {
         [field]: value,
         }));
       };
-        //remeber to move settablerows back into try block
+    
       const handleCreate = (e) => {
         e.preventDefault();
-        const newRow = { ...newRowValues };
+        const newRow = { ...newRowValues, chargedUpdated: newRowValues.chargedUpdated === undefined? 'Yes' : newRowValues.chargedUpdated };
+        console.log(newRow);
         async function create() {
           try{
             if(selectedTable === "Computers") {
@@ -64,7 +65,7 @@ const AddRowForm = ( { fetchData, setAddRowMode, addNewRow, selectedTable}) => {
                   <div key={index}>
                     <label style={{textTransform: 'capitalize'}}>{displayFields[index]}: </label>
                     {field === "chargedUpdated" ? (
-                        <select onChange={(e) => handleInputChange(field, e.target.value)}>
+                        <select  onChange={(e) => handleInputChange(field, e.target.value)}>
                           <option value="Yes">Yes</option>
                           <option value="No">No</option>
                         </select>
@@ -88,7 +89,6 @@ const AddRowForm = ( { fetchData, setAddRowMode, addNewRow, selectedTable}) => {
               <button style={{margin: "0 30px"}} onClick={addNewRow} className="addNewButton">Cancel</button>
               <button className="addNewButton" type="submit">Add Item</button>
             </div>
-            
           </form>
           </div>
   )
