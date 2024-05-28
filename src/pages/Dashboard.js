@@ -144,27 +144,12 @@ const Dashboard = () => {
         <SideNav />
         <div className="content">
           <div className="dashboardHeader">
-            <p
-              className="dashboard-links"
-              id="laptopDashboard"
-              onClick={() => setView("computers")}
-            >
-              Laptops
-            </p>
-            <p
-              className="dashboard-links"
-              id="badgesDashboard"
-              onClick={() => setView("badges")}
-            >
-              Badges
-            </p>
-            <p
-              className="dashboard-links"
-              id="suppliesDashboard"
-              onClick={() => setView("supplies")}
-            >
-              Supplies
-            </p>
+            <label style={{fontSize:"1.5rem"}}>View: </label>
+            <select  onChange={e => setView(e.target.value)} >
+              <option value="computers">Computers</option>
+              <option value="badges">Badges</option>
+              <option value="supplies">Supplies</option>
+            </select>
           </div>
           {view == "computers" && (
             <>
