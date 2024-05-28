@@ -130,20 +130,7 @@ const Dashboard = () => {
     { title: "Cost", field: "cost", hozAlign: "left" },
   ];
 
-  // const laptopData = [
-  //   {
-  //     type: "Dell Laptop",
-  //     name: "Tunmise Kehinde",
-  //     startDate: "05-21-2023",
-  //     endDate: "05-21-2024",
-  //   },
-  //   {
-  //     type: "Dell Laptop",
-  //     name: "Tunmise Kehinde",
-  //     startDate: "05-21-2021",
-  //     endDate: "05-21-2022",
-  //   },
-  // ];
+
 
   const rowFormatter = (row) => {
     const rowData = row.getData();
@@ -151,7 +138,7 @@ const Dashboard = () => {
     const endDate = new Date(rowData.endDate);
     if (endDate < date) {
       console.log(endDate);
-      row.getElement().style.backgroundColor = "red";
+      row.getElement().style.backgroundColor = "lightcoral";
     }
   };
 
@@ -165,7 +152,7 @@ const Dashboard = () => {
     if (endDate.getTime() - date.getTime() >= 0) {
       return " ";
     }
-    return diffDays;
+    return diffDays - 1;
   };
 
   let laptopTableRef = useRef(null);
@@ -176,27 +163,13 @@ const Dashboard = () => {
         <SideNav />
         <div className="content">
           <div className="dashboardHeader">
-            <p
-              className="dashboard-links"
-              id="laptopDashboard"
-              onClick={() => changeView("computers")}
-            >
-              Laptops
-            </p>
-            <p
-              className="dashboard-links"
-              id="badgesDashboard"
-              onClick={() => changeView("badges")}
-            >
-              Badges
-            </p>
-            <p
-              className="dashboard-links"
-              id="suppliesDashboard"
-              onClick={() => changeView("supplies")}
-            >
-              Supplies
-            </p>
+    <label style={{fontSize:"1.5rem"}}>View: </label>
+            <select  onChange={e => setView(e.target.value)} >
+              <option value="computers">Computers</option>
+              <option value="badges">Badges</option>
+              <option value="supplies">Supplies</option>
+            </select>
+
           </div>
           {view == "computers" && (
             <>

@@ -529,12 +529,6 @@ input::placeholder {
   background-color: var(--code-black);
 }
 
-.tabulator-row *{
-  background-color: var(--code-black);
-  color: white;
-  
-}
-
 .tabulator-headers{
   width: 100%;
   background-color: var(--code-black);
