@@ -123,14 +123,27 @@ const Dashboard = () => {
     { title: "Quantity", field: "quantity", width: 150 },
     { title: "Unit", field: "unit", hozAlign: "left" },
     { title: "Building Location", field: "location", hozAlign: "left" },
-    { title: "Area", field: "area", hozAlign: "left" },
+    { title: "Area", field: "area", hozAlign: "center" },
     { title: "Reorder Level", field: "reorderLevel", hozAlign: "left" },
-    { title: "Reorder Quantity", field: "reorderQuantity", hozAlign: "left" },
-    { title: "Vendor", field: "vendor", hozAlign: "left" },
-    { title: "Cost", field: "cost", hozAlign: "left" },
+    { title: "Reorder Quantity", field: "reorderQuantity", hozAlign: "center" },
+    { title: "Vendor", field: "vendor", hozAlign: "center" },
+    { title: "Cost", field: "cost", hozAlign: "center" },
   ];
 
-
+  // const laptopData = [
+  //   {
+  //     type: "Dell Laptop",
+  //     name: "Tunmise Kehinde",
+  //     startDate: "05-21-2023",
+  //     endDate: "05-21-2024",
+  //   },
+  //   {
+  //     type: "Dell Laptop",
+  //     name: "Tunmise Kehinde",
+  //     startDate: "05-21-2021",
+  //     endDate: "05-21-2022",
+  //   },
+  // ];
 
   const rowFormatter = (row) => {
     const rowData = row.getData();
@@ -138,7 +151,7 @@ const Dashboard = () => {
     const endDate = new Date(rowData.endDate);
     if (endDate < date) {
       console.log(endDate);
-      row.getElement().style.backgroundColor = "lightcoral";
+      row.getElement().style.backgroundColor = "red";
     }
   };
 
@@ -152,7 +165,7 @@ const Dashboard = () => {
     if (endDate.getTime() - date.getTime() >= 0) {
       return " ";
     }
-    return diffDays - 1;
+    return diffDays;
   };
 
   let laptopTableRef = useRef(null);
@@ -162,20 +175,18 @@ const Dashboard = () => {
       <div className="container">
         <SideNav />
         <div className="content">
-          <div className="dashboardHeader">
-    <label style={{fontSize:"1.5rem"}}>View: </label>
-            <select  onChange={e => setView(e.target.value)} >
+          <h1 style={{fontSize: '4rem', marginTop: '50px'}}>DASHBOARD</h1>
+          <div style={{marginTop: '50px'}}>
+          <label style={{fontSize:"1.5rem"}}>View: </label>
+            <select onChange={e => setView(e.target.value)} >
               <option value="computers">Computers</option>
               <option value="badges">Badges</option>
               <option value="supplies">Supplies</option>
             </select>
-
           </div>
           {view == "computers" && (
             <>
-              <h1 style={{ marginTop: "70px", fontSize:"3rem"}}>
-                <u>Laptops</u>
-              </h1>
+              
               <div style={{ marginTop: "30px" }}>
                 <div style={{ margin: "45px" }}>
                   <h1 style={{color: 'var(--code-orange)'}}>{numOfLoans}</h1>
@@ -198,20 +209,15 @@ const Dashboard = () => {
             </>
           )}
           {view == "badges" && (
-            <>
-              <h1 style={{ margin: "70px 0" }}>
-                <u>Badges</u>
-              </h1>
+            <div style={{marginTop: '50px'}}>
               <ReactTabulator data={badgeData} columns={badgeColumns} layout={"fitColumns"} />
-            </>
+            </div>
           )}
           {view == "supplies" && (
-            <>
-              <h1 style={{ margin: "70px 0" }}>
-                <u>Supplies</u>
-              </h1>
+            <div style={{marginTop: '50px'}}>
+
               <ReactTabulator  data={suppliesData} columns={supplyColumns} layout={"fitColumns"} />
-            </>
+            </div>
           )}
         </div>
       </div>

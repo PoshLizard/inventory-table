@@ -544,8 +544,15 @@ input::placeholder {
 }
 .tabulator-cell {
   height: 60px;
+  
+}
+.tabulator-row .tabulator-cell {
+  border-right: none;
 }
 
+.tabulator .tabulator-header .tabulator-col {
+  border-right: none;
+}
 .modal-content{
   width: 800px;
   background-color: var(--code-black);
@@ -568,13 +575,9 @@ input::placeholder {
   padding: 12px;
 }
 
-
-.dashboardHeader *{
-  display: inline-block;
-  float: left;
-  margin-left: 10px;
+.tabulator-row.tabulator-selectable:hover{
+  background-color: var(--code-black);
 }
-
 .dashboard-links{
   transition: .1s ease-in
 }
