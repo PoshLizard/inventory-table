@@ -24,13 +24,10 @@ const Loan = ({id ,viewLoan, tableRows, setTableRows}) => {
     //gives us access to info about the item
     const index = tableRows.findIndex(row => row.id === id);
 
-   
-
+  
     useEffect(() => {
       fetchData();
     }, [])
-
-
 
     async function fetchData() {
       try {
@@ -62,6 +59,7 @@ const Loan = ({id ,viewLoan, tableRows, setTableRows}) => {
         } else {
           setLoanRows([]);
         }
+        //performs the update for if its loaned or not
         const newRow={...response.data, issuedTo: currentlyLoan ? loanData[loanData.length - 1].name : "N/A",
         status: currentlyLoan ? "Loaned" : "Available"};
         console.log(newRow);
@@ -109,15 +107,10 @@ const Loan = ({id ,viewLoan, tableRows, setTableRows}) => {
         const formattedEndDate = editEndInput === "" ? row.endDate : new Date(editEndInput).toISOString().split('T')[0];
         return row.id === selectedRow ? { ...row, name: name, startDate: formattedStartDate, endDate: formattedEndDate } : row;
       });
-
-
-
       const newRow = updatedRows.find((row) => row.id === selectedRow);
-     
       async function edit() {
         try{
-         
-          await axios.put(`${apiUrl}/loans/${id}`, newRow); 
+          await axios.put(`${apiUrl}/loans/appendLoan/${id}`, newRow); 
           setEditNameInput('');
           handleEdit(mainId);
           fetchData();

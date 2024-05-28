@@ -27,7 +27,7 @@ const AddRowForm = ( { fetchData, setAddRowMode, addNewRow, selectedTable}) => {
         [field]: value,
         }));
       };
-        //remeber to move settablerows back into try block
+    
       const handleCreate = (e) => {
         e.preventDefault();
         const newRow = { ...newRowValues, chargedUpdated: newRowValues.chargedUpdated === undefined? 'Yes' : newRowValues.chargedUpdated };
@@ -89,7 +89,6 @@ const AddRowForm = ( { fetchData, setAddRowMode, addNewRow, selectedTable}) => {
               <button style={{margin: "0 30px"}} onClick={addNewRow} className="addNewButton">Cancel</button>
               <button className="addNewButton" type="submit">Add Item</button>
             </div>
-            
           </form>
           </div>
   )

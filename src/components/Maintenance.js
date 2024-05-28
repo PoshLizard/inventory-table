@@ -25,16 +25,17 @@ const Maintenance = ({id, viewMaintenance, tableRows}) => {
 
     async function fetchData() {
       try {
-        const response = await axios.get(`${apiUrl}/maintenances`);
-        if (response && response.data) {
-          const maintenanceRowsWithIsoDates = response.data.map(maintenance => ({
-            ...maintenance,
-            date: new Date(maintenance.date).toISOString().split('T')[0]
-          }));
-          setMaintenanceRows(maintenanceRowsWithIsoDates);
-        } else {
-          setMaintenanceRows([]);
-        }
+        const response = await axios.get(`${apiUrl}/computers/${id}`); 
+        const mainData = response.data.maintenances;  
+          if(Array.isArray(mainData) && mainData.length === 0){
+            setMaintenanceRows([]);
+          }else{
+            const maintenanceRowsWithIsoDates = mainData.map(maintenance => ({
+              ...maintenance,
+              date: new Date(maintenance.date).toISOString().split('T')[0]
+            }));
+            setMaintenanceRows(maintenanceRowsWithIsoDates);
+          }
       } catch (error) {
         console.error('Could not retrieve maintenances', error);
       }
@@ -42,26 +43,25 @@ const Maintenance = ({id, viewMaintenance, tableRows}) => {
 
     const createNew = () => {
       setAddNewMode(!addNewMode);
+    }  
+    
+    const handleSubmit = () => {
+      const formattedDate = new Date(dateInput).toISOString().split('T')[0];
+      const newRow = { description: descriptionInput, date: formattedDate}
+      create(newRow);
     }
 
     async function create(newRow) {
       try{
-        await axios.post(`${apiUrl}/maintenances`, newRow); 
-        const response = await axios.get(`${apiUrl}/maintenances`); 
-        const id= response.data[response.data.length -1].id;
-      
-        newRow.id = id;
-        setMaintenanceRows((prevMaintenanceRows) => [...prevMaintenanceRows, newRow]);
+        //adjust api call later
+        await axios.put(`${apiUrl}/maintenances/appendMaintenance/${id}`, newRow); 
+        fetchData(); 
       } catch(error) {
         console.error('could not generate new maintenance')
       }  
     }
 
-    const handleSubmit = () => {
-      const formattedDate = new Date(dateInput).toISOString().split('T')[0];
-      const newRow = { item_id: id, description: descriptionInput, date: formattedDate}
-      create(newRow);
-    }
+  
 
     const handleEdit = (id) => {
       setEditMode(!editMode);
@@ -79,9 +79,9 @@ const Maintenance = ({id, viewMaintenance, tableRows}) => {
       async function edit() {
         try{
           await axios.put(`${apiUrl}/maintenances/${mainId}`, newRow); 
-          setMaintenanceRows(updatedRows);
           setEditDescriptionInput('');
           handleEdit(mainId);
+          fetchData();
         } catch(error) {
           console.error('could not edit maintenance')
         } 

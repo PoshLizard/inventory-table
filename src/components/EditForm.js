@@ -4,7 +4,7 @@ const EditForm = ({ row, handleInputChange, confirmEdit, selectedTable }) => {
   const tableFields = {
     Laptops: ["assetTag", "serialNumber", "status", "brand", "model", "type", "color", "issuedTo", "grantType", "chargedUpdated", "maintenance", "loan"],
     Students: ["badge", "studentName", "location", "notes"],
-    Supplies: ["sku" , "quantityInStock", "unit", "buildingLocation", "floor", "lockerArea", "reorderLevel", "reoderQuantity", "leadTimeForReorder", "vendor", "estimatedCost" ]
+    Supplies: ["sku" , "quantityInStock", "unit", "buildingLocation", "floor", "lockerArea", "reorderLevel", "reorderQuantity", "leadTimeForReorder", "vendor", "estimatedCost" ]
   };
 
   const fields = tableFields[selectedTable] || [];
