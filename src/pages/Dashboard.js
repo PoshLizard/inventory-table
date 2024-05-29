@@ -4,12 +4,19 @@ import SideNav from "../components/SideNav";
 import { Line } from "react-chartjs-2";
 import { ReactTabulator } from "react-tabulator";
 import axios from "axios";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Doughnut } from 'react-chartjs-2';
+
+ChartJS.register(ArcElement, Tooltip, Legend);
+
+
 
 const Dashboard = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [tableRows, setTableRows] = useState([]);
   const [laptopData, setLaptopData] = useState([]);
   const [badgeData, setBadgeData] = useState([]);
+  const [supplyChartData, setSupplyChartData] = useState([]);
   const [suppliesData, setSuppliesData] = useState([]);
   const [view, setView] = useState("computers");
   const [numOfLoans, setNumOfLoans] = useState(0);
@@ -78,12 +85,33 @@ const Dashboard = () => {
             reorderLevel: row.reorderLevel,
             reorderQuantity: row.reorderQuantity,
             unit: row.unit,
-            vendor: row.vendor
-            
+            vendor: row.vendor,
+            sku: row.sku,
           }
+          
         })
         console.log(newArr);
         setSuppliesData(newArr);
+
+      if (Array.isArray(newArr)){
+        const chartLabels = newArr.map((supply) => supply.sku);
+        const chartData = newArr.map((supply) => supply.cost);
+
+        const data = {
+          labels: chartLabels,
+          datasets: [
+            {
+              label: 'Total Cost',
+              data: chartData,
+              
+              borderWidth: 3,
+            },
+          ],
+        }; 
+        console.log(data)
+        setSupplyChartData(data);
+      }
+        
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -209,6 +237,8 @@ const Dashboard = () => {
             <div style={{marginTop: '50px'}}>
 
               <ReactTabulator  data={suppliesData} columns={supplyColumns} layout={"fitColumns"} />
+
+              <Doughnut data={supplyChartData} />
             </div>
           )}
         </div>
