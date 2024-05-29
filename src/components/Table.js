@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import AddRowForm from "./AddRowForm";
 import LaptopTable from "./LaptopTable";
@@ -7,6 +8,7 @@ import InventorySearch from "./InventorySearch";
 import SupplyTable from "./SupplyTable";
 import ConfirmDelete from "./ConfirmDelete";
 const Table = () => {
+  const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_URL;
   const [editedRowValues, setEditedRowValues] = useState({});
   const [addRowMode, setAddRowMode] = useState(false);
@@ -118,7 +120,7 @@ const Table = () => {
       </div>
       <div style={{width: '100%', display:'flex', justifyContent:"space-between"}}>
         <InventorySearch tableRows={tableRows} setTableRows={setTableRows} selectedTable={selectedTable} savedTableRows={savedTableRows}/>
-        <div></div>
+        {selectedTable === "Computers" ? <h3 className="loanLink" onClick={() => navigate('/dashboard')}>See All Loans &gt;</h3> : <div></div>}
       </div>
       {addRowMode && (
         <AddRowForm

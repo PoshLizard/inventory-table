@@ -13,7 +13,7 @@ const Dashboard = () => {
   const [suppliesData, setSuppliesData] = useState([]);
   const [view, setView] = useState("computers");
   const [numOfLoans, setNumOfLoans] = useState(0);
-
+  const [numOfBadges, setNumOfBadges] = useState(0);
   const date = new Date();
 
   useEffect(() => {
@@ -63,9 +63,11 @@ const Dashboard = () => {
             name: row.studentName,
             location: row.location
           }
+          
         })
         console.log(newArr);
         setBadgeData(newArr);
+        setNumOfBadges(newArr.length);
       } else {
         const newArr = response.data.map((row) => {
           return {
@@ -130,20 +132,6 @@ const Dashboard = () => {
     { title: "Cost", field: "cost", hozAlign: "center" },
   ];
 
-  // const laptopData = [
-  //   {
-  //     type: "Dell Laptop",
-  //     name: "Tunmise Kehinde",
-  //     startDate: "05-21-2023",
-  //     endDate: "05-21-2024",
-  //   },
-  //   {
-  //     type: "Dell Laptop",
-  //     name: "Tunmise Kehinde",
-  //     startDate: "05-21-2021",
-  //     endDate: "05-21-2022",
-  //   },
-  // ];
 
   const rowFormatter = (row) => {
     const rowData = row.getData();
@@ -179,7 +167,7 @@ const Dashboard = () => {
           <div style={{marginTop: '50px'}}>
           <label style={{fontSize:"1.5rem"}}>View: </label>
             <select onChange={e => setView(e.target.value)} >
-              <option value="computers">Computers</option>
+              <option value="computers">Loans</option>
               <option value="badges">Badges</option>
               <option value="supplies">Supplies</option>
             </select>
@@ -210,6 +198,10 @@ const Dashboard = () => {
           )}
           {view == "badges" && (
             <div style={{marginTop: '50px'}}>
+              <div style={{ margin: "45px" }}>
+                  <h1 style={{color: 'var(--code-orange)'}}>{numOfBadges}</h1>
+                  <h2>Current Badges</h2>
+                </div>
               <ReactTabulator data={badgeData} columns={badgeColumns} layout={"fitColumns"} />
             </div>
           )}

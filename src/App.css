@@ -289,14 +289,14 @@ input::placeholder {
 }
 
 #student-table th{
-  padding: 25px 90px;
+  padding: 25px 5vw;
 }
 
 #student-table td{
   padding: 8px 90px;
 }
 .inventory-table th, .inventory-table td{
-  padding: 25px 20px;
+  padding: 25px 1.4vw;
   background-color: var(--code-black);
 }
 .inventory-table td{
@@ -304,6 +304,15 @@ input::placeholder {
 }
 .inventory-table thead{
   border-bottom: 3px solid white;
+}
+
+.loanLink{
+  color: var(--code-orange);
+  
+}
+.loanLink:hover{
+ cursor: pointer;
+ text-decoration-line:underline;
 }
 
 #studentEditTable th, #studentEditTable td{
@@ -523,7 +532,7 @@ input::placeholder {
 
 
 .tabulator{
-  width: 1500px;
+  width:80vw;
   font-size: 1.5rem;
   border: 3px solid white;
   background-color: var(--code-black);
@@ -536,7 +545,9 @@ input::placeholder {
   
 }
 
-
+.tabulator-row.tabulator-row-even{
+  background-color: #313030;
+}
 .tabulator-col-content{
   background-color: var(--code-black);
   border-bottom: 3px solid white;

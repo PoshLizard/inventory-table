@@ -30,7 +30,7 @@ const AddRowForm = ( { fetchData, setAddRowMode, addNewRow, selectedTable}) => {
     
       const handleCreate = (e) => {
         e.preventDefault();
-        const newRow = { ...newRowValues, chargedUpdated: newRowValues.chargedUpdated === undefined? 'Yes' : newRowValues.chargedUpdated };
+        const newRow = { ...newRowValues, status: 'Available', issuedTo: 'N/A', chargedUpdated: newRowValues.chargedUpdated === undefined? 'Yes' : newRowValues.chargedUpdated };
         console.log(newRow);
         async function create() {
           try{

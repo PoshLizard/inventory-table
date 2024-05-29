@@ -8,9 +8,9 @@ const InventorySearch = ({ tableRows, setTableRows, selectedTable, savedTableRow
 
   // Define fields for each table
   const tableFields = {
-    Laptops: ["assetTag", "serialNumber", "status", "brand", "model", "type", "color", "issuedTo", "grant"],
+    Computers: [ "assetTag", "serialNumber", "brand", "model", "type", "color", "issuedTo", "grant"],
     Students: ["badge", "studentName", "location"],
-    Supplies: [""]
+    Supplies: ["sku", "unit", "buildingLocation", "floor", "lockerArea", "vendor"]
   };
 
   // Function to handle search

@@ -98,8 +98,8 @@ const LaptopTable = ({
                     <td>{row.id}</td>
                     <td>{row[first]}</td>
                     <td>{row[second]}</td>
-                    <td>{row[third]}</td>
-                    <td>{row[fourth]}</td>
+                    <td style={{color: row[third] === "Loaned" ? 'var(--code-orange)': 'white' }}>{row[third]}</td>
+                    <td >{row[fourth]}</td>
                     <td>{row[fifth]}</td>
                     <td>{row[sixth]}</td>
                     <td>{row[seventh]}</td>
