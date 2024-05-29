@@ -14,6 +14,8 @@ const Dashboard = () => {
   const [view, setView] = useState("computers");
   const [numOfLoans, setNumOfLoans] = useState(0);
   const [numOfBadges, setNumOfBadges] = useState(0);
+
+  const [pastLoans, setPastLoans] = useState(true);
   const date = new Date();
 
   useEffect(() => {
@@ -31,18 +33,30 @@ const Dashboard = () => {
     fetchData();
     console.log("hello");
     console.log(view)
-  }, [view]);
+  }, [view, pastLoans]);
 
   const fetchData = async () => {
     try {
       const response = await axios.get(`${apiUrl}/${view ==="badges" ? "students" : view}`);
       console.log('reponsedata')
       console.log(response.data);
-
       console.log(view);
       if (view === "computers") {
         const laptopRows = response.data;
-        const newArr = laptopRows
+        let newArr;
+        if (pastLoans) {
+          newArr = laptopRows.flatMap((row) => {
+            return row.loans.map((loan) => {
+              return {
+                type: row.model,
+                name: loan.name,
+                startDate: loan.startDate ? new Date(loan.startDate).toISOString().split('T')[0] : 'N/A',
+                endDate: loan.endDate ? new Date(loan.endDate).toISOString().split('T')[0] : 'N/A',
+              };
+            });
+          });
+        }else{
+          newArr = laptopRows
           .filter((row) => row.status === "Loaned")
           .map((row) => {
             const tempLoan = row.loans[row.loans.length - 1];
@@ -53,6 +67,7 @@ const Dashboard = () => {
               endDate: tempLoan.endDate? new Date(tempLoan.endDate).toISOString().split('T')[0]  : 'N/A',
             };
           });
+        }
         setLaptopData(newArr);
         setNumOfLoans(newArr.length);
         console.log(newArr);
@@ -79,7 +94,6 @@ const Dashboard = () => {
             reorderQuantity: row.reorderQuantity,
             unit: row.unit,
             vendor: row.vendor
-            
           }
         })
         console.log(newArr);
@@ -112,7 +126,7 @@ const Dashboard = () => {
     { title: "Issued To", field: "name", hozAlign: "left" },
     { title: "Start Date", field: "startDate", hozAlign: "left" },
     { title: "End Date", field: "endDate", hozAlign: "left" },
-    { title: "Days Late", field: "daysLate", hozAlign: "left" },
+    { title: "Days Loaned", field: "daysLate", hozAlign: "left" },
   ];
 
   const badgeColumns = [
@@ -137,22 +151,27 @@ const Dashboard = () => {
     const rowData = row.getData();
     console.log(rowData);
     const endDate = new Date(rowData.endDate);
-    if (endDate < date) {
-      console.log(endDate);
-      row.getElement().style.backgroundColor = "red";
-    }
   };
 
   const calculateDaysLate = (value, data, type, params, component) => {
     const currentdate = new Date();
+    const startDate = new Date(data.startDate);
     const endDate = new Date(data.endDate);
-    const diffTime = Math.abs(endDate.getTime() - currentdate.getTime())
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    console.log(diffDays);
-    console.log(diffTime);
-    if (endDate.getTime() - date.getTime() >= 0) {
-      return " ";
+    let divider;
+    if (endDate) {
+      const endDateObj = new Date(endDate);
+      if (!isNaN(endDateObj.getTime())) {
+        divider = endDateObj.getTime();
+      } else {
+        divider = currentdate.getTime();
+      }
+    } else {
+      divider = currentdate.getTime();
     }
+    console.log(endDate.getTime());
+    console.log(divider);
+    const diffTime = (divider - startDate.getTime())
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays;
   };
 
@@ -173,14 +192,20 @@ const Dashboard = () => {
             </select>
           </div>
           {view == "computers" && (
-            <>
-              
+            <> 
               <div style={{ marginTop: "30px" }}>
                 <div style={{ margin: "45px" }}>
                   <h1 style={{color: 'var(--code-orange)'}}>{numOfLoans}</h1>
-                  <h2>Current Loans</h2>
+                  <h2>{pastLoans ? 'Total Loans' : 'Current Loans'}</h2>
                 </div>
                 <div>
+                  <div className="loanLink" style={{fontWeight: 'bold', fontSize:'1.4rem', display:'flex', justifyContent:'space-between', padding: '4px 0'}}>
+                    {pastLoans ? <p onClick={() => {setPastLoans(false)}}>Switch to Current Loans</p> :
+                        <p onClick={() => {setPastLoans(true)}}>Switch to All Loans</p>
+                    }
+                    
+                    <div></div>
+                  </div>
                   <ReactTabulator
                     onRef={(r) => (laptopTableRef = r)}
                     data={laptopData}

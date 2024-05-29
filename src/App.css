@@ -546,7 +546,7 @@ input::placeholder {
 }
 
 .tabulator-row.tabulator-row-even{
-  background-color: #313030;
+  background-color: var(--code-black)
 }
 .tabulator-col-content{
   background-color: var(--code-black);
