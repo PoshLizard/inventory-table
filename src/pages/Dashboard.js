@@ -100,12 +100,9 @@ const Dashboard = () => {
             reorderLevel: row.reorderLevel,
             reorderQuantity: row.reorderQuantity,
             unit: row.unit,
-<<<<<<< HEAD
             vendor: row.vendor,
             sku: row.sku,
-=======
-            vendor: row.vendor
->>>>>>> f0b1240b8e0fa835f742883d1e17bfa22121d5b2
+
           }
           
         })
