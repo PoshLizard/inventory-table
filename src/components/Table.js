@@ -118,9 +118,9 @@ const Table = () => {
         Add New
       </button>
       </div>
-      <div style={{width: '100%', display:'flex', justifyContent:"space-between"}}>
+      <div style={{width: '100%', display:'flex', justifyContent:"space-between", alignItems: 'center'}}>
         <InventorySearch tableRows={tableRows} setTableRows={setTableRows} selectedTable={selectedTable} savedTableRows={savedTableRows}/>
-        {selectedTable === "Computers" ? <h3 className="loanLink" onClick={() => navigate('/dashboard')}>See All Loans &gt;</h3> : <div></div>}
+        {selectedTable === "Computers" ? <h3 className="loanLink" onClick={() => navigate('/dashboard')}>See All Loans</h3> : <div></div>}
       </div>
       {addRowMode && (
         <AddRowForm
