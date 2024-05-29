@@ -78,7 +78,7 @@ const Maintenance = ({id, viewMaintenance, tableRows}) => {
       const newRow = updatedRows.find((row) => row.id === selectedRow);
       async function edit() {
         try{
-          await axios.put(`${apiUrl}/maintenances/${mainId}`, newRow); 
+          await axios.put(`${apiUrl}/maintenances/appendMaintenance/${id}`, newRow); 
           setEditDescriptionInput('');
           handleEdit(mainId);
           fetchData();

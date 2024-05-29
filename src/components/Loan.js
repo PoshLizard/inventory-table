@@ -137,7 +137,7 @@ const Loan = ({id ,viewLoan, tableRows, setTableRows}) => {
     <div className='modal-background'>
         <div className="newRowForm" id="loan">
             <h1>Loan Management</h1>
-            <button onClick={fetchData}> </button>
+            {/* <button onClick={fetchData}> </button> */}
             <h3>{tableRows[index].description}</h3>
             <button className="addNewButton" onClick={createNew} style={{display: addNewMode ? "none" : "flex"}}>Create New</button>
 

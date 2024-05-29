@@ -98,6 +98,7 @@ function ProfileInformation(){
             console.log(error);
         }).then(function () {
             getProfile();
+            setEditName(false);
             // alert("Profile Updated-reorder this then to not show");
         })
     }
